@@ -68,20 +68,17 @@ void StefanManager::moveStefan(int tileX, int tileY)
 
 	if (boink)
 	{
+		reduceMotivation(3);
 		stefan.setConfusion(true);
 		effectStart = SDL_GetTicks();
 	}
 
 	if (SDL_GetTicks() - effectStart >= 1000) { stefan.setConfusion(false); }
 
-	if (!stefan.getConfusion())
-	{
-		if (stefan.X() > destX) { stefan.setXY(stefan.X() - 4, stefan.Y()); stefan.setSpriteSide(lookAt::left); }
-		else if (stefan.X() < destX) { stefan.setXY(stefan.X() + 4, stefan.Y()); stefan.setSpriteSide(lookAt::right); }
-		if (stefan.Y() > destY) { stefan.setXY(stefan.X(), stefan.Y() - 4); }
-		else if (stefan.Y() < destY) { stefan.setXY(stefan.X(), stefan.Y() + 4); }
-	}
-
+	if (stefan.X() > destX) { stefan.setXY(stefan.X() - 4, stefan.Y()); stefan.setSpriteSide(lookAt::left); }
+	else if (stefan.X() < destX) { stefan.setXY(stefan.X() + 4, stefan.Y()); stefan.setSpriteSide(lookAt::right); }
+	if (stefan.Y() > destY) { stefan.setXY(stefan.X(), stefan.Y() - 4); }
+	else if (stefan.Y() < destY) { stefan.setXY(stefan.X(), stefan.Y() + 4); }
 
 	if (stefan.X() == destX && stefan.Y() == destY) { isMoving = false; }
 	attachedEffect.setXY(stefan.X(), stefan.Y() - 16);
@@ -95,7 +92,7 @@ void StefanManager::render(SDL_Renderer* renderer)
 
 Stefan StefanManager::getStefan() { return stefan; }
 
-void StefanManager::reduceMotivation() { stefan.setMotivation(stefan.getMotivation() - 1); }
+void StefanManager::reduceMotivation(int value) { stefan.setMotivation(stefan.getMotivation() - value); }
 
 void StefanManager::setMotivation(int value) 
 {
