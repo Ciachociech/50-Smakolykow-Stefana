@@ -1,7 +1,7 @@
 #pragma once
 #include "Graph.h"
 
-enum class treasureType { none = 0, carrots = 1, mniszek, salad };
+enum class treasureType { none = 0, carrots = 1, mniszek, salad, banana };
 
 class Treasure : public Graph
 {

@@ -18,6 +18,8 @@ public:
 
 	int getCount();
 	int getFramesLeft();
+	int getTreasuresLeft();
+
 	bool checkTile(int x, int y);
 
 	void exterminate();
@@ -25,16 +27,17 @@ private:
 	
 	struct CoordsPair
 	{
-		CoordsPair(int x, int y) : x(x), y(y) {}
+		CoordsPair(int x, int y, int ID) : x(x), y(y), objectID(ID) {}
 		int x;
 		int y;
+		int objectID;
 	};
 	typedef std::vector<CoordsPair> VecPair;
 	
 	VecTreasures treasures;
 	int count;
 	OverworldRandomizer overand;
-	int framesLeft;
+	int framesLeft, treasuresLeft;
 	VecPair pairs;
 
 	treasureType randomizeType();

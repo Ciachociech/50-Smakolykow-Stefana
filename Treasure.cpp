@@ -15,6 +15,7 @@ std::string Treasure::getAssetPath()
 	case treasureType::carrots: { return std::string("Assets/marchewki.png"); break; }
 	case treasureType::mniszek: { return std::string("Assets/mniszek.png"); break; }
 	case treasureType::salad: { return std::string("Assets/salata.png"); break; }
+	case treasureType::banana: { return std::string("Assets/banan.png"); break; }
 	case treasureType::none: default: { return std::string(); break; }
 	}
 }
