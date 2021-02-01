@@ -170,7 +170,7 @@ bool loop()
 		{
 			bool dug = lm.disableTile(sm.getStefan().X(), sm.getStefan().Y());
 			if (dug) { sm.reduceMotivation(); }
-			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y())) { txtm.update(std::to_string(tm.getFramesLeft()), 5, font, windowRenderer); }
+			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y())) { txtm.update(std::to_string(tm.getTreasuresLeft()), 5, font, windowRenderer); }
 		}
 		txtm.update(std::to_string(sm.getStefan().getMotivation()), 4, font, windowRenderer);
 
@@ -234,6 +234,6 @@ void gameInit()
 	txtm.initalize(font, windowRenderer);
 	txtm.update(std::to_string(level), 3, font, windowRenderer);
 	txtm.update(std::to_string(sm.getStefan().getMotivation()), 4, font, windowRenderer);
-	txtm.update(std::to_string(tm.getFramesLeft()), 5, font, windowRenderer);
+	txtm.update(std::to_string(tm.getTreasuresLeft()), 5, font, windowRenderer);
 }
 

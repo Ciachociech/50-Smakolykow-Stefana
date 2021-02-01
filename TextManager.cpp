@@ -13,7 +13,7 @@ void TextManager::initalize(TTF_Font* font, SDL_Renderer* renderer)
 	texts.push_back(std::make_unique<Text>(48, 528));
 	texts.back()->loadFromText("Motywacja:", color2, renderer, font);
 	texts.push_back(std::make_unique<Text>(48, 584));
-	texts.back()->loadFromText("Kafelki do odkrycia:", color3, renderer, font);
+	texts.back()->loadFromText("Do znalezienia:", color3, renderer, font);
 	texts.push_back(std::make_unique<Text>(536, 472, false));
 	texts.back()->loadFromText("0", color1, renderer, font);
 	texts.push_back(std::make_unique<Text>(536, 528, false));
