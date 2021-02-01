@@ -13,7 +13,7 @@ public:
 
 	void render(SDL_Renderer* renderer);
 	Stefan getStefan();
-	void reduceMotivation();
+	void reduceMotivation(int value = 1);
 	void setMotivation(int value);
 
 	void exterminate();

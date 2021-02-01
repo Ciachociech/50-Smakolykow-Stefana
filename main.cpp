@@ -58,7 +58,7 @@ bool init()
 	}
 	else
 	{
-		window = SDL_CreateWindow(u8"50 Smako³yków Stefana (LUBie¿na Edycja)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		window = SDL_CreateWindow(u8"50 Smako³yków Stefana (£aciata edycja 0.2)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (window == NULL)
 		{
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -143,7 +143,11 @@ bool loop()
 			switch (event.type)
 			{
 				case SDL_QUIT: { quit = true; break; }
-				case SDL_KEYDOWN: { actualAction = sterman.keyboardMovement(tileX, tileY, event.key.keysym.sym); break; }
+				case SDL_KEYDOWN: 
+				{ 
+					if (!sm.getStefan().getConfusion()) { actualAction = sterman.keyboardMovement(tileX, tileY, event.key.keysym.sym); }
+					break; 
+				}
 				default: { break; }
 			}
 		}
@@ -165,16 +169,10 @@ bool loop()
 		if (actualAction == keyAction::digging) 
 		{
 			bool dug = lm.disableTile(sm.getStefan().X(), sm.getStefan().Y());
-			if (dug) 
-			{ 
-				sm.reduceMotivation(); 
-				txtm.update(std::to_string(sm.getStefan().getMotivation()), 4, font, windowRenderer);
-			}
-			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y()))
-			{
-				txtm.update(std::to_string(tm.getFramesLeft()), 5, font, windowRenderer);
-			}
+			if (dug) { sm.reduceMotivation(); }
+			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y())) { txtm.update(std::to_string(tm.getFramesLeft()), 5, font, windowRenderer); }
 		}
+		txtm.update(std::to_string(sm.getStefan().getMotivation()), 4, font, windowRenderer);
 
 		SDL_RenderClear(windowRenderer);
 
@@ -230,7 +228,7 @@ void gameInit()
 
 	sm.exterminate();
 	sm.setStefan(windowRenderer);
-	sm.setMotivation(79 - (level > 10 ? 20 : 2 * level) + 4 * tm.getCount());
+	sm.setMotivation(79 - (level > 20 ? 40 : 2 * level) + 16 * tm.getCount());
 
 	txtm.exterminate();
 	txtm.initalize(font, windowRenderer);
