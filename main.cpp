@@ -19,7 +19,7 @@ TTF_Font* font = NULL;
 
 //Other constants
 const int FPS = 60;
-const std::string logoPath = "Assets/appLogo.png";
+const std::string logoPath = "Assets/other/appLogo.png";
 
 //Managers and game global params
 LayerManager lm = LayerManager();
@@ -103,7 +103,7 @@ bool loadMedia()
 	SDL_FreeSurface(surface);
 
 	//loading font => source - https://www.dafont.com/wash-your-hand.font
-	font = TTF_OpenFont("Assets/WashYourHand.ttf", 32);
+	font = TTF_OpenFont("Assets/fonts/WashYourHand.ttf", 32);
 	if (font == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());

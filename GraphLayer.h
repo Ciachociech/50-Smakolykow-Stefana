@@ -2,8 +2,6 @@
 
 #include "Graph.h"
 
-typedef std::vector<std::unique_ptr<Graph>> VecGraph;
-
 class GraphLayer
 {
 public:

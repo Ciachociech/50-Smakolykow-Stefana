@@ -27,7 +27,7 @@ void TreasureManager::randomizeTreasures(SDL_Renderer* renderer)
 		} while (isHere);
 		
 		treasures.push_back(std::make_unique<Treasure>(randomizeType()));
-		treasures.back()->loadFromFile(1.f, 1.f, treasures.back()->getAssetPath(), renderer);
+		treasures.back()->loadFromFile(1.f, 1.f, "Assets/scene/"+treasures.back()->getAssetPath(), renderer);
 		treasures.back()->setXY(x, y);
 		pairs.push_back(CoordsPair(x, y, i));
 		pairs.push_back(CoordsPair(x+32, y, i));

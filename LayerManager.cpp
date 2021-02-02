@@ -68,37 +68,37 @@ void LayerManager::modeInterpreter(int mode, SDL_Renderer* renderer)
 	case 0:
 	{
 		//ramka
-		layers.back()->loadFromFile(0, 0, 1.f, 1.f, "Assets/frameCone.png", renderer);
-		layers.back()->loadFromFile(24, 0, 51.34f, 1.f, "Assets/frameH.png", renderer);
-		layers.back()->loadFromFile(560, 0, 1.f, 1.f, "Assets/frameCone.png", renderer);
-		layers.back()->loadFromFile(1256, 0, 1.f, 1.f, "Assets/frameCone.png", renderer);
-		layers.back()->loadFromFile(0, 696, 1.f, 1.f, "Assets/frameCone.png", renderer);
-		layers.back()->loadFromFile(24, 696, 51.34f, 1.f, "Assets/frameH.png", renderer);
-		layers.back()->loadFromFile(560, 696, 1.f, 1.f, "Assets/frameCone.png", renderer);
-		layers.back()->loadFromFile(1256, 696, 1.f, 1.f, "Assets/frameCone.png", renderer);
-		layers.back()->loadFromFile(0, 24, 1.f, 28.f, "Assets/frameV.png", renderer);
-		layers.back()->loadFromFile(560, 24, 1.f, 28.f, "Assets/frameV.png", renderer);
-		layers.back()->loadFromFile(1256, 24, 1.f, 28.f, "Assets/frameV.png", renderer);
+		layers.back()->loadFromFile(0, 0, 1.f, 1.f, "Assets/panel/frameCone.png", renderer);
+		layers.back()->loadFromFile(24, 0, 51.34f, 1.f, "Assets/panel/frameH.png", renderer);
+		layers.back()->loadFromFile(560, 0, 1.f, 1.f, "Assets/panel/frameCone.png", renderer);
+		layers.back()->loadFromFile(1256, 0, 1.f, 1.f, "Assets/panel/frameCone.png", renderer);
+		layers.back()->loadFromFile(0, 696, 1.f, 1.f, "Assets/panel/frameCone.png", renderer);
+		layers.back()->loadFromFile(24, 696, 51.34f, 1.f, "Assets/panel/frameH.png", renderer);
+		layers.back()->loadFromFile(560, 696, 1.f, 1.f, "Assets/panel/frameCone.png", renderer);
+		layers.back()->loadFromFile(1256, 696, 1.f, 1.f, "Assets/panel/frameCone.png", renderer);
+		layers.back()->loadFromFile(0, 24, 1.f, 28.f, "Assets/panel/frameV.png", renderer);
+		layers.back()->loadFromFile(560, 24, 1.f, 28.f, "Assets/panel/frameV.png", renderer);
+		layers.back()->loadFromFile(1256, 24, 1.f, 28.f, "Assets/panel/frameV.png", renderer);
 
-		layers.back()->loadFromFile(24, 48, 1.f, 1.f, "Assets/ingameLogo.png", renderer);
+		layers.back()->loadFromFile(24, 48, 1.f, 1.f, "Assets/panel/ingameLogo.png", renderer);
 
 		//pole
-		layers.back()->loadFromFile(584, 24, 1.f, 1.f, "Assets/boardEmpty.png", renderer);
-		layers.back()->loadFromFile(584 + 32 * 5, 24 + 32 * 5, 1.f, 1.f, "Assets/innerWall.png", renderer);
-		layers.back()->loadFromFile(584 + 32 * 5, 24 + 32 * 13, 1.f, 1.f, "Assets/innerWall.png", renderer);
-		layers.back()->loadFromFile(584 + 32 * 13, 24 + 32 * 5, 1.f, 1.f, "Assets/innerWall.png", renderer);
-		layers.back()->loadFromFile(584 + 32 * 13, 24 + 32 * 13, 1.f, 1.f, "Assets/innerWall.png", renderer);
+		layers.back()->loadFromFile(584, 24, 1.f, 1.f, "Assets/scene/boardEmpty.png", renderer);
+		layers.back()->loadFromFile(584 + 32 * 5, 24 + 32 * 5, 1.f, 1.f, "Assets/scene/innerWall.png", renderer);
+		layers.back()->loadFromFile(584 + 32 * 5, 24 + 32 * 13, 1.f, 1.f, "Assets/scene/innerWall.png", renderer);
+		layers.back()->loadFromFile(584 + 32 * 13, 24 + 32 * 5, 1.f, 1.f, "Assets/scene/innerWall.png", renderer);
+		layers.back()->loadFromFile(584 + 32 * 13, 24 + 32 * 13, 1.f, 1.f, "Assets/scene/innerWall.png", renderer);
 		modeInterpreter(-1, renderer);
 		break;
 	}
 	case -1: 
 	{ 
 		bonus1 = Graph(0, 0); 
-		bonus1.loadFromFile(1.f, 1.f, "Assets/haveANiceDay.png", renderer); 
+		bonus1.loadFromFile(1.f, 1.f, "Assets/other/haveANiceDay.png", renderer); 
 		bonus2 = Graph(0, 0); 
-		bonus2.loadFromFile(1.f, 1.f, "Assets/haveANiceDay.png", renderer);
+		bonus2.loadFromFile(1.f, 1.f, "Assets/other/haveANiceDay.png", renderer);
 		helpMe = Graph(0, 0); 
-		helpMe.loadFromFile(1.f, 1.f, "Assets/helpMe.png", renderer);
+		helpMe.loadFromFile(1.f, 1.f, "Assets/other/helpMe.png", renderer);
 
 		break; 
 	}
@@ -109,7 +109,7 @@ void LayerManager::modeInterpreter(int mode, SDL_Renderer* renderer)
 			for (int c = 0; c < 21; c++)
 			{
 				if (((r >= 5 && r <= 7) && (c >= 5 && c <= 7)) || ((r >= 13 && r <= 15) && (c >= 5 && c <= 7)) || ((r >= 5 && r <= 7) && (c >= 13 && c <= 15)) || ((r >= 13 && r <= 15) && (c >= 13 && c <= 15))) {}
-				else { layers.back()->loadFromFile(584 + 32 * c, 24 + 32 * r, 1.f, 1.f, "Assets/pellet.png", renderer); }
+				else { layers.back()->loadFromFile(584 + 32 * c, 24 + 32 * r, 1.f, 1.f, "Assets/scene/pellet.png", renderer); }
 			}
 		}
 		break;

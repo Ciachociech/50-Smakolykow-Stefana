@@ -34,3 +34,4 @@ private:
 	lookAt spriteSide;
 };
 
+typedef std::vector<std::unique_ptr<Graph>> VecGraph;
