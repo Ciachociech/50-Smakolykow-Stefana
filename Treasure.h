@@ -1,7 +1,7 @@
 #pragma once
 #include "Graph.h"
 
-enum class treasureType { none = 0, carrots = 1, mniszek, salad, banana };
+enum class treasureType { none = 0, carrot = 1, mniszek, salad, banana, strawBerry };
 
 class Treasure : public Graph
 {
@@ -12,8 +12,14 @@ public:
 
 	treasureType getType();
 	std::string getAssetPath();
+	int getTileWidth();
+	int getTileHeight();
+	bool getIsHidden();
+
+	void setIsShown();
 private:
 	treasureType type;
 	int tileW, tileH;
+	bool isHidden = true;
 };
 

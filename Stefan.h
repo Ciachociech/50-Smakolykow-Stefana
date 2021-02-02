@@ -12,11 +12,13 @@ public:
 
 	void setConfusion(bool value);
 	void setMotivation(int value);
+	void setWalkBreak(bool value);
 
 	bool getConfusion();
 	int getMotivation();
+	bool getWalkBreak();
 private:
 	int motivation;
-	bool confuseEffect;
+	bool confuseEffect, walkBreak;
 };
 
