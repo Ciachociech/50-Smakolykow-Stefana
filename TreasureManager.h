@@ -35,6 +35,7 @@ private:
 	typedef std::vector<CoordsPair> VecPair;
 	
 	VecTreasures treasures;
+	VecGraph minis;
 	int count;
 	OverworldRandomizer overand;
 	int framesLeft, treasuresLeft;
