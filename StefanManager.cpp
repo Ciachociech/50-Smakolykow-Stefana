@@ -27,7 +27,7 @@ void StefanManager::moveStefan(int tileX, int tileY)
 	{
 		destX = stefan.X() + 32 * tileX;
 		destY = stefan.Y() + 32 * tileY;
-		isMoving = true;
+		if (tileX != 0 || tileY != 0) { isMoving = true; }
 	}
 
 	//Interaction with external walls
@@ -73,14 +73,19 @@ void StefanManager::moveStefan(int tileX, int tileY)
 		effectStart = SDL_GetTicks();
 	}
 
-	if (SDL_GetTicks() - effectStart >= 1000) { stefan.setConfusion(false); }
+	if (stefan.getConfusion() && (SDL_GetTicks() - effectStart >= 1000)) { stefan.setConfusion(false); }
+	else if (stefan.getWalkBreak() && (SDL_GetTicks() - effectStart >= 200)) { stefan.setWalkBreak(false); }
 
 	if (stefan.X() > destX) { stefan.setXY(stefan.X() - 4, stefan.Y()); stefan.setSpriteSide(lookAt::left); }
 	else if (stefan.X() < destX) { stefan.setXY(stefan.X() + 4, stefan.Y()); stefan.setSpriteSide(lookAt::right); }
 	if (stefan.Y() > destY) { stefan.setXY(stefan.X(), stefan.Y() - 4); }
 	else if (stefan.Y() < destY) { stefan.setXY(stefan.X(), stefan.Y() + 4); }
 
-	if (stefan.X() == destX && stefan.Y() == destY) { isMoving = false; }
+	if (stefan.X() == destX && stefan.Y() == destY) 
+	{ 
+		if (isMoving) { stefan.setWalkBreak(true); effectStart = SDL_GetTicks(); }
+		isMoving = false; 
+	}
 	attachedEffect.setXY(stefan.X(), stefan.Y() - 16);
 }
 

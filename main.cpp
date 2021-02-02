@@ -58,7 +58,7 @@ bool init()
 	}
 	else
 	{
-		window = SDL_CreateWindow(u8"50 Smako³yków Stefana (£aciata edycja 0.2)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		window = SDL_CreateWindow(u8"50 Smako³yków Stefana (£aciata edycja 0.3)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (window == NULL)
 		{
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -146,6 +146,7 @@ bool loop()
 				case SDL_KEYDOWN: 
 				{ 
 					if (!sm.getStefan().getConfusion()) { actualAction = sterman.keyboardMovement(tileX, tileY, event.key.keysym.sym); }
+					if (sm.getStefan().getWalkBreak()) { tileX = 0; tileY = 0; }
 					break; 
 				}
 				default: { break; }
@@ -170,7 +171,8 @@ bool loop()
 		{
 			bool dug = lm.disableTile(sm.getStefan().X(), sm.getStefan().Y());
 			if (dug) { sm.reduceMotivation(); }
-			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y())) { txtm.update(std::to_string(tm.getTreasuresLeft()), 5, font, windowRenderer); }
+			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y())) { //txtm.update(std::to_string(tm.getTreasuresLeft()), 5, font, windowRenderer); 
+			}
 		}
 		txtm.update(std::to_string(sm.getStefan().getMotivation()), 4, font, windowRenderer);
 
@@ -234,6 +236,6 @@ void gameInit()
 	txtm.initalize(font, windowRenderer);
 	txtm.update(std::to_string(level), 3, font, windowRenderer);
 	txtm.update(std::to_string(sm.getStefan().getMotivation()), 4, font, windowRenderer);
-	txtm.update(std::to_string(tm.getTreasuresLeft()), 5, font, windowRenderer);
+	//txtm.update(std::to_string(tm.getTreasuresLeft()), 5, font, windowRenderer);
 }
 

@@ -18,8 +18,8 @@ void TextManager::initalize(TTF_Font* font, SDL_Renderer* renderer)
 	texts.back()->loadFromText("0", color1, renderer, font);
 	texts.push_back(std::make_unique<Text>(536, 528, false));
 	texts.back()->loadFromText("-1:", color2, renderer, font);
-	texts.push_back(std::make_unique<Text>(536, 584, false));
-	texts.back()->loadFromText("-1", color3, renderer, font);
+	//texts.push_back(std::make_unique<Text>(536, 584, false));
+	//texts.back()->loadFromText("-1", color3, renderer, font);
 	texts.push_back(std::make_unique<Text>(48, 640));
 	texts.back()->loadFromText(u8"[P] - instrukcja sterowania", color3, renderer, font);
 }
