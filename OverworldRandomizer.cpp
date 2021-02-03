@@ -26,18 +26,18 @@ int OverworldRandomizer::randomNumber(int min, int max)
     return distI(gen);
 }
 
-void OverworldRandomizer::randomCoordsTreasure(int& x, int& y)
+void OverworldRandomizer::randomCoordsTreasure(int& x, int& y, int tileW, int tileH)
 {
     bool isTaboo;
     do
     {
         isTaboo = false;
-        x = 584 + 32 * randomNumber(0, 19), y = 24 + 32 * randomNumber(0, 19);
+        x = 584 + 32 * randomNumber(0, 21 - tileW), y = 24 + 32 * randomNumber(0, 21 - tileH);
 
-        //Near internal walls
-        if ((x >= 712 && x <= 840) || (x >= 968 && x <= 1096))
+        //Near internal walls - prevent spawn tidbits in wall
+        if ((x >= 776 - 32 * tileW && x <= 840) || (x >= 1032 - 32 * tileW && x <= 1096))
         {
-            if ((y >= 152 && y <= 280) || (y >= 408 && y <= 536))
+            if ((y >= 216 - 32 * tileH && y <= 280) || (y >= 472 - 32 * tileH && y <= 536))
             { isTaboo = true; }
         }
     } while (isTaboo);
