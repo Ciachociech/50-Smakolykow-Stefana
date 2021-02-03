@@ -126,6 +126,10 @@ int Graph::X() { return this->x; }
 
 int Graph::Y() { return this->y; }
 
+int Graph::W() { return this->w; }
+
+int Graph::H() { return this->h; }
+
 void Graph::setXY(int x, int y)
 {
 	this->x = x;

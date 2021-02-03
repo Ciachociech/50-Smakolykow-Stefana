@@ -10,21 +10,22 @@ void TreasureManager::randomizeTreasures(SDL_Renderer* renderer)
 
 	for (int i = 0; i < this->count; i++) 
 	{
-		int x, y;
+		int x, y, tileW, tileH;
 		bool isHere;
 		treasureType tType;
 
 		do
 		{
-			x = 0, y = 0;
+			x = 0, y = 0, tileW = 0, tileH = 0;
 			isHere = false;
 
-			tType = randomizeType();
-			overand.randomCoordsTreasure(x, y);
+			tType = randomizeType(tileW, tileH);
+			overand.randomCoordsTreasure(x, y, tileW, tileH);
 
-			for (int j = 0; j < treasures.size(); j++)
+			for (int j = 0; j < treasures.size(); j++) //zapobiega losowaniu smako³yków obok siebie lub na sobie (np. 2 smako³yki dziel¹ce wspóln¹ kratkê)
 			{
-				if (((x + 96) > (treasures[j]->X() - 32)) && ((treasures[j]->X() + 96) > (x - 32)) && ((y + 96) > (treasures[j]->Y() - 32)) && ((treasures[j]->Y() + 96) > (y - 32))) { isHere = true; }
+				if (((x + 32 * tileW + 32) > (treasures[j]->X() - 32)) && ((treasures[j]->X() + treasures[j]->W() + 32) > (x - 32)) 
+					&& ((y + 32 * tileH + 32) > (treasures[j]->Y() - 32)) && ((treasures[j]->Y() + treasures[j]->H() + 32) > (y - 32))) { isHere = true; }
 			}
 
 		} while (isHere);
@@ -40,12 +41,12 @@ void TreasureManager::randomizeTreasures(SDL_Renderer* renderer)
 		minis.back()->loadFromFile(1.f, 1.f, "Assets/panel/found.png", renderer);
 		minis.back()->setXY(552 + 48 * (i - this->count) + 16, 600);
 
-		pairs.push_back(CoordsPair(x, y, i));
-		pairs.push_back(CoordsPair(x + 32, y, i));
-		pairs.push_back(CoordsPair(x, y + 32, i));
-		pairs.push_back(CoordsPair(x + 32, y + 32, i));
+		for (int r = 0; r < tileW; r++)
+		{
+			for (int c = 0; c < tileH; c++) { pairs.push_back(CoordsPair(x + 32 * r, y + 32 * c, i)); }
+		}
 
-		framesLeft += 4;
+		framesLeft += tileW * tileH;
 		treasuresLeft += 1;
 	}
 }
@@ -112,15 +113,17 @@ void TreasureManager::exterminate()
 	treasuresLeft = 0;
 }
 
-treasureType TreasureManager::randomizeType()
+treasureType TreasureManager::randomizeType(int& tileW, int& tileH)
 {
-	switch (overand.randomNumber(1, 5))
+	switch (overand.randomNumber(1, 7))
 	{
-	case 1: { return treasureType::carrot; break; }
-	case 2: { return treasureType::mniszek; break; }
-	case 3: { return treasureType::salad; break; }
-	case 4: { return treasureType::banana; break; }
-	case 5: { return treasureType::strawBerry; break; }
-	default: { return treasureType::none; break; }
+	case 1:	{ tileW = 2;	tileH = 2;	return treasureType::carrot;		break; }
+	case 2: { tileW = 2;	tileH = 2;	return treasureType::mniszek;		break; }
+	case 3: { tileW = 2;	tileH = 2;	return treasureType::salad;			break; }
+	case 4: { tileW = 2;	tileH = 2;	return treasureType::banana;		break; }
+	case 5: { tileW = 2;	tileH = 2;	return treasureType::strawBerry;	break; }
+	case 6: { tileW = 1;	tileH = 3;	return treasureType::dill;			break; }
+	case 7: { tileW = 4;	tileH = 1;	return treasureType::wildRose;		break; }
+	default:{							return treasureType::none;			break; }
 	}
 }

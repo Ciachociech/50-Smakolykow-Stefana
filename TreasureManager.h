@@ -41,6 +41,6 @@ private:
 	int framesLeft, treasuresLeft;
 	VecPair pairs;
 
-	treasureType randomizeType();
+	treasureType randomizeType(int& tileW, int& tileH);
 };
 

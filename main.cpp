@@ -169,9 +169,13 @@ bool loop()
 		sm.moveStefan(tileX, tileY);
 		if (actualAction == keyAction::digging) 
 		{
-			bool dug = lm.disableTile(sm.getStefan().X(), sm.getStefan().Y());
-			if (dug) { sm.reduceMotivation(); }
-			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y())) { //txtm.update(std::to_string(tm.getTreasuresLeft()), 5, font, windowRenderer); 
+			bool dug = lm.disableTile(sm.getStefan().X(), sm.getStefan().Y());	//sprawdŸ czy kratka jest do odkopania i jeœli jest to odkop j¹
+			if (dug) { sm.reduceMotivation(); }		//je¿eli by³a odkopana to zredukuj motywacjê
+			int prevTreasureCount = tm.getTreasuresLeft();	//sprawdŸ ile jest smako³yków do odnalezienia
+			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y()))	//sprawdŸ czy znaleziono kratkê ze smako³ykiem
+			{ 
+				if (tm.getTreasuresLeft() - prevTreasureCount != 0) { sm.reduceMotivation(-10); }
+				//jeœli znaleziono tak¹ kratkê, sprawdŸ czy to by³a ostatnia
 			}
 		}
 		txtm.update(std::to_string(sm.getStefan().getMotivation()), 4, font, windowRenderer);
@@ -230,7 +234,7 @@ void gameInit()
 
 	sm.exterminate();
 	sm.setStefan(windowRenderer);
-	sm.setMotivation(79 - (level > 20 ? 40 : 2 * level) + 16 * tm.getCount());
+	sm.setMotivation(124 - (level > 30 ? 40 : 2 * level) + 7 * tm.getCount());
 
 	txtm.exterminate();
 	txtm.initalize(font, windowRenderer);
