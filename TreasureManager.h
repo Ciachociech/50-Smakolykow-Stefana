@@ -19,6 +19,7 @@ public:
 	int getCount();
 	int getFramesLeft();
 	int getTreasuresLeft();
+	int returnGatheredScore();
 
 	bool checkTile(int x, int y);
 
@@ -38,7 +39,7 @@ private:
 	VecGraph minis;
 	int count;
 	OverworldRandomizer overand;
-	int framesLeft, treasuresLeft;
+	int framesLeft, treasuresLeft, gatheredScore;
 	VecPair pairs;
 
 	treasureType randomizeType(int& tileW, int& tileH);
