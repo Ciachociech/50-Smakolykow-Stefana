@@ -1,6 +1,6 @@
 #include "LayerManager.h"
 
-LayerManager::LayerManager() : layers(), overand(), bonus1(), bonus2(), helpMe() {}
+LayerManager::LayerManager() : layers(), overand(), bonus1(), bonus2(), helpMe(), moodGraph(), actualMood(mood::none) {}
 
 LayerManager::~LayerManager() {}
 
@@ -36,6 +36,7 @@ void LayerManager::render(int x, int y, int mode, SDL_Renderer* renderer)
 	case -1: { bonus1.render(renderer); break; }
 	case -2: { bonus2.render(renderer); break; }
 	case -3: { helpMe.render(renderer); break; }
+	//case 0: { moodGraph.render(renderer); break; }
 	default: { break; }
 	}
 	if (mode >= 0 && mode < layers.size())
@@ -47,6 +48,30 @@ void LayerManager::render(int x, int y, int mode, SDL_Renderer* renderer)
 bool LayerManager::disableTile(int x, int y)
 {
 	return layers[1]->remove(x, y);
+}
+
+void LayerManager::refreshMood(int percent, SDL_Renderer* renderer)
+{
+	if (percent >= 81 && actualMood != mood::great) 
+	{
+		moodGraph.loadFromFile(1.f, 1.f, "Assets/panel/mood_great.png", renderer); actualMood = mood::great;
+	}
+	else if (percent >= 61 && percent < 81 && actualMood != mood::good) 
+	{ 
+		moodGraph.loadFromFile(1.f, 1.f, "Assets/panel/mood_good.png", renderer); actualMood = mood::good;
+	}
+	else if (percent >= 41 && percent < 61 && actualMood != mood::neutral) 
+	{ 
+		moodGraph.loadFromFile(1.f, 1.f, "Assets/panel/mood_neutral.png", renderer); actualMood = mood::neutral;
+	}
+	else if (percent >= 21 && percent < 41 && actualMood != mood::bad) 
+	{ 
+		moodGraph.loadFromFile(1.f, 1.f, "Assets/panel/mood_bad.png", renderer); actualMood = mood::bad;
+	}
+	else if (percent < 21 && actualMood != mood::horrible) 
+	{
+		moodGraph.loadFromFile(1.f, 1.f, "Assets/panel/mood_horrible.png", renderer); actualMood = mood::horrible;
+	}
 }
 
 void LayerManager::exterminate()
@@ -81,6 +106,8 @@ void LayerManager::modeInterpreter(int mode, SDL_Renderer* renderer)
 		layers.back()->loadFromFile(1256, 24, 1.f, 28.f, "Assets/panel/frameV.png", renderer);
 
 		layers.back()->loadFromFile(24, 48, 1.f, 1.f, "Assets/panel/ingameLogo.png", renderer);
+		moodGraph = Graph(220, 272);
+		moodGraph.loadFromFile(1.f, 1.f, "Assets/panel/mood_empty.png", renderer);
 
 		//pole
 		layers.back()->loadFromFile(584, 24, 1.f, 1.f, "Assets/scene/boardEmpty.png", renderer);

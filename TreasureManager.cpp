@@ -93,7 +93,7 @@ bool TreasureManager::checkTile(int x, int y)
 				int id = pairs[i].objectID;
 
 				pairs.erase(pairs.begin() + i); // usuwanie informacji o odkrytej kratce
-				this->gatheredScore += 50;
+				this->gatheredScore += 10;
 				for (int j = 0; j < pairs.size(); j++)	//je¿eli jeszcze jest jakakolwiek kratka chowaj¹ca smako³yk
 				{
 					if (pairs[j].objectID == id) { j = pairs.size() - 1; isLastTreasureTile = false; }
@@ -125,7 +125,7 @@ void TreasureManager::exterminate()
 
 treasureType TreasureManager::randomizeType(int& tileW, int& tileH)
 {
-	switch (overand.randomNumber(1, 8))
+	switch (overand.randomNumber(1, 9))
 	{
 	case 1:	{ tileW = 2;	tileH = 2;	return treasureType::carrot;		break; }
 	case 2: { tileW = 2;	tileH = 2;	return treasureType::mniszek;		break; }
@@ -135,6 +135,7 @@ treasureType TreasureManager::randomizeType(int& tileW, int& tileH)
 	case 6: { tileW = 1;	tileH = 3;	return treasureType::dill;			break; }
 	case 7: { tileW = 2;	tileH = 2;	return treasureType::wildRose;		break; }
 	case 8: { tileW = 4;	tileH = 1;	return treasureType::bamboo;		break; }
+	case 9: { tileW = 1;	tileH = 4;	return treasureType::daisy;			break; }
 	default:{							return treasureType::none;			break; }
 	}
 }

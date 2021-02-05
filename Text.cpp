@@ -1,10 +1,10 @@
 #include "Text.h"
 
-Text::Text() : Graph(), txt(std::string()), txtColor(), isLeftside(true) {}
+Text::Text() : Graph(), txt(std::string()), txtColor(), isLeftside(true), alignX(0) {}
 
-Text::Text(int x, int y) : Graph(x, y), txt(std::string()), txtColor(), isLeftside(true) {}
+Text::Text(int x, int y) : Graph(x, y), txt(std::string()), txtColor(), isLeftside(true), alignX(x) {}
 
-Text::Text(int x, int y, bool isLeftside) : Graph(x, y), txt(std::string()), txtColor(), isLeftside(isLeftside) {}
+Text::Text(int x, int y, bool isLeftside) : Graph(x, y), txt(std::string()), txtColor(), isLeftside(isLeftside), alignX(x) {}
 
 Text::~Text() {}
 
@@ -12,7 +12,7 @@ bool Text::loadFromText(std::string textureText, SDL_Color textColor, SDL_Render
 {
 	txt = textureText;
 	txtColor = textColor;
-	return Graph::loadFromText(textureText, textColor, renderer, font, isLeftside);
+	return Graph::loadFromText(alignX, textureText, textColor, renderer, font, isLeftside);
 }
 
 void Text::setText(std::string newTxt) { this->txt = newTxt; }

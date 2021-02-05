@@ -95,6 +95,36 @@ bool Graph::loadFromText(std::string textureText, SDL_Color textColor, SDL_Rende
 	return texture != NULL;
 }
 
+bool Graph::loadFromText(int alignX, std::string textureText, SDL_Color textColor, SDL_Renderer* renderer, TTF_Font* font, bool isLeftside)
+{
+	free();
+
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);
+	if (textSurface == NULL)
+	{
+		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+	}
+	else
+	{
+		texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+		if (texture == NULL)
+		{
+			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+		}
+		else
+		{
+			this->w = textSurface->w / frames;
+			this->h = textSurface->h;
+			if (!isLeftside) { this->x = alignX - this->w; }
+		}
+
+		SDL_FreeSurface(textSurface);
+	}
+
+	firstInit = false;
+	return texture != NULL;
+}
+
 void Graph::free()
 {
 	if (texture != NULL)
