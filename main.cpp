@@ -7,6 +7,8 @@
 #include "TreasureManager.h"
 #include "TextManager.h"
 
+#include "Score.h"
+
 //Screen dimension constants
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -28,6 +30,7 @@ StefanManager sm = StefanManager();
 SteeringManager sterman = SteeringManager();
 TextManager txtm = TextManager();
 int level = 1;
+Score score = Score();
 
 bool init();
 bool loadMedia();
@@ -156,12 +159,14 @@ bool loop()
 		if (tm.getFramesLeft() == 0)
 		{
 			level++;
+			score.addScore(100 + 10 * level + 10 * (sm.getStefan().getMotivation() / 4));
 			gameInit();
 			SDL_Delay(2000);
 		}
 		if (sm.getStefan().getMotivation() <= 0)
 		{
 			level = 1;
+			score.resetScore();
 			gameInit();
 			SDL_Delay(2000);
 		}
@@ -176,9 +181,12 @@ bool loop()
 			{ 
 				if (tm.getTreasuresLeft() - prevTreasureCount != 0) { sm.reduceMotivation(-10); }
 				//jeœli znaleziono tak¹ kratkê, sprawdŸ czy to by³a ostatnia
+				score.addScore(tm.returnGatheredScore());	//dodaj zebrany wynik
 			}
 		}
-		txtm.update(std::to_string(sm.getStefan().getMotivation()), 4, font, windowRenderer);
+		//lm.refreshMood(sm.getMotivationPercent(), windowRenderer);
+		txtm.update(std::to_string(sm.getStefan().getMotivation()), 6, font, windowRenderer);
+		txtm.update(std::to_string(score.getScore()), 5, font, windowRenderer);
 
 		SDL_RenderClear(windowRenderer);
 
@@ -234,12 +242,11 @@ void gameInit()
 
 	sm.exterminate();
 	sm.setStefan(windowRenderer);
-	sm.setMotivation(124 - (level > 30 ? 40 : 2 * level) + 7 * tm.getCount());
+	sm.setMotivation(99 - (level > 30 ? 40 : 2 * level) + 7 * tm.getCount());
 
 	txtm.exterminate();
 	txtm.initalize(font, windowRenderer);
-	txtm.update(std::to_string(level), 3, font, windowRenderer);
-	txtm.update(std::to_string(sm.getStefan().getMotivation()), 4, font, windowRenderer);
-	//txtm.update(std::to_string(tm.getTreasuresLeft()), 5, font, windowRenderer);
+	txtm.update(std::to_string(level) , 4, font, windowRenderer);
+	txtm.update(std::to_string(sm.getStefan().getMotivation()), 6, font, windowRenderer);
 }
 

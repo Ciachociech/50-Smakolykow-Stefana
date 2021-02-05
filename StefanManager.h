@@ -15,6 +15,7 @@ public:
 	Stefan getStefan();
 	void reduceMotivation(int value = 1);
 	void setMotivation(int value);
+	int getMotivationPercent();
 
 	void exterminate();
 private:

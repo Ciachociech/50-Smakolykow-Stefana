@@ -19,5 +19,6 @@ private:
 	std::string txt;
 	SDL_Color txtColor;
 	bool isLeftside;
+	int alignX;
 };
 

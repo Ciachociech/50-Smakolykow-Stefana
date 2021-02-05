@@ -144,6 +144,7 @@
     <ClCompile Include="LayerManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OverworldRandomizer.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="SteeringManager.cpp" />
     <ClCompile Include="Stefan.cpp" />
     <ClCompile Include="StefanManager.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="GraphLayer.h" />
     <ClInclude Include="LayerManager.h" />
     <ClInclude Include="OverworldRandomizer.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="SteeringManager.h" />
     <ClInclude Include="Stefan.h" />
     <ClInclude Include="StefanManager.h" />

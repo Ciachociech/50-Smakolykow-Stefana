@@ -102,8 +102,10 @@ void StefanManager::reduceMotivation(int value) { stefan.setMotivation(stefan.ge
 void StefanManager::setMotivation(int value) 
 {
 	baseMotivation = value;
-	stefan.setMotivation(value);
+	stefan.setBaseMotivation(value);
 }
+
+int StefanManager::getMotivationPercent() { return 100 * stefan.getMotivation() / stefan.getBaseMotivation(); }
 
 void StefanManager::exterminate()
 {
