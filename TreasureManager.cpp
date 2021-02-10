@@ -103,7 +103,7 @@ bool TreasureManager::checkTile(int x, int y)
 				{
 					treasuresLeft--;
 					treasures[id]->setIsShown();
-					this->gatheredScore = treasures[id]->getBaseScore();
+					this->gatheredScore += treasures[id]->getBaseScore();
 				}
 				return true; 
 			}
@@ -125,17 +125,18 @@ void TreasureManager::exterminate()
 
 treasureType TreasureManager::randomizeType(int& tileW, int& tileH)
 {
-	switch (overand.randomNumber(1, 9))
+	switch (overand.randomNumber(1, 10))
 	{
-	case 1:	{ tileW = 2;	tileH = 2;	return treasureType::carrot;		break; }
-	case 2: { tileW = 2;	tileH = 2;	return treasureType::mniszek;		break; }
-	case 3: { tileW = 2;	tileH = 2;	return treasureType::salad;			break; }
-	case 4: { tileW = 2;	tileH = 2;	return treasureType::banana;		break; }
-	case 5: { tileW = 2;	tileH = 2;	return treasureType::strawBerry;	break; }
-	case 6: { tileW = 1;	tileH = 3;	return treasureType::dill;			break; }
-	case 7: { tileW = 2;	tileH = 2;	return treasureType::wildRose;		break; }
-	case 8: { tileW = 4;	tileH = 1;	return treasureType::bamboo;		break; }
-	case 9: { tileW = 1;	tileH = 4;	return treasureType::daisy;			break; }
-	default:{							return treasureType::none;			break; }
+	case 1:		{ tileW = 2;	tileH = 2;	return treasureType::carrot;		break; }
+	case 2:		{ tileW = 2;	tileH = 2;	return treasureType::mniszek;		break; }
+	case 3:		{ tileW = 2;	tileH = 2;	return treasureType::salad;			break; }
+	case 4:		{ tileW = 2;	tileH = 2;	return treasureType::banana;		break; }
+	case 5:		{ tileW = 2;	tileH = 2;	return treasureType::strawBerry;	break; }
+	case 6:		{ tileW = 1;	tileH = 3;	return treasureType::dill;			break; }
+	case 7:		{ tileW = 2;	tileH = 2;	return treasureType::wildRose;		break; }
+	case 8:		{ tileW = 4;	tileH = 1;	return treasureType::bamboo;		break; }
+	case 9:		{ tileW = 1;	tileH = 4;	return treasureType::daisy;			break; }
+	case 10:	{ tileW = 2;	tileH = 2;	return treasureType::eggplant;		break; }
+	default:{								return treasureType::none;			break; }
 	}
 }
