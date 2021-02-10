@@ -31,6 +31,7 @@ std::string Treasure::getAssetPath()
 	case treasureType::wildRose:	{ baseScore = 40; return std::string("dzikaroza.png"); break; }
 	case treasureType::bamboo:		{ baseScore = 60; return std::string("bamboo.png"); break; }
 	case treasureType::daisy:		{ baseScore = 60; return std::string("stokrotka.png"); break; }
+	case treasureType::eggplant:	{ baseScore = 40; return std::string("baklazan.png"); break; }
 	case treasureType::none: default: { return std::string(); break; }
 	}
 }

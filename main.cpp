@@ -29,7 +29,8 @@ TreasureManager tm = TreasureManager();
 StefanManager sm = StefanManager();
 SteeringManager sterman = SteeringManager();
 TextManager txtm = TextManager();
-int level = 1;
+int level = 1, winRewardStage = 0;
+bool isLost = false;
 Score score = Score();
 
 bool init();
@@ -61,7 +62,7 @@ bool init()
 	}
 	else
 	{
-		window = SDL_CreateWindow(u8"50 Smako³yków Stefana (£aciata edycja 0.3)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		window = SDL_CreateWindow(u8"50 Smako³yków Stefana (£aciata edycja 0.5.1)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (window == NULL)
 		{
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -156,20 +157,8 @@ bool loop()
 			}
 		}
 
-		if (tm.getFramesLeft() == 0)
-		{
-			level++;
-			score.addScore(100 + 10 * level + 10 * (sm.getStefan().getMotivation() / 4));
-			gameInit();
-			SDL_Delay(2000);
-		}
-		if (sm.getStefan().getMotivation() <= 0)
-		{
-			level = 1;
-			score.resetScore();
-			gameInit();
-			SDL_Delay(2000);
-		}
+		if (tm.getFramesLeft() == 0 && winRewardStage == 0) { winRewardStage = 1; }
+		if (sm.getStefan().getMotivation() <= 0) { isLost = true; }
 
 		sm.moveStefan(tileX, tileY);
 		if (actualAction == keyAction::digging) 
@@ -183,6 +172,38 @@ bool loop()
 				//jeœli znaleziono tak¹ kratkê, sprawdŸ czy to by³a ostatnia
 				score.addScore(tm.returnGatheredScore());	//dodaj zebrany wynik
 			}
+		}
+
+		if (winRewardStage > 0 || isLost)
+		{
+			bool goToNextLevel = false;
+
+			switch (winRewardStage)
+			{
+				case 0: default: { break; }
+				case 4: { level++; goToNextLevel = true; break; }
+				case 3: 
+				{ 
+					if (sm.getStefan().getMotivation() > 3) { score.addScore(10); sm.reduceMotivation(4); }
+					else { sm.reduceMotivation(sm.getStefan().getMotivation()); winRewardStage++; }
+					SDL_Delay(150); 
+					break; 
+				}
+				case 2: { score.addScore(10 * level); winRewardStage++; SDL_Delay(300); break; }
+				case 1: { score.addScore(100); winRewardStage++; SDL_Delay(300); break; }
+			}
+			if (winRewardStage <= 0 && isLost) 
+			{
+				level = 1;
+				score.resetScore();
+				goToNextLevel = true;
+			}
+			if (goToNextLevel)
+			{
+				gameInit();
+				SDL_Delay(2000);
+			}
+
 		}
 		//lm.refreshMood(sm.getMotivationPercent(), windowRenderer);
 		txtm.update(std::to_string(sm.getStefan().getMotivation()), 6, font, windowRenderer);
@@ -248,5 +269,8 @@ void gameInit()
 	txtm.initalize(font, windowRenderer);
 	txtm.update(std::to_string(level) , 4, font, windowRenderer);
 	txtm.update(std::to_string(sm.getStefan().getMotivation()), 6, font, windowRenderer);
+
+	isLost = false;
+	winRewardStage = 0;
 }
 
