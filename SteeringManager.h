@@ -12,8 +12,9 @@ public:
 
 	keyAction keyboardMovement(int& x, int& y, SDL_Keycode keycode);
 private:
+	int combo1, combo2;									//combo of performing bad actions
+
 	void checkMischievousCombo(SDL_Keycode keycode);
 	void checkAnotherEvilCombo(SDL_Keycode keycode);
-	int combo1, combo2;
 };
 

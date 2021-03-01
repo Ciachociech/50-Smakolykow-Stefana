@@ -4,6 +4,7 @@
 #include "OverworldRandomizer.h"
 
 typedef std::vector<std::unique_ptr<GraphLayer>> VecGraphLayer;
+//enum containing information about showed mood
 enum class mood { none = -1, great, good, neutral, bad, horrible };
 
 class LayerManager
@@ -21,9 +22,10 @@ public:
 
 	void exterminate();
 private:
-	VecGraphLayer layers;
+	VecGraphLayer layers;										//vector of GraphLayer elements
+	OverworldRandomizer overand;								//randomizer
+	Graph bonus1, helpMe, bonus2, moodGraph;					//additional graphics to show special textures
+	mood actualMood;											//mood showed actually (variant of image)
+
 	void modeInterpreter(int mode, SDL_Renderer* renderer);
-	OverworldRandomizer overand;
-	Graph bonus1, helpMe, bonus2, moodGraph;
-	mood actualMood;
 };

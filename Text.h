@@ -16,9 +16,9 @@ public:
 	std::string& getText();
 	SDL_Color getColor();
 private:
-	std::string txt;
-	SDL_Color txtColor;
-	bool isLeftside;
-	int alignX;
+	std::string txt;			//text string
+	SDL_Color txtColor;			//text color
+	bool isLeftside;			//flag for text aligning, true when is align to left, false when is align to right
+	int alignX;					//used for right aligning
 };
 
