@@ -26,6 +26,7 @@ public:
 	void exterminate();
 private:
 	
+	//structure for relating a tile with certain treasure
 	struct CoordsPair
 	{
 		CoordsPair(int x, int y, int ID) : x(x), y(y), objectID(ID) {}
@@ -35,12 +36,12 @@ private:
 	};
 	typedef std::vector<CoordsPair> VecPair;
 	
-	VecTreasures treasures;
-	VecGraph minis;
-	int count;
-	OverworldRandomizer overand;
-	int framesLeft, treasuresLeft, gatheredScore;
-	VecPair pairs;
+	VecTreasures treasures;									//vector of Treasure objects (for treasures on scene)
+	VecGraph minis;											//vector of Graph objects (for miniatures on UI)
+	int count;												//number of treasure on map
+	OverworldRandomizer overand;							//randomizer
+	int framesLeft, treasuresLeft, gatheredScore;			//frames and treasures left to find and score to add during frame
+	VecPair pairs;											//vector of CoordsPair objects
 
 	treasureType randomizeType(int& tileW, int& tileH);
 };

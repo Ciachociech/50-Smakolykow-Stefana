@@ -11,16 +11,16 @@ public:
 	virtual ~Stefan();
 
 	void setConfusion(bool value);
-	void setMotivation(int value);
 	void setWalkBreak(bool value);
+	void setMotivation(int value);
 	void setBaseMotivation(int value);
 
 	bool getConfusion();
-	int getMotivation();
 	bool getWalkBreak();
+	int getMotivation();
 	int getBaseMotivation();
 private:
-	int motivation, baseMotivation;
-	bool confuseEffect, walkBreak;
+	int motivation, baseMotivation;			//current and base motivation for main character
+	bool confuseEffect, walkBreak;			//flags for movement preventing (after hitting a wall or gaining a destination)
 };
 

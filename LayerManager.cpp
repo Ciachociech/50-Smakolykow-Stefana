@@ -4,20 +4,20 @@ LayerManager::LayerManager() : layers(), overand(), bonus1(), bonus2(), helpMe()
 
 LayerManager::~LayerManager() {}
 
+//add layer and fill it with proper objects
 void LayerManager::addLayer(int mode, SDL_Renderer* renderer)
 {
-	layers.push_back(std::make_unique<GraphLayer>());
-	modeInterpreter(mode, renderer);
+	layers.push_back(std::make_unique<GraphLayer>());							//append new GraphLayer object to vector
+	modeInterpreter(mode, renderer);											//fill new GraphLayer object
 }
 
+//render all objects in each layer
 void LayerManager::render(int x, int y, SDL_Renderer* renderer)
 {
-	for (int i = 0; i < layers.size(); i++)
-	{
-		layers[i]->render(x, y, renderer);
-	}
+	for (int i = 0; i < layers.size(); i++) { layers[i]->render(x, y, renderer); }
 }
 
+//render selected special object
 void LayerManager::render(int mode, SDL_Renderer* renderer)
 {
 	switch (mode)
@@ -29,6 +29,7 @@ void LayerManager::render(int mode, SDL_Renderer* renderer)
 	}
 }
 
+//render selected special object or certain layer including camera position
 void LayerManager::render(int x, int y, int mode, SDL_Renderer* renderer)
 {
 	switch (mode)
@@ -39,17 +40,13 @@ void LayerManager::render(int x, int y, int mode, SDL_Renderer* renderer)
 	//case 0: { moodGraph.render(renderer); break; }
 	default: { break; }
 	}
-	if (mode >= 0 && mode < layers.size())
-	{
-		layers[mode]->render(x, y, renderer);
-	}
+	if (mode >= 0 && mode < layers.size()) { layers[mode]->render(x, y, renderer); }
 }
 
-bool LayerManager::disableTile(int x, int y)
-{
-	return layers[1]->remove(x, y);
-}
+//removes tile with certain coords
+bool LayerManager::disableTile(int x, int y) { return layers[1]->remove(x, y); }
 
+//changes texture for mood depending of motivation percentage (actual / max)
 void LayerManager::refreshMood(int percent, SDL_Renderer* renderer)
 {
 	if (percent >= 81 && actualMood != mood::great) 
@@ -74,6 +71,7 @@ void LayerManager::refreshMood(int percent, SDL_Renderer* renderer)
 	}
 }
 
+//delete all graphic object (special and each layer)
 void LayerManager::exterminate()
 {
 	bonus1.free();
@@ -86,13 +84,14 @@ void LayerManager::exterminate()
 	layers.clear();
 }
 
+//fills layers or objects depending of chosen mode
 void LayerManager::modeInterpreter(int mode, SDL_Renderer* renderer)
 {
 	switch (mode)
 	{
 	case 0:
 	{
-		//ramka
+		//frame/UI
 		layers.back()->loadFromFile(0, 0, 1.f, 1.f, "Assets/panel/frameCone.png", renderer);
 		layers.back()->loadFromFile(24, 0, 51.34f, 1.f, "Assets/panel/frameH.png", renderer);
 		layers.back()->loadFromFile(560, 0, 1.f, 1.f, "Assets/panel/frameCone.png", renderer);
@@ -109,7 +108,7 @@ void LayerManager::modeInterpreter(int mode, SDL_Renderer* renderer)
 		moodGraph = Graph(220, 272);
 		moodGraph.loadFromFile(1.f, 1.f, "Assets/panel/mood_empty.png", renderer);
 
-		//pole
+		//field
 		layers.back()->loadFromFile(584, 24, 1.f, 1.f, "Assets/scene/boardEmpty.png", renderer);
 		layers.back()->loadFromFile(584 + 32 * 5, 24 + 32 * 5, 1.f, 1.f, "Assets/scene/innerWall.png", renderer);
 		layers.back()->loadFromFile(584 + 32 * 5, 24 + 32 * 13, 1.f, 1.f, "Assets/scene/innerWall.png", renderer);
@@ -118,6 +117,7 @@ void LayerManager::modeInterpreter(int mode, SDL_Renderer* renderer)
 		modeInterpreter(-1, renderer);
 		break;
 	}
+	//special objects
 	case -1: 
 	{ 
 		bonus1 = Graph(0, 0); 
@@ -129,6 +129,7 @@ void LayerManager::modeInterpreter(int mode, SDL_Renderer* renderer)
 
 		break; 
 	}
+	//covering
 	case 1:
 	{
 		for (int r = 0; r < 21; r++)

@@ -1,7 +1,8 @@
 #pragma once
 #include "Graph.h"
 
-enum class treasureType { none = 0, carrot = 1, mniszek, salad, banana, strawBerry, dill, wildRose, bamboo, daisy, eggplant };
+//enum containing information about treasure types
+enum class treasureType { none = 0, carrot = 1, mniszek, salad, banana, strawBerry, dill, wildRose, bamboo, daisy, eggplant, alcea };
 
 class Treasure : public Graph
 {
@@ -19,8 +20,8 @@ public:
 
 	void setIsShown();
 private:
-	treasureType type;
-	bool isHidden = true;
-	int baseScore = 0;
+	treasureType type;				//treasure type
+	bool isHidden = true;			//flag for showing treasure
+	int baseScore = 0;				//score for revealing all tiles
 };
 

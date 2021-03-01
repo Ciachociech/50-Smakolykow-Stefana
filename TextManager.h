@@ -19,7 +19,7 @@ public:
 	void render(SDL_Renderer* renderer);
 	void exterminate();
 private:
-	VecText texts;
-	OverworldRandomizer overand;
+	VecText texts;						//vector of Text objects
+	OverworldRandomizer overand;		//randomizer
 };
 

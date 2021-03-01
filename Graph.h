@@ -2,6 +2,7 @@
 
 #include "external_dependencies.h"
 
+//enum containing information for displaying a spritesheet side (for main character)
 enum class lookAt { none = -1, left = 0, right, up, down};
 
 class Graph
@@ -27,14 +28,14 @@ public:
 	void setXY(int x, int y);
 	void setSpriteSide(lookAt newSide);
 private:
-	SDL_Texture* texture;
+	SDL_Texture* texture;						//object texture
 	
-	int x, y;
-	int w, h;
-	float scaleX, scaleY;
-	int frames, sides, currentFrame = 0;
-	bool firstInit = true;
-	lookAt spriteSide;
+	int x, y;									//object coords
+	int w, h;									//object dims
+	float scaleX, scaleY;						//object scale of dimes
+	int frames, sides, currentFrame = 0;		//number of object frames (more than one for animation), current shown frame and sides of texture
+	lookAt spriteSide;							//shows a side to show
+	bool firstInit = true;						//flag for controlling initialization, after this is set to false
 };
 
 typedef std::vector<std::unique_ptr<Graph>> VecGraph;

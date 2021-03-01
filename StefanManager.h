@@ -19,10 +19,10 @@ public:
 
 	void exterminate();
 private:
-	Stefan stefan;
-	Graph attachedEffect;
-	bool isMoving;
-	int destX, destY;
-	Uint32 effectStart;
-	int baseMotivation;
+	Stefan stefan;					//character object
+	Graph attachedEffect;			//effect of confusion
+	bool isMoving;					//flag is true when the player does not reach its destination, otherwise is false
+	int destX, destY;				//coords of destination
+	Uint32 effectStart;				//time counter for start of effect
+	int baseMotivation;				//base motivation of level
 };
