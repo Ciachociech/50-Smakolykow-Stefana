@@ -26,12 +26,14 @@ std::string Treasure::getAssetPath()
 	case treasureType::salad:			{ baseScore = 40; return std::string("salata.png"); break; }
 	case treasureType::banana:			{ baseScore = 40; return std::string("banan.png"); break; }
 	case treasureType::strawBerry:		{ baseScore = 40; return std::string("truskawka.png"); break; }
-	case treasureType::dill:			{ baseScore = 60; return std::string("koperek.png"); break; }
+	case treasureType::dill:			{ baseScore = 80; return std::string("koperek.png"); break; }
 	case treasureType::wildRose:		{ baseScore = 40; return std::string("dzikaroza.png"); break; }
 	case treasureType::bamboo:			{ baseScore = 60; return std::string("bamboo.png"); break; }
 	case treasureType::daisy:			{ baseScore = 60; return std::string("stokrotka.png"); break; }
 	case treasureType::eggplant:		{ baseScore = 40; return std::string("baklazan.png"); break; }
-	case treasureType::alcea:			{ baseScore = 60; return std::string("malwa.png"); break; }
+	case treasureType::alcea:			{ baseScore = 80; return std::string("malwa.png"); break; }
+	case treasureType::humulus:			{ baseScore = 80; return std::string("chmiel.png"); break; }
+	case treasureType::quince:			{ baseScore = 40; return std::string("pigwa.png"); break; }
 	case treasureType::none: default:	{ return std::string(); break; }
 	}
 }

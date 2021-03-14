@@ -37,7 +37,7 @@ void LayerManager::render(int x, int y, int mode, SDL_Renderer* renderer)
 	case -1: { bonus1.render(renderer); break; }
 	case -2: { bonus2.render(renderer); break; }
 	case -3: { helpMe.render(renderer); break; }
-	//case 0: { moodGraph.render(renderer); break; }
+	case 0: { moodGraph.render(renderer); break; }
 	default: { break; }
 	}
 	if (mode >= 0 && mode < layers.size()) { layers[mode]->render(x, y, renderer); }
@@ -91,7 +91,7 @@ void LayerManager::modeInterpreter(int mode, SDL_Renderer* renderer)
 	{
 	case 0:
 	{
-		//frame/UI
+		//frame
 		layers.back()->loadFromFile(0, 0, 1.f, 1.f, "Assets/panel/frameCone.png", renderer);
 		layers.back()->loadFromFile(24, 0, 51.34f, 1.f, "Assets/panel/frameH.png", renderer);
 		layers.back()->loadFromFile(560, 0, 1.f, 1.f, "Assets/panel/frameCone.png", renderer);
@@ -104,9 +104,12 @@ void LayerManager::modeInterpreter(int mode, SDL_Renderer* renderer)
 		layers.back()->loadFromFile(560, 24, 1.f, 28.f, "Assets/panel/frameV.png", renderer);
 		layers.back()->loadFromFile(1256, 24, 1.f, 28.f, "Assets/panel/frameV.png", renderer);
 
-		layers.back()->loadFromFile(24, 48, 1.f, 1.f, "Assets/panel/ingameLogo.png", renderer);
+		//logo
+		layers.back()->loadFromFile(24, 24, 1.f, 1.f, "Assets/panel/ingameLogo.png", renderer);
+
+		//mood
 		moodGraph = Graph(220, 272);
-		moodGraph.loadFromFile(1.f, 1.f, "Assets/panel/mood_empty.png", renderer);
+		moodGraph.loadFromFile(1.f, 1.f, "Assets/panel/mood_neutral.png", renderer);
 
 		//field
 		layers.back()->loadFromFile(584, 24, 1.f, 1.f, "Assets/scene/boardEmpty.png", renderer);
