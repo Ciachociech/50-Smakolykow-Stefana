@@ -22,7 +22,7 @@ TTF_Font* font = NULL;
 //Other constants
 const int FPS = 60;
 const std::string logoPath = "Assets/other/appLogo.png";
-const char windowName[] = u8"50 Smako³yków Stefana (£aciata edycja 0.5.2)";
+const char windowName[] = u8"50 Smako³yków Stefana (£aciata edycja 0.6)";
 
 //Game managers
 LayerManager lm = LayerManager();
@@ -34,7 +34,7 @@ TextManager txtm = TextManager();
 //Other global values
 int level = 1, winRewardStage = 0;
 bool isLost = false;
-Score score = Score();
+Score score = Score(), bestScore = Score(-1);
 
 //App functions
 bool init();
@@ -258,10 +258,15 @@ bool loop()
 
 		}
 
-		//lm.refreshMood(sm.getMotivationPercent(), windowRenderer);
+		lm.refreshMood(sm.getMotivationPercent(), windowRenderer);
 		//update text for left motivation and actual score
-		txtm.update(std::to_string(sm.getStefan().getMotivation()), 6, font, windowRenderer);
-		txtm.update(std::to_string(score.getScore()), 5, font, windowRenderer);
+		txtm.update(std::to_string(sm.getStefan().getMotivation()), 2, font, windowRenderer);
+		txtm.update(std::to_string(score.getScore()), 9, font, windowRenderer);
+		if (score.getScore() > bestScore.getScore()) 
+		{ 
+			bestScore.addScore(score.getScore() - bestScore.getScore()); 
+			txtm.update(std::to_string(bestScore.getScore()), 10, font, windowRenderer);
+		}
 
 		SDL_RenderClear(windowRenderer);		//clear all previous renedered objects
 
@@ -331,8 +336,9 @@ void gameInit()
 	//text manager reseting (font and text)
 	txtm.exterminate();
 	txtm.initalize(font, windowRenderer);
-	txtm.update(std::to_string(level) , 4, font, windowRenderer);
-	txtm.update(std::to_string(sm.getStefan().getMotivation()), 6, font, windowRenderer);
+	txtm.update(std::to_string(level) , 8, font, windowRenderer);
+	txtm.update(std::to_string(sm.getStefan().getMotivation()), 2, font, windowRenderer);
+	txtm.update(std::to_string(bestScore.getScore()), 10, font, windowRenderer);
 
 	//reseting win and lose condition variables
 	isLost = false;
