@@ -17,6 +17,7 @@ void StefanManager::setStefan(SDL_Renderer* renderer)
 	if (baseMotivation > 0) { stefan = Stefan(584 + 32 * 10, 24 + 32 * 10, baseMotivation); }
 	//otherwise also create it with initial coords, but without motivation value
 	else { stefan = Stefan(584 + 32 * 10, 24 + 32 * 10); }
+	destX = stefan.X(); destY = stefan.Y();														//prevent teleporting to previous coords (after losing)
 	stefan.loadFromFile(1.f, 1.f, 2, 2, "Assets/characters/stefan_idle.png", renderer);			//load character texture from file
 	attachedEffect = Graph(584 + 320, 24 + 320 - 16);											//create attached effect with initial coords
 	attachedEffect.loadFromFile(1.f, 1.f, 4, 1, "Assets/characters/confuse.png", renderer);		//load effect texture from file
