@@ -22,7 +22,7 @@ TTF_Font* font = NULL;
 //Other constants
 const int FPS = 60;
 const std::string logoPath = "Assets/other/appLogo.png";
-const char windowName[] = u8"50 Smako³yków Stefana (£aciata edycja 0.6)";
+const char windowName[] = u8"50 Smako³yków Stefana (£aciata edycja 0.6.1)";
 
 //Game managers
 LayerManager lm = LayerManager();
@@ -258,7 +258,7 @@ bool loop()
 
 		}
 
-		lm.refreshMood(sm.getMotivationPercent(), windowRenderer);
+		if (winRewardStage == 0) { lm.refreshMood(sm.getMotivationPercent(), windowRenderer); }
 		//update text for left motivation and actual score
 		txtm.update(std::to_string(sm.getStefan().getMotivation()), 2, font, windowRenderer);
 		txtm.update(std::to_string(score.getScore()), 9, font, windowRenderer);

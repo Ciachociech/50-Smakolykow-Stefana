@@ -34,6 +34,7 @@ std::string Treasure::getAssetPath()
 	case treasureType::alcea:			{ baseScore = 80; return std::string("malwa.png"); break; }
 	case treasureType::humulus:			{ baseScore = 80; return std::string("chmiel.png"); break; }
 	case treasureType::quince:			{ baseScore = 40; return std::string("pigwa.png"); break; }
+	case treasureType::asparagus:		{ baseScore = 60; return std::string("szparagi.png"); break; }
 	case treasureType::none: default:	{ return std::string(); break; }
 	}
 }
