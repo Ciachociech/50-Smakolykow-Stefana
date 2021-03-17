@@ -1,6 +1,6 @@
 #include "TreasureManager.h"
 
-TreasureManager::TreasureManager() : overand(), treasures(), count(0), framesLeft(0), treasuresLeft(0), gatheredScore(0), pairs() {}
+TreasureManager::TreasureManager() : overand(), treasures(), count(0), framesLeft(0), treasuresLeft(0), gatheredScore(0), motivationCompensation(0) ,pairs() {}
 
 TreasureManager::~TreasureManager() { treasures.~vector(); pairs.~vector(); }
 
@@ -50,6 +50,10 @@ void TreasureManager::randomizeTreasures(SDL_Renderer* renderer)
 		minis.back()->loadFromFile(1.f, 1.f, "Assets/panel/found.png", renderer);
 		minis.back()->setXY(552 + 48 * (i - this->count) + 16, 600);
 
+		//add compensation for harder tidbits
+		if (tileW * tileH == 3) { motivationCompensation += 6; }
+		else if (tileW == 4 || tileH == 4) { motivationCompensation += 4; }
+
 		//making a pair of coords and treasure ID
 		for (int r = 0; r < tileW; r++)
 		{
@@ -93,6 +97,8 @@ int TreasureManager::returnGatheredScore()
 	this->gatheredScore = 0;
 	return returnedScore;
 }
+
+int TreasureManager::getMotivationCompensation() { return this->motivationCompensation; }
 
 //checks a uncovered tile depending of character position
 bool TreasureManager::checkTile(int x, int y)
@@ -142,12 +148,13 @@ void TreasureManager::exterminate()
 	count = 0;
 	framesLeft = 0;
 	treasuresLeft = 0;
+	motivationCompensation = 0;
 }
 
 //returns type of objects and writes information about tile dimensions
 treasureType TreasureManager::randomizeType(int& tileW, int& tileH)
 {
-	switch (overand.randomNumber(1, 14))
+	switch (overand.randomNumber(1, 15))
 	{
 	case 1:		{ tileW = 2;	tileH = 2;	return treasureType::carrot;		break; }
 	case 2:		{ tileW = 2;	tileH = 2;	return treasureType::mniszek;		break; }
@@ -163,6 +170,7 @@ treasureType TreasureManager::randomizeType(int& tileW, int& tileH)
 	case 12:	{ tileW = 3;	tileH = 1;	return treasureType::humulus;		break; }
 	case 13:	{ tileW = 2;	tileH = 2;	return treasureType::quince;		break; }
 	case 14:	{ tileW = 4;	tileH = 1;	return treasureType::asparagus;		break; }
+	case 15:	{ tileW = 2;	tileH = 2;	return treasureType::kiwi;			break; }
 	default:	{							return treasureType::none;			break; }
 	}
 }

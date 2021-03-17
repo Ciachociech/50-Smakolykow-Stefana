@@ -2,7 +2,7 @@
 #include "Graph.h"
 
 //enum containing information about treasure types
-enum class treasureType { none = 0, carrot = 1, mniszek, salad, banana, strawBerry, dill, wildRose, bamboo, daisy, eggplant, alcea, humulus, quince, asparagus };
+enum class treasureType { none = 0, carrot = 1, mniszek, salad, banana, strawBerry, dill, wildRose, bamboo, daisy, eggplant, alcea, humulus, quince, asparagus, kiwi };
 
 class Treasure : public Graph
 {

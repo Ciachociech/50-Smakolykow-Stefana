@@ -20,6 +20,7 @@ public:
 	int getFramesLeft();
 	int getTreasuresLeft();
 	int returnGatheredScore();
+	int getMotivationCompensation();
 
 	bool checkTile(int x, int y);
 
@@ -42,6 +43,7 @@ private:
 	OverworldRandomizer overand;							//randomizer
 	int framesLeft, treasuresLeft, gatheredScore;			//frames and treasures left to find and score to add during frame
 	VecPair pairs;											//vector of CoordsPair objects
+	int motivationCompensation;								//number of additional compensation of harder tidbits
 
 	treasureType randomizeType(int& tileW, int& tileH);
 };
