@@ -6,6 +6,7 @@
 #include "SteeringManager.h"
 #include "TreasureManager.h"
 #include "TextManager.h"
+#include "DatInterpreter.h"
 
 #include "Score.h"
 
@@ -22,7 +23,7 @@ TTF_Font* font = NULL;
 //Other constants
 const int FPS = 60;
 const std::string logoPath = "Assets/other/appLogo.png";
-const char windowName[] = u8"50 Smako³yków Stefana (£aciata edycja 0.6.1)";
+const char windowName[] = u8"50 Smako³yków Stefana (£aciata edycja 0.7)";
 
 //Game managers
 LayerManager lm = LayerManager();
@@ -30,9 +31,10 @@ TreasureManager tm = TreasureManager();
 StefanManager sm = StefanManager();
 SteeringManager sterman = SteeringManager();
 TextManager txtm = TextManager();
+DatInterpreter dati = DatInterpreter("ftos.dat");		//it has to be "ftos.dat" to proper execution
 
 //Other global values
-int level = 1, winRewardStage = 0;
+int level = 1, winRewardStage = 0, foundSnacks = 0;
 bool isLost = false;
 Score score = Score(), bestScore = Score(-1);
 
@@ -63,54 +65,54 @@ int main(int argc, char* args[])
 //initialzing main SDL variables and checking the result of operation
 bool init()
 {
-	bool success = true;					//flag for showing a success of initalization, can be set to false when something goes wrong
-
-	//if window initializating is not possible
+	//if window initializating is not possible, return false (success flag)
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-		success = false;
+		return false;
 	}
 	//otherwise create a window
 	else
 	{
 		window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-		//if window is not created
+		//if window is not created, return false (success flag)
 		if (window == NULL)
 		{
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-			success = false;
+			return false;
 		}
 		//otherwise create a renderer
 		else
 		{
 			windowRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-			//if window renderer is not created
+			//if window renderer is not created, return false (success flag)
 			if (windowRenderer == NULL)
 			{
 				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
-				success = false;
+				return false;
 			}
 			//otherwise create surface and check ability to load a font
 			else
 			{
 				//SDL_SetRenderDrawColor(windowRenderer, 32, 32, 32, 0xFF);
 				windowSurface = SDL_GetWindowSurface(window);
+				//if window surface is not created, return false (success flag)
 				if (windowSurface == NULL)
 				{
 					printf("Window surface could not be created! SDL Error: %s\n", SDL_GetError());
-					success = false;
+					return false;
 				}
+				//if font is not initialized, return false (success flag)
 				if (TTF_Init() == -1)
 				{
 					printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
-					success = false;
+					return false;
 				}
 			}
 		}
 	}
 
-	return success;							//if everything was alright returns true, otherwise returns false
+	return true;							//if everything was alright returns true
 }
 
 //loading window icon and font
@@ -120,8 +122,12 @@ bool loadMedia()
 
 	//loading game logo
 	SDL_Surface* surface = IMG_Load(logoPath.c_str());
-	//if file does not exist
-	if (surface == NULL) { printf("Unable to load image %s! SDL Error: %s\n", logoPath.c_str(), SDL_GetError()); }
+	//if file does not exist, return false (success flag)
+	if (surface == NULL) 
+	{ 
+		printf("Unable to load image %s! SDL Error: %s\n", logoPath.c_str(), SDL_GetError()); 
+		return false; 
+	}
 	//otherwise set icon from surface as a window icon
 	else
 	{
@@ -131,14 +137,14 @@ bool loadMedia()
 
 	//loading font => source - https://www.dafont.com/wash-your-hand.font
 	font = TTF_OpenFont("Assets/fonts/WashYourHand.ttf", 32);
-	//if font does not exist
+	//if font does not exist, return false (success flag)
 	if (font == NULL)
 	{
 		printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
-		success = false;
+		return false;
 	}
 	
-	return success;							//if everything was alright returns true, otherwise returns false
+	return true;							//if everything was alright returns true
 }
 
 //closing and destroying window and its renderer
@@ -209,8 +215,12 @@ bool loop()
 			//if tile containing a treasure
 			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y()))
 			{ 
-				//if this tile was last uncovered tile with treasure, recover some motivation
-				if (tm.getTreasuresLeft() - prevTreasureCount != 0) { sm.reduceMotivation(-10); }
+				//if this tile was last uncovered tile with treasure, recover some motivation and increase snacks counter
+				if (tm.getTreasuresLeft() - prevTreasureCount != 0) 
+				{ 
+					sm.reduceMotivation(-10); 
+					foundSnacks++;
+				}
 				score.addScore(tm.returnGatheredScore());	//add gathered score during this dig action
 			}
 		}
@@ -245,7 +255,11 @@ bool loop()
 			//if lose condition case is fulfilled
 			if (winRewardStage <= 0 && isLost) 
 			{
+				//if best score was beaten in this (previous) game
+				if (score.getScore() == bestScore.getScore()) { dati.save(level, score.getScore(), foundSnacks); }
+				
 				level = 1;					//reset a level counter to 1
+				foundSnacks = 0;			//reset a snacks counter to 0
 				score.resetScore();			//reset score to 0
 				goToNextLevel = true;		//set new level flag to true (can be now generated)
 			}
@@ -258,6 +272,7 @@ bool loop()
 
 		}
 
+		//if the win (level completed) condition is not fulfilled, change the mood portrait (preventing changing it after winning)
 		if (winRewardStage == 0) { lm.refreshMood(sm.getMotivationPercent(), windowRenderer); }
 		//update text for left motivation and actual score
 		txtm.update(std::to_string(sm.getStefan().getMotivation()), 2, font, windowRenderer);
@@ -331,12 +346,17 @@ void gameInit()
 	//Stefan (character) manager reseting and loading again a texture with new motivation value
 	sm.exterminate();
 	sm.setStefan(windowRenderer);
-	sm.setMotivation(99 - (level > 30 ? 40 : 2 * level) + 7 * tm.getCount());
+	sm.setMotivation(99 - (level > 30 ? 60 : 2 * level) + 7 * tm.getCount() + tm.getMotivationCompensation());
+
+	//load maximum score
+	int bScore = 0;
+	dati.load(bScore);
+	bestScore.addScore(bScore - bestScore.getScore());
 
 	//text manager reseting (font and text)
 	txtm.exterminate();
 	txtm.initalize(font, windowRenderer);
-	txtm.update(std::to_string(level) , 8, font, windowRenderer);
+	txtm.update(std::to_string(level), 8, font, windowRenderer);
 	txtm.update(std::to_string(sm.getStefan().getMotivation()), 2, font, windowRenderer);
 	txtm.update(std::to_string(bestScore.getScore()), 10, font, windowRenderer);
 
