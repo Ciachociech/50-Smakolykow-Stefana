@@ -108,7 +108,7 @@ void LayerManager::modeInterpreter(int mode, SDL_Renderer* renderer)
 		layers.back()->loadFromFile(24, 24, 1.f, 1.f, "Assets/panel/ingameLogo.png", renderer);
 
 		//mood
-		moodGraph = Graph(220, 272);
+		moodGraph = Graph(116, 272);
 		moodGraph.loadFromFile(1.f, 1.f, "Assets/panel/mood_neutral.png", renderer);
 
 		//field

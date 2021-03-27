@@ -9,12 +9,12 @@ void TextManager::initalize(TTF_Font* font, SDL_Renderer* renderer)
 {
 	SDL_Color color1 = overand.randomColor(), color2 = overand.randomColor(), color3 = overand.randomColor(), color4 = overand.randomColor();
 	
-	texts.push_back(std::make_unique<Text>(206, 224));					//0 - const motivation text
+	texts.push_back(std::make_unique<Text>(102, 224));					//0 - const motivation text
 	texts.back()->loadFromText("Motywacja", color2, renderer, font);
-	texts.push_back(std::make_unique<Text>(2060, 2240));				//1 - const future text
-	texts.back()->loadFromText("Motywacja", color2, renderer, font);
+	texts.push_back(std::make_unique<Text>(353, 224));					//1 - const powerup future text
+	texts.back()->loadFromText("Instynkt", color2, renderer, font);
 
-	texts.push_back(std::make_unique<Text>(330, 358, false));			//2 - non-const motivation text
+	texts.push_back(std::make_unique<Text>(226, 358, false));			//2 - non-const motivation text
 	texts.back()->loadFromText("100", color2, renderer, font);
 	texts.push_back(std::make_unique<Text>(3300, 3580, false));			//3 - non-const future text
 	texts.back()->loadFromText("100", color2, renderer, font);
