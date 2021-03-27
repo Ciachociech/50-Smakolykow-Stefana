@@ -18,7 +18,6 @@ treasureType Treasure::getType() { return this->type; }
 //return the path to certain treasure type
 std::string Treasure::getAssetPath()
 {
-
 	switch (type)
 	{
 	case treasureType::carrot:			{ baseScore = 40;	return std::string("marchewka.png"); break; }
@@ -36,6 +35,12 @@ std::string Treasure::getAssetPath()
 	case treasureType::quince:			{ baseScore = 40;	return std::string("pigwa.png"); break; }
 	case treasureType::asparagus:		{ baseScore = 80;	return std::string("szparagi.png"); break; }
 	case treasureType::kiwi:			{ baseScore = 40;	return std::string("kiwi.png"); break; }
+	case treasureType::parsnip:			{ baseScore = 80; return std::string("pasternak.png"); break; }
+
+	//case treasureType::dignine:		{ baseScore = 50;	return std::string("kopanina.png"); break; }
+	case treasureType::nosescan:		{ baseScore = 50;	return std::string("nososkan.png"); break; }
+	//case treasureType::stubborntunism:{ baseScore = 50;	return std::string("uportunism.png"); break; }
+
 	case treasureType::none: default:	{ baseScore = 0;	return std::string(); break; }
 	}
 }

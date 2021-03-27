@@ -2,7 +2,7 @@
 
 #include "external_dependencies.h"
 
-enum class keyAction { none = 0, moving = 1, digging, mischievous, anotherEvil, steeringHelp };
+enum class keyAction { none = 0, moving = 1, digging, powerupUsing, mischievous, anotherEvil, steeringHelp };
 
 class SteeringManager
 {

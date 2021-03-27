@@ -2,7 +2,7 @@
 #include "Graph.h"
 
 //enum containing information about treasure types
-enum class treasureType { none = 0, carrot = 1, mniszek, salad, banana, strawBerry, dill, wildRose, bamboo, daisy, eggplant, alcea, humulus, quince, asparagus, kiwi };
+enum class treasureType { none = 0, carrot = 1, mniszek, salad, banana, strawBerry, dill, wildRose, bamboo, daisy, eggplant, alcea, humulus, quince, asparagus, kiwi, parsnip, dignine = 51, nosescan, stubborntunism };
 
 class Treasure : public Graph
 {
@@ -20,8 +20,8 @@ public:
 
 	void setIsShown();
 private:
-	treasureType type;				//treasure type
-	bool isHidden = true;			//flag for showing treasure
-	int baseScore = 0;				//score for revealing all tiles
+	treasureType type;										//treasure type
+	bool isHidden = true;									//flag for showing treasure
+	int baseScore = 0;										//score for revealing all tiles
 };
 

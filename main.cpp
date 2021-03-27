@@ -23,7 +23,8 @@ TTF_Font* font = NULL;
 //Other constants
 const int FPS = 60;
 const std::string logoPath = "Assets/other/appLogo.png";
-const char windowName[] = u8"50 Smako³yków Stefana (£aciata edycja 0.7)";
+const std::string gameVersion = "0.8";
+const std::string windowName = u8"50 Smako³yków Stefana (£aciata edycja " + gameVersion + u8")";
 
 //Game managers
 LayerManager lm = LayerManager();
@@ -31,7 +32,7 @@ TreasureManager tm = TreasureManager();
 StefanManager sm = StefanManager();
 SteeringManager sterman = SteeringManager();
 TextManager txtm = TextManager();
-DatInterpreter dati = DatInterpreter("ftos.dat");		//it has to be "ftos.dat" to proper execution
+DatInterpreter dati = DatInterpreter("ftos.dat", gameVersion);		//it has to be "ftos.dat" to proper execution
 
 //Other global values
 int level = 1, winRewardStage = 0, foundSnacks = 0;
@@ -44,6 +45,9 @@ bool loadMedia();
 void close();
 bool loop();
 void gameInit();
+
+//Game mechanics functions
+void digTile(bool isDignine = false);
 
 int main(int argc, char* args[])
 {
@@ -74,7 +78,7 @@ bool init()
 	//otherwise create a window
 	else
 	{
-		window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		window = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		//if window is not created, return false (success flag)
 		if (window == NULL)
 		{
@@ -155,6 +159,7 @@ void close()
 	SDL_DestroyWindow(window);				//call function for destroying window
 	window = NULL;							//set a pointer of window to NULL
 
+	IMG_Quit();								//stop using sld image
 	SDL_Quit();								//definetly close all sdl things
 }
 
@@ -198,30 +203,24 @@ bool loop()
 		}
 
 		//if all treasures are found, start an winning sequence => win condition
-		if (tm.getFramesLeft() == 0 && winRewardStage == 0) { winRewardStage = 1; }
+		if (tm.getFramesLeft() == 0 && winRewardStage == 0) { winRewardStage = 1; SDL_Delay(400); }
 		//if motivation is less then 0 and all treasures are not found => lose condition
 		if (sm.getStefan().getMotivation() <= 0) { isLost = true; }
 
 		//move main character
 		sm.moveStefan(tileX, tileY);
 		//if last action is set for digging (uncovering a tile)
-		if (actualAction == keyAction::digging) 
+		if (actualAction == keyAction::digging) { digTile(); }
+		//if last action is using a powerup
+		else if (actualAction == keyAction::powerupUsing && tm.getPowerupStatus() == PowerupStatus::avaiable)
 		{
-			//flag is true when the tile is covered (and reveal it), unless flag is false
-			bool dug = lm.disableTile(sm.getStefan().X(), sm.getStefan().Y());
-			//if tile has been covered reduce an motivation
-			if (dug) { sm.reduceMotivation(); }
-			int prevTreasureCount = tm.getTreasuresLeft();	//check number of treasure to find
-			//if tile containing a treasure
-			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y()))
-			{ 
-				//if this tile was last uncovered tile with treasure, recover some motivation and increase snacks counter
-				if (tm.getTreasuresLeft() - prevTreasureCount != 0) 
-				{ 
-					sm.reduceMotivation(-10); 
-					foundSnacks++;
-				}
-				score.addScore(tm.returnGatheredScore());	//add gathered score during this dig action
+			//for specific type of powerup, perform a proper action
+			switch (tm.getPowerupType())
+			{
+			case treasureType::dignine: { digTile(true); break; }
+			case treasureType::nosescan: { tm.showRandomTile(windowRenderer); break; }
+			case treasureType::stubborntunism: { break; }
+			default: { break; }
 			}
 		}
 
@@ -236,21 +235,23 @@ bool loop()
 				//does nothing (in case of unexpected condition handling)
 				case 0: default: { winRewardStage = 0; break; }
 				//increment level counter and set new level flag to true (ready for generating next level)
-				case 4: { level++; goToNextLevel = true; break; }
+				case 5: { level++; goToNextLevel = true; break; }
 				//increase score depending of movitation left
-				case 3: 
+				case 4: 
 				{ 
 					//if motivation left is bigger than 3, add some score and reduce motivation (score granting)
 					if (sm.getStefan().getMotivation() > 3) { score.addScore(10); sm.reduceMotivation(4); }
 					//otherwise go to the next step of sequence
 					else { sm.reduceMotivation(sm.getStefan().getMotivation()); winRewardStage++; }
-					SDL_Delay(150);			//short pause
+					SDL_Delay(300);			//short pause
 					break; 
 				}
+				//increase score depending of uncovering, but not using powerup and take a little break
+				case 3: { if (tm.getPowerupStatus() == PowerupStatus::avaiable) { score.addScore(50); } winRewardStage++; SDL_Delay(400); break; }
 				//increase score depending of finished level, go to the next step of sequence and take a little break
-				case 2: { score.addScore(10 * level); winRewardStage++; SDL_Delay(300); break; }
+				case 2: { score.addScore(10 * level); winRewardStage++; SDL_Delay(400); break; }
 				//increase score depending of finished level, go to the next step of sequence and take a little break
-				case 1: { score.addScore(100); winRewardStage++; SDL_Delay(300); break; }
+				case 1: { score.addScore(100); winRewardStage++; SDL_Delay(400); break; }
 			}
 			//if lose condition case is fulfilled
 			if (winRewardStage <= 0 && isLost) 
@@ -289,6 +290,7 @@ bool loop()
 		lm.render(0, 0, 0, windowRenderer);		//render all UI graphs
 		tm.render(windowRenderer);				//render all treasure graphs
 		lm.render(0, 0, 1, windowRenderer);		//render all covering tile graphs
+		tm.renderIndicator(windowRenderer);		//render only indicator for nosescan ability
 		sm.render(windowRenderer);				//render main character
 
 		//if one of special action is performed last tile
@@ -346,7 +348,7 @@ void gameInit()
 	//Stefan (character) manager reseting and loading again a texture with new motivation value
 	sm.exterminate();
 	sm.setStefan(windowRenderer);
-	sm.setMotivation(99 - (level > 30 ? 60 : 2 * level) + 7 * tm.getCount() + tm.getMotivationCompensation());
+	sm.setMotivation(99 - (level > 35 ? 70 : 2 * level) + 7 * tm.getCount() + tm.getMotivationCompensation());
 
 	//load maximum score
 	int bScore = 0;
@@ -363,5 +365,38 @@ void gameInit()
 	//reseting win and lose condition variables
 	isLost = false;
 	winRewardStage = 0;
+}
+
+void digTile(bool isDignine)
+{
+	int initW = 0, initH = 0, endW = 1, endH = 1;						//default values for ordinary digging (only one tile)
+	//if is used dignine, set to dig nine tiles (currently standing on and the nearest)
+	if (isDignine) { initW = -1; initH = -1; endW = 2; endH = 2; }
+	for (initW; initW < endW; initW++)
+	{
+		for (initH; initH < endH; initH++)
+		{
+			//flag is true when the tile is covered (and reveal it), unless flag is false
+			bool dug = lm.disableTile(sm.getStefan().X() + 32 * initW, sm.getStefan().Y() + 32 * initH);
+			//if tile has been covered reduce an motivation
+			if (dug && !isDignine) { sm.reduceMotivation(); }
+			int prevTreasureCount = tm.getTreasuresLeft();				//check number of treasure to find
+			//if tile containing a treasure
+			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y()))
+			{
+				//if this tile was last uncovered tile with treasure, recover some motivation and increase snacks counter
+				if (tm.getTreasuresLeft() - prevTreasureCount != 0)
+				{
+					sm.reduceMotivation(-10);
+					foundSnacks++;
+				}
+				//if powerup was now discovered quickly change its status to avaiable
+				if (tm.getPowerupStatus() == PowerupStatus::discovered) { tm.setPowerupStatus(PowerupStatus::avaiable, windowRenderer); }
+				score.addScore(tm.returnGatheredScore());				//add gathered score during this dig action
+			}
+		}
+	}
+	//if is used dignine, change power-up status to used
+	if (isDignine) { tm.setPowerupStatus(PowerupStatus::used, windowRenderer); }
 }
 

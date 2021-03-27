@@ -1,6 +1,6 @@
 #include "DatInterpreter.h"
 
-DatInterpreter::DatInterpreter(std::string filename) : filename(filename) {}
+DatInterpreter::DatInterpreter(std::string filename, std::string version) : filename(filename), version(version) {}
 
 DatInterpreter::~DatInterpreter() {}
 
@@ -35,7 +35,7 @@ void DatInterpreter::save(int level, int hiscore, int foundSnacks)
 	tempLine.push_back(std::to_string(hiscore));
 	tempLine.push_back(std::to_string(foundSnacks));
 	tempLine.push_back(std::to_string(fTime.tm_year + 1900) + "/" + std::to_string(fTime.tm_mon + 1) + "/" + std::to_string(fTime.tm_mday));
-	tempLine.push_back("0.7");
+	tempLine.push_back(version);
 
 	data.push_back(tempLine);													//push back new line to data segment
 	dumpData('A', extractData(), data);											//save file with new data

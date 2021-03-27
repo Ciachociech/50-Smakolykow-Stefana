@@ -10,7 +10,7 @@ typedef std::vector<std::vector<std::string>> Vec2String;
 class DatInterpreter
 {
 public:
-	DatInterpreter(std::string filename);
+	DatInterpreter(std::string filename, std::string version);
 	virtual ~DatInterpreter();
 
 	void load(int& hiscore);
@@ -22,6 +22,7 @@ public:
 	Vec2String extractData(char controlChar);
 	void dumpData(char controlChar, VecString oldData, Vec2String data);
 private:
-	std::string filename;						//name and path of .dat file
+	std::string filename;											//name and path of .dat file
+	std::string version;											//version of game
 };
 
