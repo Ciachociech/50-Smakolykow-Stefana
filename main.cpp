@@ -23,7 +23,7 @@ TTF_Font* font = NULL;
 //Other constants
 const int FPS = 60;
 const std::string logoPath = "Assets/other/appLogo.png";
-const std::string gameVersion = "0.8";
+const std::string gameVersion = "0.8.1";
 const std::string windowName = u8"50 Smako³yków Stefana (£aciata edycja " + gameVersion + u8")";
 
 //Game managers
@@ -207,22 +207,27 @@ bool loop()
 		//if motivation is less then 0 and all treasures are not found => lose condition
 		if (sm.getStefan().getMotivation() <= 0) { isLost = true; }
 
-		//move main character
-		sm.moveStefan(tileX, tileY);
-		//if last action is set for digging (uncovering a tile)
-		if (actualAction == keyAction::digging) { digTile(); }
-		//if last action is using a powerup
-		else if (actualAction == keyAction::powerupUsing && tm.getPowerupStatus() == PowerupStatus::avaiable)
+		//prevent performing action after level winning/losing
+		if (winRewardStage == 0 && !isLost)
 		{
-			//for specific type of powerup, perform a proper action
-			switch (tm.getPowerupType())
+			//move main character
+			sm.moveStefan(tileX, tileY);
+			//if last action is set for digging (uncovering a tile)
+			if (actualAction == keyAction::digging) { digTile(); }
+			//if last action is using a powerup
+			else if (actualAction == keyAction::powerupUsing && tm.getPowerupStatus() == PowerupStatus::avaiable)
 			{
-			case treasureType::dignine: { digTile(true); break; }
-			case treasureType::nosescan: { tm.showRandomTile(windowRenderer); break; }
-			case treasureType::stubborntunism: { break; }
-			default: { break; }
+				//for specific type of powerup, perform a proper action
+				switch (tm.getPowerupType())
+				{
+				case treasureType::dignine: { digTile(true); break; }
+				case treasureType::nosescan: { tm.showRandomTile(windowRenderer); break; }
+				case treasureType::stubborntunism: { break; }
+				default: { break; }
+				}
 			}
 		}
+
 
 		//if win or lose condition is true
 		if (winRewardStage > 0 || isLost)
@@ -374,10 +379,10 @@ void digTile(bool isDignine)
 	if (isDignine) { initW = -1; initH = -1; endW = 2; endH = 2; }
 	for (initW; initW < endW; initW++)
 	{
-		for (initH; initH < endH; initH++)
+		for (int iterH = initH; iterH < endH; iterH++)
 		{
 			//flag is true when the tile is covered (and reveal it), unless flag is false
-			bool dug = lm.disableTile(sm.getStefan().X() + 32 * initW, sm.getStefan().Y() + 32 * initH);
+			bool dug = lm.disableTile(sm.getStefan().X() + 32 * initW, sm.getStefan().Y() + 32 * iterH);
 			//if tile has been covered reduce an motivation
 			if (dug && !isDignine) { sm.reduceMotivation(); }
 			int prevTreasureCount = tm.getTreasuresLeft();				//check number of treasure to find
