@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 //Standard C++ libraries
 #include <string>

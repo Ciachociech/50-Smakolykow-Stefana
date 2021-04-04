@@ -38,6 +38,8 @@ std::string Treasure::getAssetPath()
 	case treasureType::parsnip:			{ baseScore = 80;	return std::string("pasternak.png"); break; }
 	case treasureType::cornflower:		{ baseScore = 40;	return std::string("chaber.png"); break; }
 	case treasureType::timothy:			{ baseScore = 120;	return std::string("tymotka.png"); break; }
+	case treasureType::clover3:			{ baseScore = 30;	return std::string("koniczyna3.png"); break; }
+	case treasureType::clover4:			{ baseScore = 40;	return std::string("koniczyna4.png"); break; }
 
 	case treasureType::dignine:			{ baseScore = 50;	return std::string("kopanina.png"); break; }
 	case treasureType::nosescan:		{ baseScore = 50;	return std::string("nososkan.png"); break; }
