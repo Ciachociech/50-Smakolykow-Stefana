@@ -1,5 +1,4 @@
 //To not making mess in includes
-#include "external_dependencies.h"
 
 #include "LayerManager.h"
 #include "StefanManager.h"
@@ -7,6 +6,7 @@
 #include "TreasureManager.h"
 #include "TextManager.h"
 #include "DatInterpreter.h"
+#include "AudioManager.h"
 
 #include "Score.h"
 
@@ -23,7 +23,7 @@ TTF_Font* font = NULL;
 //Other constants
 const int FPS = 60;
 const std::string logoPath = "Assets/other/appLogo.png";
-const std::string gameVersion = "0.8.1";
+const std::string gameVersion = "0.9";
 const std::string windowName = u8"50 Smako³yków Stefana (£aciata edycja " + gameVersion + u8")";
 
 //Game managers
@@ -33,6 +33,7 @@ StefanManager sm = StefanManager();
 SteeringManager sterman = SteeringManager();
 TextManager txtm = TextManager();
 DatInterpreter dati = DatInterpreter("ftos.dat", gameVersion);		//it has to be "ftos.dat" to proper execution
+AudioManager am = AudioManager();
 
 //Other global values
 int level = 1, winRewardStage = 0, foundSnacks = 0;
@@ -112,6 +113,12 @@ bool init()
 					printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 					return false;
 				}
+				//Initialize SDL_mixer
+				if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+				{
+					printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+					return false;
+				}
 			}
 		}
 	}
@@ -145,6 +152,11 @@ bool loadMedia()
 	if (font == NULL)
 	{
 		printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
+		return false;
+	}
+	if (!am.initAudios())
+	{
+		printf("Failed to load at least one wav file! SDL_mixer Error: %s\n", Mix_GetError());
 		return false;
 	}
 	
@@ -181,6 +193,7 @@ bool loop()
 		frameTime = SDL_GetTicks();			//set time for beginning current frame
 		tileX = 0, tileY = 0;				//reseting an destination
 		actualAction = keyAction::none;		//reseting action information
+		if(Mix_PlayingMusic() == 0) { am.playMusic(AudioMusType::music); }
 		
 		//when the event is performed
 		while (SDL_PollEvent(&event) != 0)
@@ -221,7 +234,7 @@ bool loop()
 				switch (tm.getPowerupType())
 				{
 				case treasureType::dignine: { digTile(true); break; }
-				case treasureType::nosescan: { tm.showRandomTile(windowRenderer); break; }
+				case treasureType::nosescan: { tm.showRandomTile(windowRenderer); am.playEffect(AudioEffType::nosescan, -1); SDL_Delay(500); break; }
 				case treasureType::stubborntunism: { break; }
 				default: { break; }
 				}
@@ -233,6 +246,7 @@ bool loop()
 		if (winRewardStage > 0 || isLost)
 		{
 			bool goToNextLevel = false;		//flag for generating new level, can be set to true after whole sequence handling a certain condition
+			am.stopMusic();					//stops actual music
 
 			//win condition case
 			switch (winRewardStage)
@@ -272,8 +286,8 @@ bool loop()
 			//if win or lose condition sequence is completed
 			if (goToNextLevel)
 			{
-				gameInit();					//load a map again
 				SDL_Delay(2000);			//take a break
+				gameInit();					//load a map again
 			}
 
 		}
@@ -303,6 +317,7 @@ bool loop()
 		{
 			bool loop = true;					//flag for showing a life of loop, can be set to false when the app is closed
 			SDL_Event event;					//sdl event variable for observing keyboard action or game exiting
+			if (actualAction == keyAction::anotherEvil) { am.stopMusic(); am.playMusic(AudioMusType::menuPreTheme, 0); }
 
 			//do unless loop is true
 			while (loop)
@@ -367,6 +382,9 @@ void gameInit()
 	txtm.update(std::to_string(sm.getStefan().getMotivation()), 2, font, windowRenderer);
 	txtm.update(std::to_string(bestScore.getScore()), 10, font, windowRenderer);
 
+	//audio manager
+	sm.appendAudioManager(&am);
+
 	//reseting win and lose condition variables
 	isLost = false;
 	winRewardStage = 0;
@@ -387,7 +405,7 @@ void digTile(bool isDignine)
 			if (dug && !isDignine) { sm.reduceMotivation(); }
 			int prevTreasureCount = tm.getTreasuresLeft();				//check number of treasure to find
 			//if tile containing a treasure
-			if (tm.checkTile(sm.getStefan().X(), sm.getStefan().Y()))
+			if (tm.checkTile(sm.getStefan().X() + 32 * initW, sm.getStefan().Y() + 32 * iterH))
 			{
 				//if this tile was last uncovered tile with treasure, recover some motivation and increase snacks counter
 				if (tm.getTreasuresLeft() - prevTreasureCount != 0)
@@ -401,7 +419,9 @@ void digTile(bool isDignine)
 			}
 		}
 	}
-	//if is used dignine, change power-up status to used
-	if (isDignine) { tm.setPowerupStatus(PowerupStatus::used, windowRenderer); }
+	//if is used dignine, change power-up status to used and play sound effect (for dignine) with little break
+	if (isDignine) { tm.setPowerupStatus(PowerupStatus::used, windowRenderer); am.playEffect(AudioEffType::dignineNone, -1); SDL_Delay(100); }
+	//otherwise just play sound effect (for ordinary digging) with little break
+	else { am.playEffect(AudioEffType::digNone, -1); SDL_Delay(100); }
 }
 

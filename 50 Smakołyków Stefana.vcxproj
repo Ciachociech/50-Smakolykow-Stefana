@@ -139,6 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AudioEffect.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="AudioMusic.cpp" />
     <ClCompile Include="DatInterpreter.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GraphLayer.cpp" />
@@ -155,6 +158,9 @@
     <ClCompile Include="TreasureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioEffect.h" />
+    <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="AudioMusic.h" />
     <ClInclude Include="DatInterpreter.h" />
     <ClInclude Include="external_dependencies.h" />
     <ClInclude Include="Graph.h" />

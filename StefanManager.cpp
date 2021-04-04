@@ -1,8 +1,8 @@
 #include "StefanManager.h"
 
-StefanManager::StefanManager() : isMoving(false), destX(0), destY(0), attachedEffect(), effectStart(0), baseMotivation(0) {}
+StefanManager::StefanManager() : isMoving(false), destX(0), destY(0), attachedEffect(), effectStart(0), baseMotivation(0), am(NULL) {}
 
-StefanManager::StefanManager(int baseMotivation) : isMoving(false), destX(0), destY(0), attachedEffect(), effectStart(0), baseMotivation(baseMotivation) {}
+StefanManager::StefanManager(int baseMotivation) : isMoving(false), destX(0), destY(0), attachedEffect(), effectStart(0), baseMotivation(baseMotivation), am(NULL) {}
 
 StefanManager::~StefanManager()
 {
@@ -34,7 +34,7 @@ void StefanManager::moveStefan(int tileX, int tileY)
 		destX = stefan.X() + 32 * tileX;
 		destY = stefan.Y() + 32 * tileY;
 		//if destination is different than current position, set moving flag to true
-		if (tileX != 0 || tileY != 0) { isMoving = true; }
+		if (tileX != 0 || tileY != 0) { isMoving = true; am->playEffect(AudioEffType::jump, -1); }
 	}
 
 	//Interaction with external walls
@@ -79,11 +79,12 @@ void StefanManager::moveStefan(int tileX, int tileY)
 		reduceMotivation(3);
 		stefan.setConfusion(true);
 		effectStart = SDL_GetTicks();
+		am->playEffect(AudioEffType::bonk, -1);
 	}
 
 	//turning off status conditions (1000 ms confusion and 200 ms walking break)
-	if (stefan.getConfusion() && (SDL_GetTicks() - effectStart >= 1000)) { stefan.setConfusion(false); }
-	else if (stefan.getWalkBreak() && (SDL_GetTicks() - effectStart >= 200)) { stefan.setWalkBreak(false); }
+	if (stefan.getConfusion() && (SDL_GetTicks() - effectStart >= 1500)) { stefan.setConfusion(false); }
+	else if (stefan.getWalkBreak() && (SDL_GetTicks() - effectStart >= 300)) { stefan.setWalkBreak(false); }
 
 	//moving a character and changing the side of texture
 	if (stefan.X() > destX) { stefan.setXY(stefan.X() - 4, stefan.Y()); stefan.setSpriteSide(lookAt::left); }
@@ -125,10 +126,13 @@ void StefanManager::setMotivation(int value)
 //count a percentage of left motivation
 int StefanManager::getMotivationPercent() { return 100 * stefan.getMotivation() / stefan.getBaseMotivation(); }
 
+void StefanManager::appendAudioManager(AudioManager* am) { this->am = am; }
+
 //delete character and effect objects
 void StefanManager::exterminate()
 {
 	stefan.free();
 	attachedEffect.free();
 	effectStart = 0;
+	am = NULL;
 }
