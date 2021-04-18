@@ -23,7 +23,7 @@ TTF_Font* font = NULL;
 //Other constants
 const int FPS = 60;
 const std::string logoPath = "Assets/other/appLogo.png";
-const std::string gameVersion = "0.9";
+const std::string gameVersion = "0.9.1";
 const std::string windowName = u8"50 Smako³yków Stefana (£aciata edycja " + gameVersion + u8")";
 
 //Game managers
@@ -154,6 +154,7 @@ bool loadMedia()
 		printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
 		return false;
 	}
+	Mix_Volume(-1, 64);						//MAX is 128
 	if (!am.initAudios())
 	{
 		printf("Failed to load at least one wav file! SDL_mixer Error: %s\n", Mix_GetError());
@@ -193,7 +194,13 @@ bool loop()
 		frameTime = SDL_GetTicks();			//set time for beginning current frame
 		tileX = 0, tileY = 0;				//reseting an destination
 		actualAction = keyAction::none;		//reseting action information
-		if(Mix_PlayingMusic() == 0) { am.playMusic(AudioMusType::music); }
+		//when the music is not played
+		if(Mix_PlayingMusic() == 0) 
+		{ 
+			//check the end of stubborntunism instinct
+			if (sm.isStubborntunismActive()) { sm.setStubborntunismActive(false); tm.setPowerupStatus(PowerupStatus::used, windowRenderer); }
+			am.playMusic(AudioMusType::music); 
+		}
 		
 		//when the event is performed
 		while (SDL_PollEvent(&event) != 0)
@@ -235,7 +242,7 @@ bool loop()
 				{
 				case treasureType::dignine: { digTile(true); break; }
 				case treasureType::nosescan: { tm.showRandomTile(windowRenderer); am.playEffect(AudioEffType::nosescan, -1); SDL_Delay(500); break; }
-				case treasureType::stubborntunism: { break; }
+				case treasureType::stubborntunism: { sm.setStubborntunismActive(); am.playMusic(AudioMusType::stubborntunismTheme, 0); break; }
 				default: { break; }
 				}
 			}
@@ -259,25 +266,49 @@ bool loop()
 				case 4: 
 				{ 
 					//if motivation left is bigger than 3, add some score and reduce motivation (score granting)
-					if (sm.getStefan().getMotivation() > 3) { score.addScore(10); sm.reduceMotivation(4); }
+					if (sm.getStefan().getMotivation() > 3) 
+					{ 
+						score.addScore(10); 
+						sm.reduceMotivation(4); 
+						am.playEffect(AudioEffType::pointGaining, -1);
+					}
 					//otherwise go to the next step of sequence
 					else { sm.reduceMotivation(sm.getStefan().getMotivation()); winRewardStage++; }
-					SDL_Delay(300);			//short pause
+					SDL_Delay(400);			//short pause
 					break; 
 				}
-				//increase score depending of uncovering, but not using powerup and take a little break
-				case 3: { if (tm.getPowerupStatus() == PowerupStatus::avaiable) { score.addScore(50); } winRewardStage++; SDL_Delay(400); break; }
+				//increase score depending of uncovering or not using a powerup and take a little break
+				case 3: 
+				{
+					if (tm.getPowerupStatus() == PowerupStatus::avaiable) { score.addScore(50); } 
+					am.playEffect(AudioEffType::pointGaining, -1);
+					winRewardStage++; 
+					SDL_Delay(600); 
+					break; 
+				}
 				//increase score depending of finished level, go to the next step of sequence and take a little break
-				case 2: { score.addScore(10 * level); winRewardStage++; SDL_Delay(400); break; }
+				case 2: { score.addScore(10 * level); am.playEffect(AudioEffType::pointGaining, -1); winRewardStage++; SDL_Delay(400); break; }
 				//increase score depending of finished level, go to the next step of sequence and take a little break
-				case 1: { score.addScore(100); winRewardStage++; SDL_Delay(400); break; }
+				case 1: 
+				{ 
+					am.stopMusic();
+					am.playMusic(AudioMusType::levelup, 0);
+					SDL_Delay(2500);
+					score.addScore(100); 
+					am.playEffect(AudioEffType::pointGaining, -1);
+					winRewardStage++; 
+					SDL_Delay(600); 
+					break; 
+				}
 			}
 			//if lose condition case is fulfilled
 			if (winRewardStage <= 0 && isLost) 
 			{
 				//if best score was beaten in this (previous) game
 				if (score.getScore() == bestScore.getScore()) { dati.save(level, score.getScore(), foundSnacks); }
-				
+				am.stopMusic();
+				am.playMusic(AudioMusType::gameover, 0);
+				SDL_Delay(2500);
 				level = 1;					//reset a level counter to 1
 				foundSnacks = 0;			//reset a snacks counter to 0
 				score.resetScore();			//reset score to 0
@@ -393,6 +424,7 @@ void gameInit()
 void digTile(bool isDignine)
 {
 	int initW = 0, initH = 0, endW = 1, endH = 1;						//default values for ordinary digging (only one tile)
+	bool dug = false;													//flag for showing a successful digging
 	//if is used dignine, set to dig nine tiles (currently standing on and the nearest)
 	if (isDignine) { initW = -1; initH = -1; endW = 2; endH = 2; }
 	for (initW; initW < endW; initW++)
@@ -400,9 +432,9 @@ void digTile(bool isDignine)
 		for (int iterH = initH; iterH < endH; iterH++)
 		{
 			//flag is true when the tile is covered (and reveal it), unless flag is false
-			bool dug = lm.disableTile(sm.getStefan().X() + 32 * initW, sm.getStefan().Y() + 32 * iterH);
-			//if tile has been covered reduce an motivation
-			if (dug && !isDignine) { sm.reduceMotivation(); }
+			dug = lm.disableTile(sm.getStefan().X() + 32 * initW, sm.getStefan().Y() + 32 * iterH);
+			//if tile has been covered reduce an motivation (or not used dignine/stubborntunism)
+			if (dug && !isDignine && !sm.isStubborntunismActive()) { sm.reduceMotivation(); }
 			int prevTreasureCount = tm.getTreasuresLeft();				//check number of treasure to find
 			//if tile containing a treasure
 			if (tm.checkTile(sm.getStefan().X() + 32 * initW, sm.getStefan().Y() + 32 * iterH))
@@ -422,6 +454,6 @@ void digTile(bool isDignine)
 	//if is used dignine, change power-up status to used and play sound effect (for dignine) with little break
 	if (isDignine) { tm.setPowerupStatus(PowerupStatus::used, windowRenderer); am.playEffect(AudioEffType::dignineNone, -1); SDL_Delay(100); }
 	//otherwise just play sound effect (for ordinary digging) with little break
-	else { am.playEffect(AudioEffType::digNone, -1); SDL_Delay(100); }
+	else if (dug) { am.playEffect(AudioEffType::digNone, -1); SDL_Delay(100); }
 }
 

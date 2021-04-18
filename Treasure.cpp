@@ -40,10 +40,11 @@ std::string Treasure::getAssetPath()
 	case treasureType::timothy:			{ baseScore = 120;	return std::string("tymotka.png"); break; }
 	case treasureType::clover3:			{ baseScore = 30;	return std::string("koniczyna3.png"); break; }
 	case treasureType::clover4:			{ baseScore = 40;	return std::string("koniczyna4.png"); break; }
+	case treasureType::rutabaga:		{ baseScore = 40;	return std::string("brukiew.png"); break; }
 
 	case treasureType::dignine:			{ baseScore = 50;	return std::string("kopanina.png"); break; }
 	case treasureType::nosescan:		{ baseScore = 50;	return std::string("nososkan.png"); break; }
-	//case treasureType::stubborntunism:{ baseScore = 50;	return std::string("uportunism.png"); break; }
+	case treasureType::stubborntunism:	{ baseScore = 50;	return std::string("uportunizm.png"); break; }
 
 	case treasureType::none: default:	{ baseScore = 0;	return std::string(); break; }
 	}
