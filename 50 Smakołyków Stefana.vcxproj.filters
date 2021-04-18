@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Pliki zasobów\audio">
+      <UniqueIdentifier>{3f17d870-c498-4fa7-923e-0e3ecf477bf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki zasobów\characters">
+      <UniqueIdentifier>{78cce916-c9f2-484b-8f45-e0a45dc6655e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki zasobów\fonts">
+      <UniqueIdentifier>{ba329e04-71da-419b-9d54-c83a42550ec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki zasobów\panel">
+      <UniqueIdentifier>{df13df90-a5ab-4411-972d-39a0905e372b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki zasobów\scene">
+      <UniqueIdentifier>{d2beb2fd-72a9-47b7-85c5-8b14431cf55f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki zasobów\other">
+      <UniqueIdentifier>{4ed0a0d7-f2f0-4dfa-b301-884e459b1e4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -122,5 +140,251 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Assets\audio\32sec-of-silence.mid">
+      <Filter>Pliki zasobów\audio</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\audio\dignine-none.wav">
+      <Filter>Pliki zasobów\audio</Filter>
+    </Media>
+    <Media Include="Assets\audio\dig-none.wav">
+      <Filter>Pliki zasobów\audio</Filter>
+    </Media>
+    <Media Include="Assets\audio\jump.wav">
+      <Filter>Pliki zasobów\audio</Filter>
+    </Media>
+    <Media Include="Assets\audio\nosescan.wav">
+      <Filter>Pliki zasobów\audio</Filter>
+    </Media>
+    <Media Include="Assets\audio\stefan-menu-theme.mp3">
+      <Filter>Pliki zasobów\audio</Filter>
+    </Media>
+    <Media Include="Assets\audio\bonk.wav">
+      <Filter>Pliki zasobów\audio</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\characters\confuse.png">
+      <Filter>Pliki zasobów\characters</Filter>
+    </Image>
+    <Image Include="Assets\characters\stefan_idle.png">
+      <Filter>Pliki zasobów\characters</Filter>
+    </Image>
+    <Image Include="Assets\characters\stefan_run.png">
+      <Filter>Pliki zasobów\characters</Filter>
+    </Image>
+    <Image Include="Assets\other\appLogo.ico">
+      <Filter>Pliki zasobów\other</Filter>
+    </Image>
+    <Image Include="Assets\other\appLogo.png">
+      <Filter>Pliki zasobów\other</Filter>
+    </Image>
+    <Image Include="Assets\other\haveANiceDay.png">
+      <Filter>Pliki zasobów\other</Filter>
+    </Image>
+    <Image Include="Assets\other\helpMe.png">
+      <Filter>Pliki zasobów\other</Filter>
+    </Image>
+    <Image Include="Assets\panel\baklazan.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\bamboo.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\banan.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\chaber.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\chmiel.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\dzikaroza.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\found.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\frameCone.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\frameH.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\frameV.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\ingameLogo.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\kiwi.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\koniczyna3.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\koniczyna4.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\kopanina.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\koperek.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\malwa.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\marchewka.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\mniszek.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\mood_bad.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\mood_good.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\mood_great.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\mood_horrible.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\mood_neutral.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\nososkan.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\pasternak.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\pigwa.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\powerup_nused.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\powerups_nused.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\powerups_ready.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\powerups_used.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\salata.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\stokrotka.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\szparagi.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\truskawka.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\tymotka.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\usedkopanina.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\panel\usednososkan.png">
+      <Filter>Pliki zasobów\panel</Filter>
+    </Image>
+    <Image Include="Assets\scene\baklazan.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\bamboo.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\banan.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\boardEmpty.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\chaber.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\chmiel.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\dzikaroza.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\innerwall.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\kiwi.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\koniczyna3.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\koniczyna4.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\kopanina.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\koperek.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\malwa.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\marchewka.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\mniszek.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\nososkan.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\pasternak.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\pellet.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\pigwa.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\resultscan.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\salata.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\stokrotka.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\szparagi.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\truskawka.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Assets\scene\tymotka.png">
+      <Filter>Pliki zasobów\scene</Filter>
+    </Image>
+    <Image Include="Ikona.ico">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\fonts\WashYourHand.ttf">
+      <Filter>Pliki zasobów\fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

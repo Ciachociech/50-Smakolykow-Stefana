@@ -1,8 +1,8 @@
 #include "StefanManager.h"
 
-StefanManager::StefanManager() : isMoving(false), destX(0), destY(0), attachedEffect(), effectStart(0), baseMotivation(0), am(NULL) {}
+StefanManager::StefanManager() : isMoving(false), destX(0), destY(0), attachedEffect(), effectStart(0), stubborntunismStart(0), baseMotivation(0), am(NULL) {}
 
-StefanManager::StefanManager(int baseMotivation) : isMoving(false), destX(0), destY(0), attachedEffect(), effectStart(0), baseMotivation(baseMotivation), am(NULL) {}
+StefanManager::StefanManager(int baseMotivation) : isMoving(false), destX(0), destY(0), attachedEffect(), effectStart(0), stubborntunismStart(0), baseMotivation(baseMotivation), am(NULL) {}
 
 StefanManager::~StefanManager()
 {
@@ -73,8 +73,8 @@ void StefanManager::moveStefan(int tileX, int tileY)
 		else if (stefan.Y() == 536 && destY == 504) { destY = 536; bonk = true; }
 	}
 
-	//If the collision with wall occured
-	if (bonk)
+	//If the collision with wall occured and when the stubbortunism is not active
+	if (bonk && !isStubborntunismActive())
 	{
 		reduceMotivation(3);
 		stefan.setConfusion(true);
@@ -126,6 +126,16 @@ void StefanManager::setMotivation(int value)
 //count a percentage of left motivation
 int StefanManager::getMotivationPercent() { return 100 * stefan.getMotivation() / stefan.getBaseMotivation(); }
 
+//returns true when the stubborntunism counter is active (ability is going on)
+bool StefanManager::isStubborntunismActive() { return stubborntunismStart != 0; }
+
+//at the activation set timer to present tick, otherwise zeroes (deactivate) counter
+void StefanManager::setStubborntunismActive(bool flag) 
+{ 
+	if (flag) { stubborntunismStart = SDL_GetTicks(); }  
+	else { stubborntunismStart = 0; }
+}
+
 void StefanManager::appendAudioManager(AudioManager* am) { this->am = am; }
 
 //delete character and effect objects
@@ -134,5 +144,6 @@ void StefanManager::exterminate()
 	stefan.free();
 	attachedEffect.free();
 	effectStart = 0;
+	stubborntunismStart = 0;
 	am = NULL;
 }

@@ -3,7 +3,7 @@
 #include "external_dependencies.h"
 
 //enum with type of audio effect
-enum class AudioEffType { none = 0, jump = 1, bonk, digNone, dignineNone, nosescan };
+enum class AudioEffType { none = 0, jump = 1, bonk, digNone, dignineNone, nosescan, pointGaining };
 
 class AudioEffect
 {

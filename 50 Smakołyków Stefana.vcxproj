@@ -177,7 +177,93 @@
     <ClInclude Include="TreasureManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\audio\32sec-of-silence.mid" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\audio\bonk.wav" />
+    <Media Include="Assets\audio\dig-none.wav" />
+    <Media Include="Assets\audio\dignine-none.wav" />
+    <Media Include="Assets\audio\jump.wav" />
+    <Media Include="Assets\audio\nosescan.wav" />
+    <Media Include="Assets\audio\stefan-menu-theme.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\characters\confuse.png" />
+    <Image Include="Assets\characters\stefan_idle.png" />
+    <Image Include="Assets\characters\stefan_run.png" />
+    <Image Include="Assets\other\appLogo.ico" />
+    <Image Include="Assets\other\appLogo.png" />
+    <Image Include="Assets\other\haveANiceDay.png" />
+    <Image Include="Assets\other\helpMe.png" />
+    <Image Include="Assets\panel\baklazan.png" />
+    <Image Include="Assets\panel\bamboo.png" />
+    <Image Include="Assets\panel\banan.png" />
+    <Image Include="Assets\panel\chaber.png" />
+    <Image Include="Assets\panel\chmiel.png" />
+    <Image Include="Assets\panel\dzikaroza.png" />
+    <Image Include="Assets\panel\found.png" />
+    <Image Include="Assets\panel\frameCone.png" />
+    <Image Include="Assets\panel\frameH.png" />
+    <Image Include="Assets\panel\frameV.png" />
+    <Image Include="Assets\panel\ingameLogo.png" />
+    <Image Include="Assets\panel\kiwi.png" />
+    <Image Include="Assets\panel\koniczyna3.png" />
+    <Image Include="Assets\panel\koniczyna4.png" />
+    <Image Include="Assets\panel\kopanina.png" />
+    <Image Include="Assets\panel\koperek.png" />
+    <Image Include="Assets\panel\malwa.png" />
+    <Image Include="Assets\panel\marchewka.png" />
+    <Image Include="Assets\panel\mniszek.png" />
+    <Image Include="Assets\panel\mood_bad.png" />
+    <Image Include="Assets\panel\mood_good.png" />
+    <Image Include="Assets\panel\mood_great.png" />
+    <Image Include="Assets\panel\mood_horrible.png" />
+    <Image Include="Assets\panel\mood_neutral.png" />
+    <Image Include="Assets\panel\nososkan.png" />
+    <Image Include="Assets\panel\pasternak.png" />
+    <Image Include="Assets\panel\pigwa.png" />
+    <Image Include="Assets\panel\powerups_nused.png" />
+    <Image Include="Assets\panel\powerups_ready.png" />
+    <Image Include="Assets\panel\powerups_used.png" />
+    <Image Include="Assets\panel\powerup_nused.png" />
+    <Image Include="Assets\panel\salata.png" />
+    <Image Include="Assets\panel\stokrotka.png" />
+    <Image Include="Assets\panel\szparagi.png" />
+    <Image Include="Assets\panel\truskawka.png" />
+    <Image Include="Assets\panel\tymotka.png" />
+    <Image Include="Assets\panel\usedkopanina.png" />
+    <Image Include="Assets\panel\usednososkan.png" />
+    <Image Include="Assets\scene\baklazan.png" />
+    <Image Include="Assets\scene\bamboo.png" />
+    <Image Include="Assets\scene\banan.png" />
+    <Image Include="Assets\scene\boardEmpty.png" />
+    <Image Include="Assets\scene\chaber.png" />
+    <Image Include="Assets\scene\chmiel.png" />
+    <Image Include="Assets\scene\dzikaroza.png" />
+    <Image Include="Assets\scene\innerwall.png" />
+    <Image Include="Assets\scene\kiwi.png" />
+    <Image Include="Assets\scene\koniczyna3.png" />
+    <Image Include="Assets\scene\koniczyna4.png" />
+    <Image Include="Assets\scene\kopanina.png" />
+    <Image Include="Assets\scene\koperek.png" />
+    <Image Include="Assets\scene\malwa.png" />
+    <Image Include="Assets\scene\marchewka.png" />
+    <Image Include="Assets\scene\mniszek.png" />
+    <Image Include="Assets\scene\nososkan.png" />
+    <Image Include="Assets\scene\pasternak.png" />
+    <Image Include="Assets\scene\pellet.png" />
+    <Image Include="Assets\scene\pigwa.png" />
+    <Image Include="Assets\scene\resultscan.png" />
+    <Image Include="Assets\scene\salata.png" />
+    <Image Include="Assets\scene\stokrotka.png" />
+    <Image Include="Assets\scene\szparagi.png" />
+    <Image Include="Assets\scene\truskawka.png" />
+    <Image Include="Assets\scene\tymotka.png" />
+    <Image Include="appLogo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\fonts\WashYourHand.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,7 +3,7 @@
 #include "external_dependencies.h"
 
 //enum with type of audio music
-enum class AudioMusType { none = 0, music = 1, menuPreTheme };
+enum class AudioMusType { none = 0, music = 1, menuPreTheme, stubborntunismTheme, gameover, levelup };
 
 class AudioMusic
 {

@@ -46,6 +46,12 @@ bool AudioManager::initAudios()
 	audioMusics.push_back(std::make_unique<AudioMusic>(tempMusic));
 	success = success && tempMusic.loadAudioFromFile("Assets/audio/stefan-menu-theme.mp3", AudioMusType::menuPreTheme);
 	audioMusics.push_back(std::make_unique<AudioMusic>(tempMusic));
+	success = success && tempMusic.loadAudioFromFile("Assets/audio/stubborntunism-theme.mp3", AudioMusType::stubborntunismTheme);
+	audioMusics.push_back(std::make_unique<AudioMusic>(tempMusic));
+	success = success && tempMusic.loadAudioFromFile("Assets/audio/gameover.wav", AudioMusType::gameover);
+	audioMusics.push_back(std::make_unique<AudioMusic>(tempMusic));
+	success = success && tempMusic.loadAudioFromFile("Assets/audio/levelup.wav", AudioMusType::levelup);
+	audioMusics.push_back(std::make_unique<AudioMusic>(tempMusic));
 	//to save last element, load without saving empty MIDI file (I know there is a strange fix to this bug)
 	success = success && tempMusic.loadAudioFromFile("Assets/audio/32sec-of-silence.mid", AudioMusType::none);
 
@@ -60,6 +66,8 @@ bool AudioManager::initAudios()
 	success = success && tempEffect.loadAudioFromFile("Assets/audio/dignine-none.wav", AudioEffType::dignineNone);
 	audioEffects.push_back(std::make_unique<AudioEffect>(tempEffect));
 	success = success && tempEffect.loadAudioFromFile("Assets/audio/nosescan.wav", AudioEffType::nosescan);
+	audioEffects.push_back(std::make_unique<AudioEffect>(tempEffect));
+	success = success && tempEffect.loadAudioFromFile("Assets/audio/point-gaining.wav", AudioEffType::pointGaining);
 	audioEffects.push_back(std::make_unique<AudioEffect>(tempEffect));
 	//to save last element, load without saving some WAV file (I know there is a strange fix to this bug)
 	success = success && tempEffect.loadAudioFromFile("Assets/audio/bonk.wav", AudioEffType::none);					//to save last element
