@@ -139,46 +139,49 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AudioEffect.cpp" />
-    <ClCompile Include="AudioManager.cpp" />
-    <ClCompile Include="AudioMusic.cpp" />
-    <ClCompile Include="DatInterpreter.cpp" />
-    <ClCompile Include="Graph.cpp" />
-    <ClCompile Include="GraphLayer.cpp" />
-    <ClCompile Include="LayerManager.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="OverworldRandomizer.cpp" />
-    <ClCompile Include="Score.cpp" />
-    <ClCompile Include="SteeringManager.cpp" />
-    <ClCompile Include="Stefan.cpp" />
-    <ClCompile Include="StefanManager.cpp" />
-    <ClCompile Include="Text.cpp" />
-    <ClCompile Include="TextManager.cpp" />
-    <ClCompile Include="Treasure.cpp" />
-    <ClCompile Include="TreasureManager.cpp" />
+    <ClCompile Include="src\basics\GameInstance.cpp" />
+    <ClCompile Include="src\audio\AudioEffect.cpp" />
+    <ClCompile Include="src\managers\AudioManager.cpp" />
+    <ClCompile Include="src\audio\AudioMusic.cpp" />
+    <ClCompile Include="src\basics\DatInterpreter.cpp" />
+    <ClCompile Include="src\entities\Graph.cpp" />
+    <ClCompile Include="src\managers\GraphLayer.cpp" />
+    <ClCompile Include="src\managers\LayerManager.cpp" />
+    <ClCompile Include="src\basics\main.cpp" />
+    <ClCompile Include="src\basics\OverworldRandomizer.cpp" />
+    <ClCompile Include="src\basics\Score.cpp" />
+    <ClCompile Include="src\managers\SteeringManager.cpp" />
+    <ClCompile Include="src\entities\Stefan.cpp" />
+    <ClCompile Include="src\managers\StefanManager.cpp" />
+    <ClCompile Include="src\entities\Text.cpp" />
+    <ClCompile Include="src\managers\TextManager.cpp" />
+    <ClCompile Include="src\entities\Treasure.cpp" />
+    <ClCompile Include="src\managers\TreasureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AudioEffect.h" />
-    <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="AudioMusic.h" />
-    <ClInclude Include="DatInterpreter.h" />
-    <ClInclude Include="external_dependencies.h" />
-    <ClInclude Include="Graph.h" />
-    <ClInclude Include="GraphLayer.h" />
-    <ClInclude Include="LayerManager.h" />
-    <ClInclude Include="OverworldRandomizer.h" />
-    <ClInclude Include="Score.h" />
-    <ClInclude Include="SteeringManager.h" />
-    <ClInclude Include="Stefan.h" />
-    <ClInclude Include="StefanManager.h" />
-    <ClInclude Include="Text.h" />
-    <ClInclude Include="TextManager.h" />
-    <ClInclude Include="Treasure.h" />
-    <ClInclude Include="TreasureManager.h" />
+    <ClInclude Include="include\audio\AudioEffect.h" />
+    <ClInclude Include="include\managers\AudioManager.h" />
+    <ClInclude Include="include\audio\AudioMusic.h" />
+    <ClInclude Include="include\basics\DatInterpreter.h" />
+    <ClInclude Include="include\external_dependencies.h" />
+    <ClInclude Include="include\entities\Graph.h" />
+    <ClInclude Include="include\managers\GraphLayer.h" />
+    <ClInclude Include="include\managers\LayerManager.h" />
+    <ClInclude Include="include\basics\OverworldRandomizer.h" />
+    <ClInclude Include="include\basics\Score.h" />
+    <ClInclude Include="include\managers\SteeringManager.h" />
+    <ClInclude Include="include\entities\Stefan.h" />
+    <ClInclude Include="include\managers\StefanManager.h" />
+    <ClInclude Include="include\entities\Text.h" />
+    <ClInclude Include="include\managers\TextManager.h" />
+    <ClInclude Include="include\entities\Treasure.h" />
+    <ClInclude Include="include\managers\TreasureManager.h" />
+    <ClInclude Include="include\basics\GameInstance.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\audio\32sec-of-silence.mid" />
     <None Include="packages.config" />
+    <None Include="src\ftos.dat" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\audio\bonk.wav" />

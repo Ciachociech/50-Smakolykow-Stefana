@@ -31,117 +31,150 @@
     <Filter Include="Pliki zasobów\other">
       <UniqueIdentifier>{4ed0a0d7-f2f0-4dfa-b301-884e459b1e4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\Audio">
+      <UniqueIdentifier>{ee3187f5-7a77-42d9-8631-0ae24b67d942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Basics">
+      <UniqueIdentifier>{3fb91477-6424-4a12-b976-b2b05d833d03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Entities">
+      <UniqueIdentifier>{1b4b332d-53bc-4cd4-9929-6a210cd344c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Managers">
+      <UniqueIdentifier>{d67a9c02-37e6-4192-b211-a15c7648a25a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Audio">
+      <UniqueIdentifier>{6efc9f85-118c-4a83-a85b-b9f73949a72f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Basics">
+      <UniqueIdentifier>{e93d3b3f-d137-4629-8bbe-9a90edd72dcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Entities">
+      <UniqueIdentifier>{91303751-0413-4da2-b7de-553d8a5faa8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Managers">
+      <UniqueIdentifier>{d80d5927-0f4d-406e-bd76-67d8a0ba4204}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\basics\main.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="Graph.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\audio\AudioEffect.cpp">
+      <Filter>Pliki źródłowe\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="GraphLayer.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\managers\AudioManager.cpp">
+      <Filter>Pliki źródłowe\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="LayerManager.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\audio\AudioMusic.cpp">
+      <Filter>Pliki źródłowe\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Stefan.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\managers\TreasureManager.cpp">
+      <Filter>Pliki źródłowe\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="StefanManager.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\managers\TextManager.cpp">
+      <Filter>Pliki źródłowe\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="SteeringManager.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\managers\StefanManager.cpp">
+      <Filter>Pliki źródłowe\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="OverworldRandomizer.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\managers\SteeringManager.cpp">
+      <Filter>Pliki źródłowe\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="TreasureManager.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\managers\LayerManager.cpp">
+      <Filter>Pliki źródłowe\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Treasure.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\managers\GraphLayer.cpp">
+      <Filter>Pliki źródłowe\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\entities\Treasure.cpp">
+      <Filter>Pliki źródłowe\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="TextManager.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\entities\Text.cpp">
+      <Filter>Pliki źródłowe\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\entities\Stefan.cpp">
+      <Filter>Pliki źródłowe\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="DatInterpreter.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\entities\Graph.cpp">
+      <Filter>Pliki źródłowe\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="AudioManager.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\basics\Score.cpp">
+      <Filter>Pliki źródłowe\Basics</Filter>
     </ClCompile>
-    <ClCompile Include="AudioMusic.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\basics\OverworldRandomizer.cpp">
+      <Filter>Pliki źródłowe\Basics</Filter>
     </ClCompile>
-    <ClCompile Include="AudioEffect.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="src\basics\DatInterpreter.cpp">
+      <Filter>Pliki źródłowe\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\basics\GameInstance.cpp">
+      <Filter>Pliki źródłowe\Basics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="external_dependencies.h">
+    <ClInclude Include="include\external_dependencies.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="Graph.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\audio\AudioEffect.h">
+      <Filter>Pliki nagłówkowe\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="GraphLayer.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\managers\AudioManager.h">
+      <Filter>Pliki nagłówkowe\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="LayerManager.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\audio\AudioMusic.h">
+      <Filter>Pliki nagłówkowe\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Stefan.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\entities\Graph.h">
+      <Filter>Pliki nagłówkowe\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="StefanManager.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\basics\Score.h">
+      <Filter>Pliki nagłówkowe\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="SteeringManager.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\basics\OverworldRandomizer.h">
+      <Filter>Pliki nagłówkowe\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="OverworldRandomizer.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\basics\DatInterpreter.h">
+      <Filter>Pliki nagłówkowe\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="TreasureManager.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\entities\Stefan.h">
+      <Filter>Pliki nagłówkowe\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Treasure.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\managers\GraphLayer.h">
+      <Filter>Pliki nagłówkowe\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\managers\LayerManager.h">
+      <Filter>Pliki nagłówkowe\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="TextManager.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\managers\SteeringManager.h">
+      <Filter>Pliki nagłówkowe\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\managers\StefanManager.h">
+      <Filter>Pliki nagłówkowe\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="DatInterpreter.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\entities\Text.h">
+      <Filter>Pliki nagłówkowe\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="AudioManager.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\entities\Treasure.h">
+      <Filter>Pliki nagłówkowe\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="AudioMusic.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\managers\TreasureManager.h">
+      <Filter>Pliki nagłówkowe\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="AudioEffect.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\managers\TextManager.h">
+      <Filter>Pliki nagłówkowe\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\basics\GameInstance.h">
+      <Filter>Pliki nagłówkowe\Basics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Assets\audio\32sec-of-silence.mid">
       <Filter>Pliki zasobów\audio</Filter>
+    </None>
+    <None Include="src\ftos.dat">
+      <Filter>Pliki zasobów</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -378,7 +411,7 @@
     <Image Include="Assets\scene\tymotka.png">
       <Filter>Pliki zasobów\scene</Filter>
     </Image>
-    <Image Include="Ikona.ico">
+    <Image Include="appLogo.ico">
       <Filter>Pliki zasobów</Filter>
     </Image>
   </ItemGroup>
