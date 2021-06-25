@@ -111,6 +111,12 @@
     <ClCompile Include="src\basics\GameInstance.cpp">
       <Filter>Pliki źródłowe\Basics</Filter>
     </ClCompile>
+    <ClCompile Include="src\basics\GameMenu.cpp">
+      <Filter>Pliki źródłowe\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\basics\GameScene.cpp">
+      <Filter>Pliki źródłowe\Basics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\external_dependencies.h">
@@ -165,6 +171,12 @@
       <Filter>Pliki nagłówkowe\Managers</Filter>
     </ClInclude>
     <ClInclude Include="include\basics\GameInstance.h">
+      <Filter>Pliki nagłówkowe\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\basics\GameScene.h">
+      <Filter>Pliki nagłówkowe\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\basics\GameMenu.h">
       <Filter>Pliki nagłówkowe\Basics</Filter>
     </ClInclude>
   </ItemGroup>

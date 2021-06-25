@@ -15,7 +15,7 @@ bool Text::loadFromText(std::string textureText, SDL_Color textColor, SDL_Render
 	txt = textureText;
 	txtColor = textColor;
 	//make a graphic object based on text and returned a success status
-	return Graph::loadFromText(alignX, textureText, textColor, renderer, font, isLeftside);
+	return Graph::loadFromText(alignX, std::string(textureText), textColor, renderer, font, isLeftside);
 }
 
 //Set new string of text

@@ -1,14 +1,10 @@
 #pragma once
 
-#include "..\..\include\managers\LayerManager.h"
-#include "..\..\include\managers\StefanManager.h"
-#include "..\..\include\managers\SteeringManager.h"
-#include "..\..\include\managers\TreasureManager.h"
-#include "..\..\include\managers\TextManager.h"
-#include "..\..\include\basics\DatInterpreter.h"
-#include "..\..\include\managers\AudioManager.h"
+#include "..\..\include\basics\GameScene.h"
+#include "..\..\include\basics\GameMenu.h"
 
-#include "..\..\include\basics\Score.h"
+enum class sceneState { splashscreen = 0, mainmenu, game, highscores, options, pausemenu };
+enum class keyState { ragequit = -2, pause = -1, none };
 
 class GameInstance
 {
@@ -26,8 +22,8 @@ private:
 	//Other constants
 	const int FPS = 60;
 	const std::string logoPath = "Assets/other/appLogo.png";
-	const std::string gameVersion = "0.9.2";
-	const std::string windowName = u8"50 Smako³yków Stefana (£aciata edycja " + gameVersion + u8")";
+	const std::string gameVersion = "0.9.3";
+	const std::string windowName = u8"50 Smako³yków Stefana (£aciata edycja " + gameVersion + ")";
 	
 	//Game managers
 	LayerManager lm = LayerManager();
@@ -38,20 +34,18 @@ private:
 	DatInterpreter dati = DatInterpreter("src/ftos.dat", gameVersion);		//it has to be "ftos.dat" to proper execution
 	AudioManager am = AudioManager();
 
-	//Other global values
-	int level = 1, winRewardStage = 0, foundSnacks = 0;
-	bool isLost = false;
-	Score score = Score(), bestScore = Score(-1);
-
 	//App functions
 	bool init();
 	bool loadMedia();
 	void close();
 	bool loop();
-	void gameInit();
+	void render();
 
-	//Game mechanics functions
-	void digTile(bool isDignine = false);
+	//Status of game
+	sceneState actualScene;
+	keyState actualKeyState;
+	GameScene game = GameScene();
+	GameMenu mainMenu = GameMenu(4), pauseMenu = GameMenu(3);
 public:
 	GameInstance();
 	virtual ~GameInstance();

@@ -2,7 +2,7 @@
 
 #include "..\external_dependencies.h"
 
-enum class keyAction { none = 0, moving = 1, digging, powerupUsing, mischievous, anotherEvil, steeringHelp };
+enum class keyAction { none = 0, moving = 1, digging, powerupUsing, mischievous, anotherEvil, steeringHelp, pause, enter = 10, goBack, down, up };
 
 class SteeringManager
 {
@@ -11,6 +11,7 @@ public:
 	virtual ~SteeringManager();
 
 	keyAction keyboardMovement(int& x, int& y, SDL_Keycode keycode);
+	keyAction keyboardMenu(SDL_Keycode keycode);
 private:
 	int combo1, combo2;									//combo of performing bad actions
 
