@@ -90,3 +90,5 @@ void AudioManager::resumeMusic() { Mix_ResumeMusic(); }
 
 //stop current played or paused music
 void AudioManager::stopMusic() { Mix_HaltMusic(); }
+
+void AudioManager::stopChannel(int channel) { Mix_HaltChannel(channel);  }

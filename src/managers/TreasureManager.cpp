@@ -1,5 +1,4 @@
 #include "..\..\include\managers\TreasureManager.h"
-#include <iostream>
 
 TreasureManager::TreasureManager() : overand(), treasures(), count(0), framesLeft(0), treasuresLeft(0), gatheredScore(0), motivationCompensation(0), pairs(), powerup(treasureType::none), powerupStatus(PowerupStatus::none), powerupIconUI(treasureType::none) {}
 
@@ -119,12 +118,8 @@ void TreasureManager::randomizeTreasures(SDL_Renderer* renderer)
 }
 
 //render all treasures and miniatures objects
-void TreasureManager::render(SDL_Renderer* renderer)
+void TreasureManager::renderPanel(SDL_Renderer* renderer)
 {
-	//for each miniatures on scene
-	for (int i = 0; i < treasures.size(); i++) { treasures[i]->render(renderer); }
-
-	powerup.render(renderer);														//showing powerup on scene
 	powerupStar.render(renderer);													//showing powerup star on panel/UI
 	powerupIconUI.render(renderer);													//showing powerup on panel/UI
 
@@ -137,11 +132,22 @@ void TreasureManager::render(SDL_Renderer* renderer)
 }
 
 //only render indicator for nosescan
+void TreasureManager::renderScene(SDL_Renderer* renderer)
+{
+	//for each miniatures on scene
+	for (int i = 0; i < treasures.size(); i++) { treasures[i]->render(renderer); }
+
+	powerup.render(renderer);														//showing powerup on scene
+
+}
+
+//only render indicator for nosescan (needed to be above coverage)
 void TreasureManager::renderIndicator(SDL_Renderer* renderer)
 {
 	//for nosescan - if is used and show to uncovered tile render an indicator
 	if (showScanIndicator) { scanIndicator.render(renderer); }
 }
+
 
 //returns a value of treasures count (all, to find) and frames to find
 int TreasureManager::getCount() { return count; }
@@ -271,7 +277,7 @@ void TreasureManager::exterminate()
 //returns type of objects and writes information about tile dimensions
 treasureType TreasureManager::randomizeType(int& tileW, int& tileH)
 {
-	switch (overand.randomNumber(1, 22))
+	switch (overand.randomNumber(1, 24))
 	{
 	case 1:		{ tileW = 2;	tileH = 2;	return treasureType::carrot;		break; }
 	case 2:		{ tileW = 2;	tileH = 2;	return treasureType::mniszek;		break; }
@@ -300,6 +306,8 @@ treasureType TreasureManager::randomizeType(int& tileW, int& tileH)
 	case 20:	{ tileW = 2;	tileH = 2;	return treasureType::rutabaga;		break; }
 	case 21:	{ tileW = 2;	tileH = 2;	return treasureType::cauliflower;	break; }
 	case 22:	{ tileW = 2;	tileH = 2;	return treasureType::broccoli;		break; }
+	case 23:	{ tileW = 4;	tileH = 1;	return treasureType::hibiscus;		break; }
+	case 24:	{ tileW = 2;	tileH = 2;	return treasureType::apple;			break; }
 	default:	{							return treasureType::none;			break; }
 	}
 }

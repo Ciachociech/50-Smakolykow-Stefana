@@ -79,6 +79,7 @@ void StefanManager::moveStefan(int tileX, int tileY)
 		reduceMotivation(3);
 		stefan.setConfusion(true);
 		effectStart = SDL_GetTicks();
+		am->stopChannel(-1);
 		am->playEffect(AudioEffType::bonk, -1);
 	}
 

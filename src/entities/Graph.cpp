@@ -80,7 +80,8 @@ bool Graph::loadFromText(std::string textureText, SDL_Color textColor, SDL_Rende
 {
 	free();																					//erase all previous information about texture
 
-	SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);	//load image from text (font, string and color)
+	SDL_Surface* textSurface = TTF_RenderUTF8_Solid(font, textureText.c_str(), textColor);	//load image from text (font, string and color)
+
 	//if image is not loaded
 	if (textSurface == NULL)
 	{
@@ -115,7 +116,7 @@ bool Graph::loadFromText(int alignX, std::string textureText, SDL_Color textColo
 {
 	free();																					//erase all previous information about texture
 
-	SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);	//load image from text (font, string and color)
+	SDL_Surface* textSurface = TTF_RenderUTF8_Solid(font, textureText.c_str(), textColor);	//load image from text (font, string and color)
 	//if image is not loaded
 	if (textSurface == NULL)
 	{

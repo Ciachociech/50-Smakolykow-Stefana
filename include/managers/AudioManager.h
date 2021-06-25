@@ -28,5 +28,6 @@ public:
 	void pauseMusic();
 	void resumeMusic();
 	void stopMusic();
+	void stopChannel(int channel);
 };
 

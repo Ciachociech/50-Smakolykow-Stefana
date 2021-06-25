@@ -24,7 +24,7 @@ public:
 private:
 	VecGraphLayer layers;										//vector of GraphLayer elements
 	OverworldRandomizer overand;								//randomizer
-	Graph bonus1, helpMe, bonus2, moodGraph;					//additional graphics to show special textures
+	Graph bonus1, helpMe, bonus2, moodGraph, logo;				//additional graphics to show special textures
 	mood actualMood;											//mood showed actually (variant of image)
 
 	void modeInterpreter(int mode, SDL_Renderer* renderer);

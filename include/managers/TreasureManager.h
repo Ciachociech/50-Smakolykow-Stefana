@@ -16,7 +16,8 @@ public:
 	~TreasureManager();
 
 	void randomizeTreasures(SDL_Renderer* renderer);
-	void render(SDL_Renderer* renderer);
+	void renderPanel(SDL_Renderer* renderer);
+	void renderScene(SDL_Renderer* renderer);
 	void renderIndicator(SDL_Renderer* renderer);
 
 	int getCount();

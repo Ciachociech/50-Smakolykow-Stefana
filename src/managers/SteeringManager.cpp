@@ -11,6 +11,8 @@ keyAction SteeringManager::keyboardMovement(int& x, int& y, SDL_Keycode keycode)
     checkMischievousCombo(keycode);
     checkAnotherEvilCombo(keycode);
 
+    if (keycode == SDLK_ESCAPE) { return keyAction::pause; }                                //check clicking ESC (pause activating)
+
     //character moving (up, down, left, right)
     if (keycode == SDLK_w || keycode == SDLK_UP) { y = -2; return keyAction::moving; }
     else if (keycode == SDLK_s || keycode == SDLK_DOWN) { y = 2; return keyAction::moving; }
@@ -21,12 +23,24 @@ keyAction SteeringManager::keyboardMovement(int& x, int& y, SDL_Keycode keycode)
     }
     else if (keycode == SDLK_d || keycode == SDLK_RIGHT) { x = 2; return keyAction::moving; }
 
+    //other character actions
     if (keycode == SDLK_l) { return keyAction::digging; }                                   //digging action
     if (keycode == SDLK_k) { return keyAction::powerupUsing; }                              //power-up action
     if (keycode == SDLK_p) { return keyAction::steeringHelp; }                              //invoking help window
     if (combo2 == 6 && keycode == SDLK_n) { return keyAction::anotherEvil; }                //end of another evil combo
 
     return keyAction::none;                                                                 //if none of them, return none
+}
+
+keyAction SteeringManager::keyboardMenu(SDL_Keycode keycode)
+{
+    if (keycode == SDLK_w || keycode == SDLK_UP) { return keyAction::up; }
+    else if (keycode == SDLK_s || keycode == SDLK_DOWN) { return keyAction::down; }
+
+    if (keycode == SDLK_SPACE || keycode == SDLK_RETURN) { return keyAction::enter; }
+    if (keycode == SDLK_ESCAPE) { return keyAction::goBack; }
+
+    return keyAction::none;
 }
 
 //checks the continuing of mischievous combo
