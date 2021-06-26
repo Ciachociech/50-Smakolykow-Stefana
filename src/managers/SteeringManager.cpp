@@ -34,8 +34,11 @@ keyAction SteeringManager::keyboardMovement(int& x, int& y, SDL_Keycode keycode)
 
 keyAction SteeringManager::keyboardMenu(SDL_Keycode keycode)
 {
-    if (keycode == SDLK_w || keycode == SDLK_UP) { return keyAction::up; }
-    else if (keycode == SDLK_s || keycode == SDLK_DOWN) { return keyAction::down; }
+    if (keycode == SDLK_w || keycode == SDLK_UP) { return keyAction::prev; }
+    else if (keycode == SDLK_s || keycode == SDLK_DOWN) { return keyAction::next; }
+
+    if (keycode == SDLK_a || keycode == SDLK_LEFT) { return keyAction::less; }
+    else if (keycode == SDLK_d || keycode == SDLK_RIGHT) { return keyAction::more; }
 
     if (keycode == SDLK_SPACE || keycode == SDLK_RETURN) { return keyAction::enter; }
     if (keycode == SDLK_ESCAPE) { return keyAction::goBack; }

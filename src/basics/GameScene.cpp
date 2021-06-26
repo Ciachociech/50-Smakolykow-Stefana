@@ -252,6 +252,7 @@ void GameScene::render()
 
 void GameScene::renderScene()
 {
+	lm.render(0, 0, -4, windowRenderer);								//render logo graph
 	lm.render(0, 0, 0, windowRenderer);									//render all UI graphs
 	tm.renderScene(windowRenderer);										//render only indicator for nosescan ability
 	lm.render(0, 0, 1, windowRenderer);									//render all covering tile graphs
@@ -261,7 +262,7 @@ void GameScene::renderScene()
 
 void GameScene::renderPanel()
 {
-	lm.render(0, 0, -4, windowRenderer);								//render all covering tile graphs
+	lm.render(0, 0, -5, windowRenderer);								//render mood tile graph
 	txtm->render(textType::scene, windowRenderer);						//render all text graphs
 	tm.renderPanel(windowRenderer);										//render all treasure graphs
 }

@@ -55,6 +55,12 @@
     <Filter Include="Pliki źródłowe\Managers">
       <UniqueIdentifier>{d80d5927-0f4d-406e-bd76-67d8a0ba4204}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\Menu">
+      <UniqueIdentifier>{7c197ac4-3748-43ee-b47b-8e472dcf5748}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Menu">
+      <UniqueIdentifier>{e2f75f8f-cf2c-4ade-a9f8-0ba777c43a1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\basics\main.cpp">
@@ -111,11 +117,20 @@
     <ClCompile Include="src\basics\GameInstance.cpp">
       <Filter>Pliki źródłowe\Basics</Filter>
     </ClCompile>
-    <ClCompile Include="src\basics\GameMenu.cpp">
-      <Filter>Pliki źródłowe\Basics</Filter>
-    </ClCompile>
     <ClCompile Include="src\basics\GameScene.cpp">
       <Filter>Pliki źródłowe\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\managers\OptionsManager.cpp">
+      <Filter>Pliki źródłowe\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menu\GameMenu.cpp">
+      <Filter>Pliki źródłowe\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menu\BasicOption.cpp">
+      <Filter>Pliki źródłowe\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menu\RangeOption.cpp">
+      <Filter>Pliki źródłowe\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,8 +191,17 @@
     <ClInclude Include="include\basics\GameScene.h">
       <Filter>Pliki nagłówkowe\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="include\basics\GameMenu.h">
-      <Filter>Pliki nagłówkowe\Basics</Filter>
+    <ClInclude Include="include\managers\OptionsManager.h">
+      <Filter>Pliki nagłówkowe\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\menu\GameMenu.h">
+      <Filter>Pliki nagłówkowe\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\menu\BasicOption.h">
+      <Filter>Pliki nagłówkowe\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\menu\RangeOption.h">
+      <Filter>Pliki nagłówkowe\Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

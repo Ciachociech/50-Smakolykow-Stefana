@@ -34,6 +34,9 @@ public:
 	void close();
 	void render(textType tt);
 
+	int getActualOption();
+	int getMaxOptions();
+
 	Graph logo, cursor;
 };
 

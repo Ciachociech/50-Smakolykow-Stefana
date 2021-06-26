@@ -1,5 +1,4 @@
 #include "..\..\include\managers\AudioManager.h"
-#include <iostream>
 
 //returns Mix_Music (Music) object (raw SDL_mixer object) which is equal to argument value
 Mix_Music* AudioManager::getMusic(AudioMusType musicType)
@@ -21,7 +20,7 @@ Mix_Chunk* AudioManager::getEffect(AudioEffType effectType)
 	return NULL;
 }
 
-AudioManager::AudioManager() {}
+AudioManager::AudioManager() : effectVolume(8), musicVolume(8) {}
 
 AudioManager::~AudioManager() { exterminate(); }
 
@@ -76,11 +75,19 @@ bool AudioManager::initAudios()
 
 }
 
-//play selected AudioEffect (by chosen effect type), it is highly recommended to invoke this method with channel = -1 and repeats = 0 (or without giving this argument)
-void AudioManager::playEffect(AudioEffType effectType, int channel, int repeats) { Mix_PlayChannel(channel, getEffect(effectType), repeats); }
+//play selected AudioEffect (by chosen effect type), it is highly recommended to invoke this method with channel = -1 and repeats = 0 (or without giving this argument). Before playing sound it is included the volume of sound.
+void AudioManager::playEffect(AudioEffType effectType, int channel, int repeats) 
+{ 
+	Mix_VolumeChunk(getEffect(effectType), (MIX_MAX_VOLUME / 16) * effectVolume);
+	Mix_PlayChannel(channel, getEffect(effectType), repeats); 
+}
 
-//play selected AudioMusic (by chosen music type), it is recommended to invoke this method with repeats = -1 (or without giving this argument) to play music in loop
-void AudioManager::playMusic(AudioMusType musicType, int repeats) { Mix_PlayMusic(getMusic(musicType), repeats); }
+//play selected AudioMusic (by chosen music type), it is recommended to invoke this method with repeats = -1 (or without giving this argument) to play music in loop. Before playing sound it is included the volume of sound.
+void AudioManager::playMusic(AudioMusType musicType, int repeats) 
+{ 
+	Mix_VolumeMusic((MIX_MAX_VOLUME / 16) * musicVolume);
+	Mix_PlayMusic(getMusic(musicType), repeats); 
+}
 
 //pause current played music
 void AudioManager::pauseMusic() { Mix_PauseMusic(); }
@@ -92,3 +99,7 @@ void AudioManager::resumeMusic() { Mix_ResumeMusic(); }
 void AudioManager::stopMusic() { Mix_HaltMusic(); }
 
 void AudioManager::stopChannel(int channel) { Mix_HaltChannel(channel);  }
+
+void AudioManager::setMusicVolume(int volume) { if (volume >= 0 || volume <= 16) { this->musicVolume = volume; } }
+
+void AudioManager::setEffectVolume(int volume) { if (volume >= 0 || volume <= 16) { this->effectVolume = volume; } }

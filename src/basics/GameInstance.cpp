@@ -1,7 +1,7 @@
 #include "..\..\include\basics\GameInstance.h"
 #include <iostream>
 
-GameInstance::GameInstance() : actualScene(sceneState::splashscreen), actualKeyState(keyState::none) {}
+GameInstance::GameInstance() : actualScene(sceneState::splashscreen), lastScene(sceneState::splashscreen), actualKeyState(keyState::none) {}
 
 GameInstance::~GameInstance() {}
 
@@ -134,8 +134,7 @@ void GameInstance::close()
 bool GameInstance::loop()
 {
 	bool quit = false;						//flag for showing a life of loop, can be set to true when the app is closed
-	//actualScene = sceneState::mainmenu;
-	actualScene = sceneState::game;
+	actualScene = sceneState::mainmenu;
 	Uint32 frameTime;						//time counter for frame
 
 	{
@@ -153,6 +152,14 @@ bool GameInstance::loop()
 		pauseMenu.loadTexting(&txtm);
 		pauseMenu.init(textType::pause);
 	}
+
+	{
+		optionsMenu.loadRenderer(windowRenderer);
+		optionsMenu.loadFont(font);
+		optionsMenu.loadSteering(&sterman);
+		optionsMenu.loadTexting(&txtm);
+		optionsMenu.init(textType::options);
+	}
 	
 	{
 		game.loadRenderer(windowRenderer);
@@ -162,8 +169,6 @@ bool GameInstance::loop()
 		game.loadDating(&dati);
 		game.loadAudio(&am);
 	}
-
-	game.init();
 
 	//do unless quit is false
 	while (!quit)
@@ -177,31 +182,82 @@ bool GameInstance::loop()
 			{
 				switch (mainMenu.loop())
 				{
-				case 1: { game.init(); actualScene = sceneState::game; break; }
+				case 1: { game.init(); updateSceneState(sceneState::game); break; }
+				case 2: 
+				{ 
+					txtm.update(textType::menu, "", 1, font, windowRenderer);
+					dati.load(om);
+					for (int i = 0; i < optionsMenu.getMaxOptions(); i++) 
+					{ txtm.update(textType::options, om.getOptionValueString(i), i, font, windowRenderer); }
+					updateSceneState(sceneState::options);
+					break; 
+				}
 				case -2: case 4: { quit = true; break; }
 				case 0: default: { break; }
 				}
 				break;
 			}
-			case sceneState::game: 
+			case sceneState::game:
 			{ 
 				switch (game.loop())
 				{
-					case -1: case -2: { quit = true; break; }
-					//case -1: { actualScene = sceneState::pausemenu; break; }
+					case -2: { quit = true; break; }
+					case -1: 
+					{ 
+						updateSceneState(sceneState::pausemenu); 
+						dati.load(om);
+						break; 
+					}
 					case 0: default: { break; }
 				}
 				break;
 			}
 			case sceneState::highscores: { break; }
-			case sceneState::options: { break; }
+			case sceneState::options: 
+			{ 
+				switch (optionsMenu.loop())
+				{
+					case -1: 
+					{ 
+						txtm.update(textType::menu, "", 0, font, windowRenderer); 
+						updateSceneState(lastScene); 
+						dati.save(om);
+						appendOptions();
+						break; 
+					}
+					case -4: 
+					{ 
+						om.decreaseOptionValue(optionsMenu.getActualOption()); 
+						txtm.update(textType::options, om.getOptionValueString(optionsMenu.getActualOption()), optionsMenu.getActualOption(), font, windowRenderer);
+						break; 
+					}
+					case -6: 
+					{ 
+						om.increaseOptionValue(optionsMenu.getActualOption()); 
+						txtm.update(textType::options, om.getOptionValueString(optionsMenu.getActualOption()), optionsMenu.getActualOption(), font, windowRenderer);
+						break; 
+					}
+					default: { break; }
+				}
+			}
 			case sceneState::pausemenu: 
 			{ 
 				switch (pauseMenu.loop())
 				{
 				case -2: { quit = true; break; }
-				case 1: { actualScene = sceneState::game; break; }
-				case 3: { actualScene = sceneState::mainmenu; break; }
+				case 1: { updateSceneState(sceneState::game); break; }
+				case 2: 
+				{ 
+					txtm.update(textType::menu, "", 1, font, windowRenderer); 
+					dati.load(om);
+					for (int i = 0; i < optionsMenu.getMaxOptions(); i++)
+					{
+						txtm.update(textType::options, om.getOptionValueString(i), i, font, windowRenderer);
+					}
+					updateSceneState(sceneState::options); 
+					break; 
+				}
+				case 3: { updateSceneState(sceneState::mainmenu); break; }
 				case 0: default: { break; }
 					 
 				}
@@ -229,9 +285,32 @@ void GameInstance::render()
 		case sceneState::mainmenu: { mainMenu.render(textType::menu); break; }
 		case sceneState::game: { game.render(); break; }
 		case sceneState::highscores: { break; }
-		case sceneState::options: { break; }
+		case sceneState::options: 
+		{ 
+			switch (lastScene)
+			{
+				case sceneState::mainmenu: { mainMenu.render(textType::menu); break; }
+				case sceneState::pausemenu: { game.renderScene(); break; }
+				default: { break; }
+			}
+			optionsMenu.render(textType::options); 
+			break; 
+		}
 		case sceneState::pausemenu: { game.renderScene(); pauseMenu.render(textType::pause); break; }
 		default: { break; }
 	}
 	SDL_RenderPresent(windowRenderer);		//window updating
+}
+
+void GameInstance::updateSceneState(sceneState newState)
+{
+	lastScene = actualScene;
+	actualScene = newState;
+}
+
+void GameInstance::appendOptions()
+{
+	//change sound volume depending on newest audio options
+	am.setMusicVolume(om.getOptionValue(0));
+	am.setEffectVolume(om.getOptionValue(1));
 }

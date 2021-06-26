@@ -52,7 +52,7 @@ void TextManager::initalizeTextMenu(TTF_Font* font, SDL_Renderer* renderer)
 	menuTexts.push_back(std::make_unique<Text>(1152, 360, false));			//0 - new game text
 	menuTexts.back()->loadFromText("Nowa gra", overand.randomColor(), renderer, font);
 	menuTexts.push_back(std::make_unique<Text>(1152, 416, false));			//1 - hi-scores text
-	menuTexts.back()->loadFromText("0123456789", overand.randomColor(), renderer, font);
+	menuTexts.back()->loadFromText("Opcje", overand.randomColor(), renderer, font);
 	menuTexts.push_back(std::make_unique<Text>(1152, 472, false));			//2 - options text
 	menuTexts.back()->loadFromText(u8"Êœ¹æ¿", overand.randomColor(), renderer, font);
 	/*
@@ -66,8 +66,8 @@ void TextManager::initalizeTextMenu(TTF_Font* font, SDL_Renderer* renderer)
 	menuTexts.push_back(std::make_unique<Text>(1152, 528, false));			//3 - exit text
 	menuTexts.back()->loadFromText(u8"Wyjœcie z gry", overand.randomColor(), renderer, font);
 	
-	menuTexts.push_back(std::make_unique<Text>(1216, 640, false));			//4 - exit text
-	menuTexts.back()->loadFromText(u8"Wersja 0.9.3 - by Ciachociech", overand.randomColor(), renderer, font);
+	menuTexts.push_back(std::make_unique<Text>(1216, 640, false));			//4 - version text
+	menuTexts.back()->loadFromText(u8"Wersja 0.9.8 - by Ciachociech", overand.randomColor(), renderer, font);
 	menuTexts.push_back(std::make_unique<Text>(48, 584));					//5 - const help1 text
 	menuTexts.back()->loadFromText(u8"[W/S] - wybór opcji", overand.randomColor(), renderer, font);
 	menuTexts.push_back(std::make_unique<Text>(48, 640));					//6 - const help1 text
@@ -79,16 +79,45 @@ void TextManager::initalizeTextPause(TTF_Font* font, SDL_Renderer* renderer)
 	pauseTexts.push_back(std::make_unique<Text>(112, 360));				//0 - new game text
 	pauseTexts.back()->loadFromText(u8"Powrót do gry", overand.randomColor(), renderer, font);
 	pauseTexts.push_back(std::make_unique<Text>(112, 416));				//1 - hi-scores text
-	pauseTexts.back()->loadFromText("0123456789", overand.randomColor(), renderer, font);
+	pauseTexts.back()->loadFromText("Opcje", overand.randomColor(), renderer, font);
 	pauseTexts.push_back(std::make_unique<Text>(112, 472));				//2 - options text
 	pauseTexts.back()->loadFromText(u8"WyjdŸ do menu", overand.randomColor(), renderer, font);
-	pauseTexts.push_back(std::make_unique<Text>(48, 248));				//3 - pause text
+	pauseTexts.push_back(std::make_unique<Text>(48, 248));				//3 - pause title text
 	pauseTexts.back()->loadFromText("Pauza", overand.randomColor(), renderer, font);
 
 	pauseTexts.push_back(std::make_unique<Text>(48, 584));				//4 - const help1 text
 	pauseTexts.back()->loadFromText(u8"[W/S] - wybór opcji", overand.randomColor(), renderer, font);
 	pauseTexts.push_back(std::make_unique<Text>(48, 640));				//5 - const help1 text
 	pauseTexts.back()->loadFromText(u8"[ENTER] - zatwierdzenie opcji", overand.randomColor(), renderer, font);
+}
+
+void TextManager::initalizeTextOptions(TTF_Font* font, SDL_Renderer* renderer)
+{
+	SDL_Color color1 = overand.randomColor(), color2 = overand.randomColor(), color3 = overand.randomColor();
+
+	optTexts.push_back(std::make_unique<Text>(48, 248));				//0 - options title text
+	optTexts.back()->loadFromText("Opcje", overand.randomColor(), renderer, font);
+	optTexts.push_back(std::make_unique<Text>(112, 360));				//1 - music volume text
+	optTexts.back()->loadFromText(u8"G³oœnoœæ muzyki", color1, renderer, font);
+	optTexts.push_back(std::make_unique<Text>(112, 416));				//2 - effect volume text
+	optTexts.back()->loadFromText(u8"G³oœnoœæ efektów", color2, renderer, font);
+	//optTexts.push_back(std::make_unique<Text>(112, 472));				//3 - future option text
+	//optTexts.back()->loadFromText("Opcje", color3, renderer, font);
+
+	optTexts.push_back(std::make_unique<Text>(512, 360, false));		//3 - new game text
+	optTexts.back()->loadFromText("100%", color1, renderer, font);
+	optTexts.push_back(std::make_unique<Text>(512, 416, false));		//4 - hi-scores text
+	optTexts.back()->loadFromText("100%", color2, renderer, font);
+	//optTexts.push_back(std::make_unique<Text>(600, 472, false));		//5 - hi-scores text
+	//optTexts.back()->loadFromText("Opcje", color3, renderer, font);
+
+
+	optTexts.push_back(std::make_unique<Text>(48, 526));				//5 - const help1 text
+	optTexts.back()->loadFromText(u8"[W/S] - wybór opcji", overand.randomColor(), renderer, font);
+	optTexts.push_back(std::make_unique<Text>(48, 584));				//6 - const help1 text
+	optTexts.back()->loadFromText(u8"[A/D] - zmiana wartoœci", overand.randomColor(), renderer, font);
+	optTexts.push_back(std::make_unique<Text>(48, 640));				//7 - const help1 text
+	optTexts.back()->loadFromText(u8"[ESC] - wyjœcie do g³ównego menu", overand.randomColor(), renderer, font);
 }
 
 void TextManager::updateTextScene(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer)
@@ -104,27 +133,45 @@ void TextManager::updateTextMenu(TTF_Font* font, SDL_Renderer* renderer, bool is
 {
 	for (int i = 0; i < menuTexts.size(); i++) 
 	{ 
-		sceneTexts[i]->loadFromText(menuTexts[i]->getText(), (isGraying?greyColor(menuTexts[i]->getColor()): ungreyColor(menuTexts[i]->getColor())), renderer, font);
+		menuTexts[i]->loadFromText(menuTexts[i]->getText(), (isGraying?greyColor(menuTexts[i]->getColor()): ungreyColor(menuTexts[i]->getColor())), renderer, font);
+	}
+	if (isGraying)
+	{
+		menuTexts[5]->setXY(2000, 2000);
+		menuTexts[6]->setXY(2000, 2000);
+	}
+	else {
+		menuTexts[5]->setXY(48, 584);
+		menuTexts[6]->setXY(48, 640);
+	}
+}
+
+void TextManager::updateTextOptions(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer)
+{
+	//if index is valid
+	if (index == 3 || index == 4)							//since version 0.10
+	{
+		optTexts[index]->loadFromText(newValue, optTexts[index]->getColor(), renderer, font);
 	}
 }
 
 SDL_Color TextManager::greyColor(SDL_Color oldColor)
 {
 	SDL_Color newColor;
-	newColor.r = oldColor.r - 128;
-	newColor.g = oldColor.g - 128;
-	newColor.b = oldColor.b - 128;
-	newColor.a = oldColor.a;
+	newColor.r = oldColor.r - 64;
+	newColor.g = oldColor.g - 64;
+	newColor.b = oldColor.b - 64;
+	newColor.a = oldColor.a - 128;
 	return newColor;
 }
 
 SDL_Color TextManager::ungreyColor(SDL_Color oldColor)
 {
 	SDL_Color newColor;
-	newColor.r = oldColor.r + 128;
-	newColor.g = oldColor.g + 128;
-	newColor.b = oldColor.b + 128;
-	newColor.a = oldColor.a;
+	newColor.r = oldColor.r + 64;
+	newColor.g = oldColor.g + 64;
+	newColor.b = oldColor.b + 64;
+	newColor.a = oldColor.a + 128;
 	return newColor;
 }
 
@@ -136,7 +183,7 @@ void TextManager::initalize(textType tt, TTF_Font* font, SDL_Renderer* renderer)
 	case textType::scene: { initalizeTextScene(font, renderer); break; }
 	case textType::menu: { initalizeTextMenu(font, renderer); break; }
 	case textType::scores: {  break; }
-	case textType::options: {  break; }
+	case textType::options: { initalizeTextOptions(font, renderer); break; }
 	case textType::pause: { initalizeTextPause(font, renderer); break; }
 	default: { break; }
 	}
@@ -150,13 +197,12 @@ void TextManager::update(textType tt, std::string newValue, int index, TTF_Font*
 	case textType::scene: { updateTextScene(newValue, index, font, renderer); break; }
 	case textType::menu: 
 	{ 
-
 		if (index != 0) { updateTextMenu(font, renderer); }
 		else { updateTextMenu(font, renderer, false); }
 		break; 
 	}
 	case textType::scores: {  break; }
-	case textType::options: {  break; }
+	case textType::options: { updateTextOptions(newValue, index + 3, font, renderer); break; }
 	case textType::pause: { break; }
 	default: { break; }
 	}
@@ -170,7 +216,7 @@ void TextManager::render(textType tt, SDL_Renderer* renderer)
 	case textType::scene: { for (int i = 0; i < sceneTexts.size(); i++) { sceneTexts[i]->render(renderer); } break; }
 	case textType::menu: { for (int i = 0; i < menuTexts.size(); i++) { menuTexts[i]->render(renderer); } break; }
 	case textType::scores: {  break; }
-	case textType::options: {  break; }
+	case textType::options: { for (int i = 0; i < optTexts.size(); i++) { optTexts[i]->render(renderer); } break; }
 	case textType::pause: { for (int i = 0; i < pauseTexts.size(); i++) { pauseTexts[i]->render(renderer); } break; }
 	default: { break; }
 	}

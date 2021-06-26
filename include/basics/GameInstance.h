@@ -1,7 +1,7 @@
 #pragma once
 
 #include "..\..\include\basics\GameScene.h"
-#include "..\..\include\basics\GameMenu.h"
+#include "..\..\include\menu\GameMenu.h"
 
 enum class sceneState { splashscreen = 0, mainmenu, game, highscores, options, pausemenu };
 enum class keyState { ragequit = -2, pause = -1, none };
@@ -22,7 +22,7 @@ private:
 	//Other constants
 	const int FPS = 60;
 	const std::string logoPath = "Assets/other/appLogo.png";
-	const std::string gameVersion = "0.9.3";
+	const std::string gameVersion = "0.9.8";
 	const std::string windowName = u8"50 Smako³yków Stefana (£aciata edycja " + gameVersion + ")";
 	
 	//Game managers
@@ -33,6 +33,7 @@ private:
 	TextManager txtm = TextManager();
 	DatInterpreter dati = DatInterpreter("src/ftos.dat", gameVersion);		//it has to be "ftos.dat" to proper execution
 	AudioManager am = AudioManager();
+	OptionsManager om = OptionsManager();
 
 	//App functions
 	bool init();
@@ -40,12 +41,14 @@ private:
 	void close();
 	bool loop();
 	void render();
+	void updateSceneState(sceneState newState);
+	void appendOptions();
 
 	//Status of game
-	sceneState actualScene;
+	sceneState actualScene, lastScene;
 	keyState actualKeyState;
 	GameScene game = GameScene();
-	GameMenu mainMenu = GameMenu(4), pauseMenu = GameMenu(3);
+	GameMenu mainMenu = GameMenu(4), pauseMenu = GameMenu(3), optionsMenu = GameMenu(2);
 public:
 	GameInstance();
 	virtual ~GameInstance();

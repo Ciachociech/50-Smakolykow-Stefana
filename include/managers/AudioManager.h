@@ -17,6 +17,9 @@ private:
 
 	Mix_Music* getMusic(AudioMusType musicType);
 	Mix_Chunk* getEffect(AudioEffType effectType);
+
+	int musicVolume;
+	int effectVolume;
 public:
 	AudioManager();
 	virtual ~AudioManager();
@@ -29,5 +32,8 @@ public:
 	void resumeMusic();
 	void stopMusic();
 	void stopChannel(int channel);
+
+	void setMusicVolume(int volume);
+	void setEffectVolume(int volume);
 };
 
