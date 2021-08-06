@@ -132,6 +132,12 @@
     <ClCompile Include="src\menu\RangeOption.cpp">
       <Filter>Pliki źródłowe\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="src\managers\ScoreManager.cpp">
+      <Filter>Pliki źródłowe\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\basics\HistoryScore.cpp">
+      <Filter>Pliki źródłowe\Basics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\external_dependencies.h">
@@ -202,6 +208,12 @@
     </ClInclude>
     <ClInclude Include="include\menu\RangeOption.h">
       <Filter>Pliki nagłówkowe\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\basics\HistoryScore.h">
+      <Filter>Pliki nagłówkowe\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\managers\ScoreManager.h">
+      <Filter>Pliki nagłówkowe\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -139,7 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\basics\HistoryScore.cpp" />
     <ClCompile Include="src\managers\OptionsManager.cpp" />
+    <ClCompile Include="src\managers\ScoreManager.cpp" />
     <ClCompile Include="src\menu\BasicOption.cpp" />
     <ClCompile Include="src\menu\GameMenu.cpp" />
     <ClCompile Include="src\basics\GameScene.cpp" />
@@ -164,6 +166,8 @@
     <ClCompile Include="src\menu\RangeOption.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\basics\HistoryScore.h" />
+    <ClInclude Include="include\managers\ScoreManager.h" />
     <ClInclude Include="include\menu\BasicOption.h" />
     <ClInclude Include="include\menu\GameMenu.h" />
     <ClInclude Include="include\basics\GameScene.h" />

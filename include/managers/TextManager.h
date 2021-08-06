@@ -33,9 +33,11 @@ private:
 	void initalizeTextMenu(TTF_Font* font, SDL_Renderer* renderer);
 	void initalizeTextPause(TTF_Font* font, SDL_Renderer* renderer);
 	void initalizeTextOptions(TTF_Font* font, SDL_Renderer* renderer);
+	void initalizeTextHiscores(TTF_Font* font, SDL_Renderer* renderer);
 	void updateTextScene(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer);
 	void updateTextMenu(TTF_Font* font, SDL_Renderer* renderer, bool isGraying = true);
 	void updateTextOptions(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer);
+	void updateTextHiscores(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer);
 
 	SDL_Color greyColor(SDL_Color oldColor);
 	SDL_Color ungreyColor(SDL_Color oldColor);

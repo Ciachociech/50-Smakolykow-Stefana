@@ -22,7 +22,7 @@ private:
 	//Other constants
 	const int FPS = 60;
 	const std::string logoPath = "Assets/other/appLogo.png";
-	const std::string gameVersion = "0.9.8";
+	const std::string gameVersion = "0.10";
 	const std::string windowName = u8"50 Smako³yków Stefana (£aciata edycja " + gameVersion + ")";
 	
 	//Game managers
@@ -34,6 +34,7 @@ private:
 	DatInterpreter dati = DatInterpreter("src/ftos.dat", gameVersion);		//it has to be "ftos.dat" to proper execution
 	AudioManager am = AudioManager();
 	OptionsManager om = OptionsManager();
+	ScoreManager scorman = ScoreManager();
 
 	//App functions
 	bool init();
@@ -48,7 +49,7 @@ private:
 	sceneState actualScene, lastScene;
 	keyState actualKeyState;
 	GameScene game = GameScene();
-	GameMenu mainMenu = GameMenu(4), pauseMenu = GameMenu(3), optionsMenu = GameMenu(2);
+	GameMenu mainMenu = GameMenu(4), pauseMenu = GameMenu(3), optionsMenu = GameMenu(2), hiscoresMenu = GameMenu(0);
 public:
 	GameInstance();
 	virtual ~GameInstance();

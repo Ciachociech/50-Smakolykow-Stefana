@@ -17,6 +17,26 @@ void DatInterpreter::load(int& hiscore)
 	}
 }
 
+//load all scores from .dat file
+void DatInterpreter::load(ScoreManager& sm)
+{
+	sm.exterminate();															//clear all previously loaded scores for not-doubling them
+	Vec2String data = extractData('A');											//extract data from 'A' (highscores) section
+
+	//for each line in data file
+	for (auto line : data)
+	{
+		//build each of HistoryScore object and fill with values
+		HistoryScore hiscore(std::stoi(line[2]));
+		hiscore.setGainedLevel(std::stoi(line[1]));
+		hiscore.setCollectedTidbits(std::stoi(line[3]));
+		hiscore.setDate(line[4]);
+		hiscore.setVersion(line[5]);
+		sm.addHistoryScore(hiscore);
+	}
+}
+
+//load all options from .dat file
 void DatInterpreter::load(OptionsManager& om)
 {
 	Vec2String data = extractData('B');
@@ -28,7 +48,7 @@ void DatInterpreter::load(OptionsManager& om)
 	om.addOption(0, 16, std::stoi(data[1][1]));
 }
 
-//save a best score to .dat file
+//deprecated method - save a best score to .dat file
 void DatInterpreter::save(int level, int hiscore, int foundSnacks)
 {
 	Vec2String data = extractData('A');											//extract data from 'A' (highscores) section
@@ -52,6 +72,31 @@ void DatInterpreter::save(int level, int hiscore, int foundSnacks)
 	dumpData('A', extractData(), data);											//save file with new data
 }
 
+//save a new score to .dat file
+void DatInterpreter::save(HistoryScore hiscore)
+{
+	Vec2String data = extractData('A');											//extract data from 'A' (highscores) section
+	VecString tempLine;															//buffer for line to save
+
+	//getting actual time
+	time_t actualTime;
+	tm fTime;
+	time(&actualTime);
+	localtime_s(&fTime, &actualTime);
+
+	//gathering and saving data from previous game as a line of data
+	tempLine.push_back("/NONAME/");
+	tempLine.push_back(std::to_string(hiscore.getGainedLevel()));
+	tempLine.push_back(std::to_string(hiscore.getScore()));
+	tempLine.push_back(std::to_string(hiscore.getCollectedTidbits()));
+	tempLine.push_back(std::to_string(fTime.tm_year + 1900) + "/" + std::to_string(fTime.tm_mon + 1) + "/" + std::to_string(fTime.tm_mday));
+	tempLine.push_back(gameVersion);
+
+	data.push_back(tempLine);													//push back new line to data segment
+	dumpData('A', extractData(), data);											//save file with new data
+}
+
+//save current options value to .dat file
 void DatInterpreter::save(OptionsManager& om)
 {
 	Vec2String data = extractData('B');											//extract data from 'B' (options) section
@@ -169,7 +214,6 @@ void DatInterpreter::dumpData(char controlChar, VecString oldData, Vec2String da
 					}
 
 					std::string savedLine = savedStream.str();						//extract string from stringstream
-					//savedLine.substr(0, savedLine.size());
 					file << savedLine;
 
 				}

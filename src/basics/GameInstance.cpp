@@ -160,6 +160,14 @@ bool GameInstance::loop()
 		optionsMenu.loadTexting(&txtm);
 		optionsMenu.init(textType::options);
 	}
+
+	{
+		hiscoresMenu.loadRenderer(windowRenderer);
+		hiscoresMenu.loadFont(font);
+		hiscoresMenu.loadSteering(&sterman);
+		hiscoresMenu.loadTexting(&txtm);
+		hiscoresMenu.init(textType::scores);
+	}
 	
 	{
 		game.loadRenderer(windowRenderer);
@@ -168,6 +176,7 @@ bool GameInstance::loop()
 		game.loadTexting(&txtm);
 		game.loadDating(&dati);
 		game.loadAudio(&am);
+		game.loadScores(&scorman);
 	}
 
 	//do unless quit is false
@@ -192,6 +201,19 @@ bool GameInstance::loop()
 					updateSceneState(sceneState::options);
 					break; 
 				}
+				case 3:
+				{
+					txtm.update(textType::menu, "", 1, font, windowRenderer);
+					dati.load(scorman);
+					HistoryScore hiscore = scorman.getBestScore();
+					txtm.update(textType::scores, std::to_string(hiscore.getScore()), 6, font, windowRenderer);
+					txtm.update(textType::scores, std::to_string(hiscore.getGainedLevel()), 7, font, windowRenderer);
+					txtm.update(textType::scores, std::to_string(hiscore.getCollectedTidbits()), 8, font, windowRenderer);
+					txtm.update(textType::scores, hiscore.getDate(), 9, font, windowRenderer);
+					txtm.update(textType::scores, hiscore.getVersion(), 10, font, windowRenderer);
+					updateSceneState(sceneState::highscores);
+					break;
+				}
 				case -2: case 4: { quit = true; break; }
 				case 0: default: { break; }
 				}
@@ -212,7 +234,19 @@ bool GameInstance::loop()
 				}
 				break;
 			}
-			case sceneState::highscores: { break; }
+			case sceneState::highscores: 
+			{
+				switch (hiscoresMenu.loop())
+				{
+					case -1:
+					{
+						txtm.update(textType::menu, "", 0, font, windowRenderer);
+						updateSceneState(lastScene);
+						break;
+					}
+				}
+				break; 
+			}
 			case sceneState::options: 
 			{ 
 				switch (optionsMenu.loop())
@@ -284,7 +318,7 @@ void GameInstance::render()
 		case sceneState::splashscreen: { break; }
 		case sceneState::mainmenu: { mainMenu.render(textType::menu); break; }
 		case sceneState::game: { game.render(); break; }
-		case sceneState::highscores: { break; }
+		case sceneState::highscores: { mainMenu.render(textType::menu); hiscoresMenu.render(textType::scores); break; }
 		case sceneState::options: 
 		{ 
 			switch (lastScene)

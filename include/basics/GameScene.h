@@ -7,8 +7,7 @@
 #include "..\..\include\managers\TextManager.h"
 #include "..\..\include\basics\DatInterpreter.h"
 #include "..\..\include\managers\AudioManager.h"
-
-#include "..\..\include\basics\Score.h"
+#include "..\..\include\managers\ScoreManager.h"
 
 class GameScene
 {
@@ -25,11 +24,11 @@ private:
 	TextManager *txtm = NULL;
 	DatInterpreter *dati = NULL;
 	AudioManager *am = NULL;
+	ScoreManager* scorman = NULL;
 
 	//Other global values
 	int level = 1, winRewardStage = 0, foundSnacks = 0;
 	bool isLost = false;
-	Score score = Score(), bestScore = Score(-1);
 
 	keyAction actualAction;									//shows information about last chosen action (by keyboard)
 public:
@@ -38,11 +37,12 @@ public:
 
 	//loading pointers to instance managers and objects
 	void loadRenderer(SDL_Renderer* rend);
-	void loadFont(TTF_Font *font);
+	void loadFont(TTF_Font* font);
 	void loadSteering(SteeringManager* sm);
 	void loadTexting(TextManager* tm);
 	void loadDating(DatInterpreter* dati);
 	void loadAudio(AudioManager* am);
+	void loadScores(ScoreManager* sm);
 
 	//Game functions
 	int loop();

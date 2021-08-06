@@ -77,13 +77,13 @@ void GameMenu::init(textType tt)
 
 	if (tt == textType::pause)
 	{
-		cursor = Graph(48, 364);
+		cursor = Graph(48, 308);
 		cursor.loadFromFile(1.f, 1.f, "Assets/menu/secretHandL.png", windowRenderer);
 	}
 
 	if (tt == textType::options)
 	{
-		cursor = Graph(48, 364);
+		cursor = Graph(48, 308);
 		cursor.loadFromFile(1.f, 1.f, "Assets/menu/secretHandL.png", windowRenderer);
 	}
 }
