@@ -16,6 +16,8 @@ void GameScene::loadDating(DatInterpreter* dati) { this->dati = dati; }
 
 void GameScene::loadAudio(AudioManager* am) { this->am = am; }
 
+void GameScene::loadScores(ScoreManager* sm) { this->scorman = sm; }
+
 int GameScene::loop()
 {						
 	SDL_Event event;							//sdl event variable for observing keyboard action or game exiting
@@ -95,7 +97,7 @@ int GameScene::loop()
 			//if motivation left is bigger than 3, add some score and reduce motivation (score granting)
 			if (sm.getStefan().getMotivation() > 3)
 			{
-				score.addScore(10);
+				scorman->getActualScore().addScore(10);
 				sm.reduceMotivation(4);
 				am->playEffect(AudioEffType::pointGaining, -1);
 			}
@@ -107,21 +109,28 @@ int GameScene::loop()
 		//increase score depending of uncovering or not using a powerup and take a little break
 		case 3:
 		{
-			if (tm.getPowerupStatus() == PowerupStatus::avaiable) { score.addScore(50); }
+			if (tm.getPowerupStatus() == PowerupStatus::avaiable) { scorman->getActualScore().addScore(50); }
 			am->playEffect(AudioEffType::pointGaining, -1);
 			winRewardStage++;
 			SDL_Delay(600);
 			break;
 		}
 		//increase score depending of finished level, go to the next step of sequence and take a little break
-		case 2: { score.addScore(10 * level); am->playEffect(AudioEffType::pointGaining, -1); winRewardStage++; SDL_Delay(400); break; }
-			  //increase score depending of finished level, go to the next step of sequence and take a little break
+		case 2: 
+		{ 
+			scorman->getActualScore().addScore(10 * level); 
+			am->playEffect(AudioEffType::pointGaining, -1); 
+			winRewardStage++; 
+			SDL_Delay(400); 
+			break; 
+		}
+		//increase score depending of finished level, go to the next step of sequence and take a little break
 		case 1:
 		{
 			am->stopMusic();
 			am->playMusic(AudioMusType::levelup, 0);
 			SDL_Delay(2500);
-			score.addScore(100);
+			scorman->getActualScore().addScore(100);
 			am->playEffect(AudioEffType::pointGaining, -1);
 			winRewardStage++;
 			SDL_Delay(600);
@@ -131,21 +140,24 @@ int GameScene::loop()
 		//if lose condition case is fulfilled
 		if (winRewardStage <= 0 && isLost)
 		{
-			//if best score was beaten in this (previous) game
-			if (score.getScore() == bestScore.getScore()) { dati->save(level, score.getScore(), foundSnacks); }
+			//if best score was beaten in this (previous) game or size of score table is quite short
+			if (scorman->getActualScore().getScore() == scorman->getBestScore().getScore() || scorman->getSize() < 5) 
+			{ 
+				dati->save(scorman->saveActualScore(level, foundSnacks)); 
+			}
 			am->stopMusic();
 			am->playMusic(AudioMusType::gameover, 0);
 			SDL_Delay(2500);
-			level = 1;					//reset a level counter to 1
-			foundSnacks = 0;			//reset a snacks counter to 0
-			score.resetScore();			//reset score to 0
-			goToNextLevel = true;		//set new level flag to true (can be now generated)
+			level = 1;										//reset a level counter to 1
+			foundSnacks = 0;								//reset a snacks counter to 0
+			scorman->getActualScore().resetScore();			//reset score to 0
+			goToNextLevel = true;							//set new level flag to true (can be now generated)
 		}
 		//if win or lose condition sequence is completed
 		if (goToNextLevel)
 		{
-			SDL_Delay(2000);			//take a break
-			init();					//load a map again
+			SDL_Delay(2000);								//take a break
+			init();											//load a map again
 		}
 
 	}
@@ -154,11 +166,10 @@ int GameScene::loop()
 	if (winRewardStage == 0) { lm.refreshMood(sm.getMotivationPercent(), windowRenderer); }
 	//update text for left motivation and actual score
 	txtm->update(textType::scene, std::to_string(sm.getStefan().getMotivation()), 2, font, windowRenderer);
-	txtm->update(textType::scene, std::to_string(score.getScore()), 9, font, windowRenderer);
-	if (score.getScore() > bestScore.getScore())
+	txtm->update(textType::scene, std::to_string(scorman->getActualScore().getScore()), 9, font, windowRenderer);
+	if (scorman->getActualScore().getScore() > scorman->getBestScore().getScore())
 	{
-		bestScore.addScore(score.getScore() - bestScore.getScore());
-		txtm->update(textType::scene, std::to_string(bestScore.getScore()), 10, font, windowRenderer);
+		txtm->update(textType::scene, std::to_string(scorman->getActualScore().getScore()), 10, font, windowRenderer);
 	}
 
 	if (actualAction != keyAction::pause) { return 0; }
@@ -181,20 +192,15 @@ void GameScene::init()
 	sm.setStefan(windowRenderer);
 	sm.setMotivation(99 - (level > 35 ? 70 : 2 * level) + 7 * tm.getCount() + tm.getMotivationCompensation());
 
-	//resetting actual score
-	score.resetScore();
-
 	//load maximum score
-	int bScore = 0;
-	dati->load(bScore);
-	bestScore.addScore(bScore - bestScore.getScore());
+	dati->load(*scorman);
 
 	//text manager reseting (font and text)
 	txtm->exterminate(textType::scene);
 	txtm->initalize(textType::scene, font, windowRenderer);
 	txtm->update(textType::scene, std::to_string(level), 8, font, windowRenderer);
 	txtm->update(textType::scene, std::to_string(sm.getStefan().getMotivation()), 2, font, windowRenderer);
-	txtm->update(textType::scene, std::to_string(bestScore.getScore()), 10, font, windowRenderer);
+	txtm->update(textType::scene, std::to_string(scorman->getBestScore().getScore()), 10, font, windowRenderer);
 
 	//audio manager
 	sm.appendAudioManager(am);
@@ -211,6 +217,7 @@ void GameScene::close()
 	txtm = NULL;
 	dati = NULL;
 	am = NULL;
+	scorman = NULL;
 }
 
 void GameScene::render()
@@ -252,6 +259,7 @@ void GameScene::render()
 
 void GameScene::renderScene()
 {
+	lm.render(0, 0, -4, windowRenderer);								//render logo graph
 	lm.render(0, 0, 0, windowRenderer);									//render all UI graphs
 	tm.renderScene(windowRenderer);										//render only indicator for nosescan ability
 	lm.render(0, 0, 1, windowRenderer);									//render all covering tile graphs
@@ -261,7 +269,7 @@ void GameScene::renderScene()
 
 void GameScene::renderPanel()
 {
-	lm.render(0, 0, -4, windowRenderer);								//render all covering tile graphs
+	lm.render(0, 0, -5, windowRenderer);								//render mood tile graph
 	txtm->render(textType::scene, windowRenderer);						//render all text graphs
 	tm.renderPanel(windowRenderer);										//render all treasure graphs
 }
@@ -292,7 +300,7 @@ void GameScene::digTile(bool isDignine)
 				}
 				//if powerup was now discovered quickly change its status to avaiable
 				if (tm.getPowerupStatus() == PowerupStatus::discovered) { tm.setPowerupStatus(PowerupStatus::avaiable, windowRenderer); }
-				score.addScore(tm.returnGatheredScore());				//add gathered score during this dig action
+				scorman->getActualScore().addScore(tm.returnGatheredScore());				//add gathered score during this dig action
 			}
 		}
 	}

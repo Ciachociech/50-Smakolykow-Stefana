@@ -1,6 +1,6 @@
 #include "..\..\include\basics\DatInterpreter.h"
 
-DatInterpreter::DatInterpreter(std::string filename, std::string version) : filename(filename), version(version) {}
+DatInterpreter::DatInterpreter(std::string filename, std::string version) : filename(filename), gameVersion(version) { forceUpdate(); }
 
 DatInterpreter::~DatInterpreter() {}
 
@@ -17,7 +17,38 @@ void DatInterpreter::load(int& hiscore)
 	}
 }
 
-//save a best score to .dat file
+//load all scores from .dat file
+void DatInterpreter::load(ScoreManager& sm)
+{
+	sm.exterminate();															//clear all previously loaded scores for not-doubling them
+	Vec2String data = extractData('A');											//extract data from 'A' (highscores) section
+
+	//for each line in data file
+	for (auto line : data)
+	{
+		//build each of HistoryScore object and fill with values
+		HistoryScore hiscore(std::stoi(line[2]));
+		hiscore.setGainedLevel(std::stoi(line[1]));
+		hiscore.setCollectedTidbits(std::stoi(line[3]));
+		hiscore.setDate(line[4]);
+		hiscore.setVersion(line[5]);
+		sm.addHistoryScore(hiscore);
+	}
+}
+
+//load all options from .dat file
+void DatInterpreter::load(OptionsManager& om)
+{
+	Vec2String data = extractData('B');
+
+	//safely delete all saved options
+	om.exterminate();
+	//create some options
+	om.addOption(0, 16, std::stoi(data[0][1]));
+	om.addOption(0, 16, std::stoi(data[1][1]));
+}
+
+//deprecated method - save a best score to .dat file
 void DatInterpreter::save(int level, int hiscore, int foundSnacks)
 {
 	Vec2String data = extractData('A');											//extract data from 'A' (highscores) section
@@ -35,10 +66,47 @@ void DatInterpreter::save(int level, int hiscore, int foundSnacks)
 	tempLine.push_back(std::to_string(hiscore));
 	tempLine.push_back(std::to_string(foundSnacks));
 	tempLine.push_back(std::to_string(fTime.tm_year + 1900) + "/" + std::to_string(fTime.tm_mon + 1) + "/" + std::to_string(fTime.tm_mday));
-	tempLine.push_back(version);
+	tempLine.push_back(gameVersion);
 
 	data.push_back(tempLine);													//push back new line to data segment
 	dumpData('A', extractData(), data);											//save file with new data
+}
+
+//save a new score to .dat file
+void DatInterpreter::save(HistoryScore hiscore)
+{
+	Vec2String data = extractData('A');											//extract data from 'A' (highscores) section
+	VecString tempLine;															//buffer for line to save
+
+	//getting actual time
+	time_t actualTime;
+	tm fTime;
+	time(&actualTime);
+	localtime_s(&fTime, &actualTime);
+
+	//gathering and saving data from previous game as a line of data
+	tempLine.push_back("/NONAME/");
+	tempLine.push_back(std::to_string(hiscore.getGainedLevel()));
+	tempLine.push_back(std::to_string(hiscore.getScore()));
+	tempLine.push_back(std::to_string(hiscore.getCollectedTidbits()));
+	tempLine.push_back(std::to_string(fTime.tm_year + 1900) + "/" + std::to_string(fTime.tm_mon + 1) + "/" + std::to_string(fTime.tm_mday));
+	tempLine.push_back(gameVersion);
+
+	data.push_back(tempLine);													//push back new line to data segment
+	dumpData('A', extractData(), data);											//save file with new data
+}
+
+//save current options value to .dat file
+void DatInterpreter::save(OptionsManager& om)
+{
+	Vec2String data = extractData('B');											//extract data from 'B' (options) section
+
+	for (int i = 0; i < data.size(); i++)
+	{
+		data[i][1] = (om.getOptionValue(i) != -1 ? std::to_string(om.getOptionValue(i)) : data[i][1]);
+	}
+
+	dumpData('B', extractData(), data);
 }
 
 //extract content from .dat file to vector of strings
@@ -85,14 +153,18 @@ Vec2String DatInterpreter::extractData(char controlChar)
 				do
 				{
 					file >> stringLine;
-					VecString splitLine;											//vector with string of proper values
-					std::string tempString;											//buffer line with separated values
-					std::stringstream baseLine(stringLine);							//stringstream containing read line
 
-					//for all text line split it to smaller values
-					while (std::getline(baseLine, tempString, inLineSeparationChar)) { splitLine.push_back(tempString); }
+					if (stringLine[0] != ':')
+					{
+						VecString splitLine;											//vector with string of proper values
+						std::string tempString;											//buffer line with separated values
+						std::stringstream baseLine(stringLine);							//stringstream containing read line
 
-					splitTable.push_back(splitLine);								//add splitted line to whole table
+						//for all text line split it to smaller values
+						while (std::getline(baseLine, tempString, inLineSeparationChar)) { splitLine.push_back(tempString); }
+
+						splitTable.push_back(splitLine);								//add splitted line to whole table
+					}
 
 				} while (stringLine[stringLine.size() - 1] != sectionEndChar);
 			}
@@ -102,8 +174,11 @@ Vec2String DatInterpreter::extractData(char controlChar)
 	file.close();
 
 	//delete ';' separated at the end of last line (if exists)
-	int lastIndex = splitTable.size() - 1;
-	if (splitTable[lastIndex][splitTable[lastIndex].size() - 1] == ";") { splitTable[lastIndex].pop_back(); }
+	if (splitTable.size() != 0)
+	{
+		int lastIndex = splitTable.size() - 1;
+		if (splitTable[lastIndex][splitTable[lastIndex].size() - 1] == ";") { splitTable[lastIndex].pop_back(); }
+	}
 	return splitTable;
 }
 
@@ -139,7 +214,6 @@ void DatInterpreter::dumpData(char controlChar, VecString oldData, Vec2String da
 					}
 
 					std::string savedLine = savedStream.str();						//extract string from stringstream
-					//savedLine.substr(0, savedLine.size());
 					file << savedLine;
 
 				}
@@ -150,6 +224,63 @@ void DatInterpreter::dumpData(char controlChar, VecString oldData, Vec2String da
 			}
 
 			file << std::endl;
+		}
+	}
+	file.close();
+}
+
+void DatInterpreter::forceUpdate()
+{
+	//get whole content of file
+	VecString fileData = extractData();
+
+	for (int i = 0; i < fileData.size(); i++)
+	{
+		//check a data type head
+		if (fileData[i][0] == ':')
+		{
+			//check a version for specified data type
+			switch (fileData[i][1])
+			{
+			case 'A':
+			{
+				//for version 0 just increase a version (only for separating implemented and not-implemented data types)
+				if (fileData[i][2] == '0') { fileData[i] = ":A1-HISCORES-:"; }
+				break;
+			}
+			case 'B':
+			{
+				//for version 0 add sound volume properties
+				if (fileData[i][2] == '0')
+				{
+					fileData[i] = ":B1-OPTIONS-:";
+					fileData.insert(fileData.begin() + i + 1, "BGM_VOLUME=8=");
+					fileData.insert(fileData.begin() + i + 2, "SE_VOLUME=8=;");
+				}
+				break;
+			}
+			case 'C':
+			{
+				if (fileData[i][2] != menuVersion + '0') {}
+				break;
+			}
+			case 'D':
+			{
+				if (fileData[i][2] != achievesVersion + '0') {}
+				break;
+			}
+			default: { break; }
+			}
+		}
+	}
+
+	std::fstream file(filename);													//open .dat file
+	//If file is good, manage it
+	if (!file.fail())
+	{
+		for (int i = 0; i < fileData.size(); i++)
+		{
+			file << fileData[i] << std::endl;
 		}
 	}
 	file.close();
