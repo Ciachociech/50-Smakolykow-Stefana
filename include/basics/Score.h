@@ -7,7 +7,7 @@ class Score
 public:
 	Score();
 	Score(int value);
-	~Score();
+	virtual ~Score();
 
 	int getScore();
 	std::string txtScore();

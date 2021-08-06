@@ -45,6 +45,9 @@ std::string Treasure::getAssetPath()
 	case treasureType::broccoli:		{ baseScore = 40;	return std::string("brokul.png");		break; }
 	case treasureType::hibiscus:		{ baseScore = 80;	return std::string("hibiskus.png");		break; }
 	case treasureType::apple:			{ baseScore = 40;	return std::string("jablko.png");		break; }
+	case treasureType::kohlrabi:		{ baseScore = 80;	return std::string("kalarepa.png");		break; }
+	case treasureType::forsythia:		{ baseScore = 80;	return std::string("forsycja.png");		break; }
+	case treasureType::rose:			{ baseScore = 40;	return std::string("roza.png");			break; }
 
 	case treasureType::dignine:			{ baseScore = 50;	return std::string("kopanina.png");		break; }
 	case treasureType::nosescan:		{ baseScore = 50;	return std::string("nososkan.png");		break; }

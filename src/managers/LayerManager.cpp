@@ -37,7 +37,8 @@ void LayerManager::render(int x, int y, int mode, SDL_Renderer* renderer)
 	case -1: { bonus1.render(renderer); break; }
 	case -2: { bonus2.render(renderer); break; }
 	case -3: { helpMe.render(renderer); break; }
-	case -4: { logo.render(renderer); moodGraph.render(renderer); break; }
+	case -4: { logo.render(renderer);  break; }
+	case -5: { moodGraph.render(renderer); break; }
 	default: { break; }
 	}
 	if (mode >= 0 && mode < layers.size()) { layers[mode]->render(x, y, renderer); }
