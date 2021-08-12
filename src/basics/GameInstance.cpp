@@ -168,6 +168,14 @@ bool GameInstance::loop()
 		hiscoresMenu.loadTexting(&txtm);
 		hiscoresMenu.init(textType::scores);
 	}
+
+	{
+		gameOverMenu.loadRenderer(windowRenderer);
+		gameOverMenu.loadFont(font);
+		gameOverMenu.loadSteering(&sterman);
+		gameOverMenu.loadTexting(&txtm);
+		gameOverMenu.init(textType::gameover);
+	}
 	
 	{
 		game.loadRenderer(windowRenderer);
@@ -191,7 +199,7 @@ bool GameInstance::loop()
 			{
 				switch (mainMenu.loop())
 				{
-				case 1: { game.init(); updateSceneState(sceneState::game); break; }
+				case 1: { game.reset(); updateSceneState(sceneState::game); break; }
 				case 2: 
 				{ 
 					txtm.update(textType::menu, "", 1, font, windowRenderer);
@@ -206,6 +214,7 @@ bool GameInstance::loop()
 					txtm.update(textType::menu, "", 1, font, windowRenderer);
 					dati.load(scorman);
 					HistoryScore hiscore = scorman.getBestScore();
+					txtm.update(textType::scores, "Rezultat - miejsce 1", 0, font, windowRenderer);
 					txtm.update(textType::scores, std::to_string(hiscore.getScore()), 6, font, windowRenderer);
 					txtm.update(textType::scores, std::to_string(hiscore.getGainedLevel()), 7, font, windowRenderer);
 					txtm.update(textType::scores, std::to_string(hiscore.getCollectedTidbits()), 8, font, windowRenderer);
@@ -230,6 +239,10 @@ bool GameInstance::loop()
 						dati.load(om);
 						break; 
 					}
+					case -3: {
+						updateSceneState(sceneState::gameover);
+						break;
+					}
 					case 0: default: { break; }
 				}
 				break;
@@ -242,6 +255,34 @@ bool GameInstance::loop()
 					{
 						txtm.update(textType::menu, "", 0, font, windowRenderer);
 						updateSceneState(lastScene);
+						break;
+					}
+					case -4:
+					{
+						if (scorman.decrementPlace())
+						{
+							HistoryScore hiscore = scorman.getBestScore(scorman.getShownPlace());
+							txtm.update(textType::scores, "Rezultat - miejsce " + std::to_string(scorman.getShownPlace() + 1), 0, font, windowRenderer);
+							txtm.update(textType::scores, std::to_string(hiscore.getScore()), 6, font, windowRenderer);
+							txtm.update(textType::scores, std::to_string(hiscore.getGainedLevel()), 7, font, windowRenderer);
+							txtm.update(textType::scores, std::to_string(hiscore.getCollectedTidbits()), 8, font, windowRenderer);
+							txtm.update(textType::scores, hiscore.getDate(), 9, font, windowRenderer);
+							txtm.update(textType::scores, hiscore.getVersion(), 10, font, windowRenderer);
+						}
+						break;
+					}
+					case -6:
+					{
+						if (scorman.incrementPlace())
+						{
+							HistoryScore hiscore = scorman.getBestScore(scorman.getShownPlace());
+							txtm.update(textType::scores, "Rezultat - miejsce " + std::to_string(scorman.getShownPlace() + 1), 0, font, windowRenderer);
+							txtm.update(textType::scores, std::to_string(hiscore.getScore()), 6, font, windowRenderer);
+							txtm.update(textType::scores, std::to_string(hiscore.getGainedLevel()), 7, font, windowRenderer);
+							txtm.update(textType::scores, std::to_string(hiscore.getCollectedTidbits()), 8, font, windowRenderer);
+							txtm.update(textType::scores, hiscore.getDate(), 9, font, windowRenderer);
+							txtm.update(textType::scores, hiscore.getVersion(), 10, font, windowRenderer);
+						}
 						break;
 					}
 				}
@@ -293,7 +334,18 @@ bool GameInstance::loop()
 				}
 				case 3: { updateSceneState(sceneState::mainmenu); break; }
 				case 0: default: { break; }
-					 
+				}
+				break;
+			}
+			case sceneState::gameover:
+			{
+				switch (gameOverMenu.loop())
+				{
+				case -2: { quit = true; break; }
+				case 1: { game.reset(); updateSceneState(sceneState::game); break; }
+				case 2: { updateSceneState(sceneState::mainmenu); break; }
+				case 0: default: { break; }
+
 				}
 				break;
 			}
@@ -331,6 +383,7 @@ void GameInstance::render()
 			break; 
 		}
 		case sceneState::pausemenu: { game.renderScene(); pauseMenu.render(textType::pause); break; }
+		case sceneState::gameover: { game.renderScene(); gameOverMenu.render(textType::gameover); break; }
 		default: { break; }
 	}
 	SDL_RenderPresent(windowRenderer);		//window updating

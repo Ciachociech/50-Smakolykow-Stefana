@@ -75,7 +75,7 @@ void GameMenu::init(textType tt)
 		cursor.loadFromFile(1.f, 1.f, "Assets/menu/secretHandP.png", windowRenderer);
 	}
 
-	if (tt == textType::pause)
+	if (tt == textType::pause || tt == textType::gameover)
 	{
 		cursor = Graph(48, 308);
 		cursor.loadFromFile(1.f, 1.f, "Assets/menu/secretHandL.png", windowRenderer);

@@ -1,7 +1,7 @@
 #include "..\..\include\managers\ScoreManager.h"
 
 //select the place+1-th (default - the best) score and return it
-HistoryScore ScoreManager::selectBestScore(int place = 0)
+HistoryScore ScoreManager::selectBestScore(int place)
 {
 	if (allScores.size() > 0 && place < allScores.size()) 
 	{
@@ -48,10 +48,28 @@ ScoreManager::~ScoreManager()
 
 Score& ScoreManager::getActualScore() { return actualScore; }
 
-HistoryScore ScoreManager::getBestScore() { return selectBestScore(); }
+HistoryScore ScoreManager::getBestScore(int index) { return selectBestScore(index); }
 
 //get size of HistoryIndex vector (number of saved scores)
 int ScoreManager::getSize() { return allScores.size(); }
+
+//get an index to shown place on scoreboard
+int ScoreManager::getShownPlace() { return shownPlace; }
+
+bool ScoreManager::incrementPlace() 
+{
+	if (shownPlace < 4 && shownPlace < getSize() - 1) { shownPlace++; return true; }
+	return false;
+}
+
+bool ScoreManager::decrementPlace()
+{
+	if (shownPlace > 0) { shownPlace--; return true; }
+	return false;
+}
+
+//resets index to first position in scoreboard
+void ScoreManager::resetPlace() { shownPlace = 0; }
 
 //add a history score to vector
 bool ScoreManager::addHistoryScore(HistoryScore& score) 
@@ -74,4 +92,5 @@ void ScoreManager::exterminate()
 {
 	for (auto& score : allScores) { score.reset(); }
 	allScores.clear();
+	resetPlace();
 }

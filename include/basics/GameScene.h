@@ -47,6 +47,7 @@ public:
 	//Game functions
 	int loop();
 	void init();
+	void reset();
 	void close();
 	void render();
 	void renderScene();

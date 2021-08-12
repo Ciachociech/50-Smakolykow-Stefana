@@ -5,7 +5,7 @@
 #include "..\entities\Text.h"
 #include "..\basics\OverworldRandomizer.h"
 
-enum class textType { none = 0, scene = 1, menu, scores, options, pause };
+enum class textType { none = 0, scene = 1, menu, scores, options, pause, gameover };
 
 typedef std::vector<std::unique_ptr<Text>> VecText;
 
@@ -25,7 +25,7 @@ public:
 	textType actualTextType;
 private:
 	//vectors of Text objects
-	VecText sceneTexts, menuTexts, scoresTexts, optTexts, pauseTexts;
+	VecText sceneTexts, menuTexts, scoresTexts, optTexts, pauseTexts, gameoverTexts;
 
 	OverworldRandomizer overand;		//randomizer
 
@@ -34,6 +34,7 @@ private:
 	void initalizeTextPause(TTF_Font* font, SDL_Renderer* renderer);
 	void initalizeTextOptions(TTF_Font* font, SDL_Renderer* renderer);
 	void initalizeTextHiscores(TTF_Font* font, SDL_Renderer* renderer);
+	void initalizeTextGameOver(TTF_Font* font, SDL_Renderer* renderer);
 	void updateTextScene(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer);
 	void updateTextMenu(TTF_Font* font, SDL_Renderer* renderer, bool isGraying = true);
 	void updateTextOptions(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer);
