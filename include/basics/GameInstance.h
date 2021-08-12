@@ -3,8 +3,8 @@
 #include "..\..\include\basics\GameScene.h"
 #include "..\..\include\menu\GameMenu.h"
 
-enum class sceneState { splashscreen = 0, mainmenu, game, highscores, options, pausemenu };
-enum class keyState { ragequit = -2, pause = -1, none };
+enum class sceneState { splashscreen = 0, mainmenu, game, highscores, options, pausemenu, gameover };
+enum class keyState { defeat = -3, ragequit = -2, pause = -1, none };
 
 class GameInstance
 {
@@ -22,7 +22,7 @@ private:
 	//Other constants
 	const int FPS = 60;
 	const std::string logoPath = "Assets/other/appLogo.png";
-	const std::string gameVersion = "0.10";
+	const std::string gameVersion = "0.10.1";
 	const std::string windowName = u8"50 Smako³yków Stefana (£aciata edycja " + gameVersion + ")";
 	
 	//Game managers
@@ -49,7 +49,7 @@ private:
 	sceneState actualScene, lastScene;
 	keyState actualKeyState;
 	GameScene game = GameScene();
-	GameMenu mainMenu = GameMenu(4), pauseMenu = GameMenu(3), optionsMenu = GameMenu(2), hiscoresMenu = GameMenu(0);
+	GameMenu mainMenu = GameMenu(4), pauseMenu = GameMenu(3), optionsMenu = GameMenu(2), hiscoresMenu = GameMenu(0), gameOverMenu = GameMenu(2);
 public:
 	GameInstance();
 	virtual ~GameInstance();

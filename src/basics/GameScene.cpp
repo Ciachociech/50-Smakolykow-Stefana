@@ -148,16 +148,13 @@ int GameScene::loop()
 			am->stopMusic();
 			am->playMusic(AudioMusType::gameover, 0);
 			SDL_Delay(2500);
-			level = 1;										//reset a level counter to 1
-			foundSnacks = 0;								//reset a snacks counter to 0
-			scorman->getActualScore().resetScore();			//reset score to 0
-			goToNextLevel = true;							//set new level flag to true (can be now generated)
+			return -3;
 		}
 		//if win or lose condition sequence is completed
 		if (goToNextLevel)
 		{
-			SDL_Delay(2000);								//take a break
-			init();											//load a map again
+			SDL_Delay(2000);									//take a break
+			init();												//load a map again
 		}
 
 	}
@@ -208,6 +205,14 @@ void GameScene::init()
 	//reseting win and lose condition variables
 	isLost = false;
 	winRewardStage = 0;
+}
+
+void GameScene::reset()
+{
+	level = 1;											//reset a level counter to 1
+	foundSnacks = 0;									//reset a snacks counter to 0
+	scorman->getActualScore().resetScore();				//reset score to 0
+	init();
 }
 
 void GameScene::close()
