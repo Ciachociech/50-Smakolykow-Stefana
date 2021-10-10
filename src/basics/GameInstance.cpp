@@ -5,6 +5,7 @@ GameInstance::GameInstance() : actualScene(sceneState::splashscreen), lastScene(
 
 GameInstance::~GameInstance() {}
 
+//the very main function, initalize window, load media and manage app loop
 void GameInstance::run()
 {
 	//if app initialization is failed
@@ -33,7 +34,7 @@ bool GameInstance::init()
 	//otherwise create a window
 	else
 	{
-		window = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		window = SDL_CreateWindow(windowNameEN.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		//if window is not created, return false (success flag)
 		if (window == NULL)
 		{
@@ -115,6 +116,8 @@ bool GameInstance::loadMedia()
 		return false;
 	}
 
+	SDL_SetWindowTitle(window, windowNamePL.c_str());
+
 	return true;							//if everything was alright returns true
 }
 
@@ -137,55 +140,20 @@ bool GameInstance::loop()
 	actualScene = sceneState::mainmenu;
 	Uint32 frameTime;						//time counter for frame
 
-	{
-		mainMenu.loadRenderer(windowRenderer);
-		mainMenu.loadFont(font);
-		mainMenu.loadSteering(&sterman);
-		mainMenu.loadTexting(&txtm);
-		mainMenu.init(textType::menu);
-	}
-
-	{
-		pauseMenu.loadRenderer(windowRenderer);
-		pauseMenu.loadFont(font);
-		pauseMenu.loadSteering(&sterman);
-		pauseMenu.loadTexting(&txtm);
-		pauseMenu.init(textType::pause);
-	}
-
-	{
-		optionsMenu.loadRenderer(windowRenderer);
-		optionsMenu.loadFont(font);
-		optionsMenu.loadSteering(&sterman);
-		optionsMenu.loadTexting(&txtm);
-		optionsMenu.init(textType::options);
-	}
-
-	{
-		hiscoresMenu.loadRenderer(windowRenderer);
-		hiscoresMenu.loadFont(font);
-		hiscoresMenu.loadSteering(&sterman);
-		hiscoresMenu.loadTexting(&txtm);
-		hiscoresMenu.init(textType::scores);
-	}
-
-	{
-		gameOverMenu.loadRenderer(windowRenderer);
-		gameOverMenu.loadFont(font);
-		gameOverMenu.loadSteering(&sterman);
-		gameOverMenu.loadTexting(&txtm);
-		gameOverMenu.init(textType::gameover);
-	}
+	initMenu(mainMenu, textType::menu);
+	initMenu(pauseMenu, textType::pause);
+	initMenu(optionsMenu, textType::options);
+	initMenu(hiscoresMenu, textType::scores);
+	initMenu(gameOverMenu, textType::gameover);
+	initMenu(enterNameMenu, textType::enterName);
 	
-	{
-		game.loadRenderer(windowRenderer);
-		game.loadFont(font);
-		game.loadSteering(&sterman);
-		game.loadTexting(&txtm);
-		game.loadDating(&dati);
-		game.loadAudio(&am);
-		game.loadScores(&scorman);
-	}
+	game.loadRenderer(windowRenderer);
+	game.loadFont(font);
+	game.loadSteering(&sterman);
+	game.loadTexting(&txtm);
+	game.loadDating(&dati);
+	game.loadAudio(&am);
+	game.loadScores(&scorman);
 
 	//do unless quit is false
 	while (!quit)
@@ -213,13 +181,7 @@ bool GameInstance::loop()
 				{
 					txtm.update(textType::menu, "", 1, font, windowRenderer);
 					dati.load(scorman);
-					HistoryScore hiscore = scorman.getBestScore();
-					txtm.update(textType::scores, "Rezultat - miejsce 1", 0, font, windowRenderer);
-					txtm.update(textType::scores, std::to_string(hiscore.getScore()), 6, font, windowRenderer);
-					txtm.update(textType::scores, std::to_string(hiscore.getGainedLevel()), 7, font, windowRenderer);
-					txtm.update(textType::scores, std::to_string(hiscore.getCollectedTidbits()), 8, font, windowRenderer);
-					txtm.update(textType::scores, hiscore.getDate(), 9, font, windowRenderer);
-					txtm.update(textType::scores, hiscore.getVersion(), 10, font, windowRenderer);
+					showScore(true);
 					updateSceneState(sceneState::highscores);
 					break;
 				}
@@ -243,6 +205,11 @@ bool GameInstance::loop()
 						updateSceneState(sceneState::gameover);
 						break;
 					}
+					case -4: {
+						enterNameMenu.setEditableString(scorman.getPlayerName());
+						updateSceneState(sceneState::entermenu);
+						break;
+					}
 					case 0: default: { break; }
 				}
 				break;
@@ -259,30 +226,12 @@ bool GameInstance::loop()
 					}
 					case -4:
 					{
-						if (scorman.decrementPlace())
-						{
-							HistoryScore hiscore = scorman.getBestScore(scorman.getShownPlace());
-							txtm.update(textType::scores, "Rezultat - miejsce " + std::to_string(scorman.getShownPlace() + 1), 0, font, windowRenderer);
-							txtm.update(textType::scores, std::to_string(hiscore.getScore()), 6, font, windowRenderer);
-							txtm.update(textType::scores, std::to_string(hiscore.getGainedLevel()), 7, font, windowRenderer);
-							txtm.update(textType::scores, std::to_string(hiscore.getCollectedTidbits()), 8, font, windowRenderer);
-							txtm.update(textType::scores, hiscore.getDate(), 9, font, windowRenderer);
-							txtm.update(textType::scores, hiscore.getVersion(), 10, font, windowRenderer);
-						}
+						showScore(scorman.decrementPlace());
 						break;
 					}
 					case -6:
 					{
-						if (scorman.incrementPlace())
-						{
-							HistoryScore hiscore = scorman.getBestScore(scorman.getShownPlace());
-							txtm.update(textType::scores, "Rezultat - miejsce " + std::to_string(scorman.getShownPlace() + 1), 0, font, windowRenderer);
-							txtm.update(textType::scores, std::to_string(hiscore.getScore()), 6, font, windowRenderer);
-							txtm.update(textType::scores, std::to_string(hiscore.getGainedLevel()), 7, font, windowRenderer);
-							txtm.update(textType::scores, std::to_string(hiscore.getCollectedTidbits()), 8, font, windowRenderer);
-							txtm.update(textType::scores, hiscore.getDate(), 9, font, windowRenderer);
-							txtm.update(textType::scores, hiscore.getVersion(), 10, font, windowRenderer);
-						}
+						showScore(scorman.incrementPlace());
 						break;
 					}
 				}
@@ -349,6 +298,27 @@ bool GameInstance::loop()
 				}
 				break;
 			}
+			case sceneState::entermenu:
+			{
+				txtm.update(textType::enterName, "Wynik: " + std::to_string(scorman.getActualScore().getScore()), 0, font, windowRenderer);
+				txtm.update(textType::enterName, "Poziom: " + std::to_string(game.getLevel()), 1, font, windowRenderer);
+				txtm.update(textType::enterName, u8"Smako³yki: " + std::to_string(game.getFoundSnacks()), 2, font, windowRenderer);
+				txtm.update(textType::enterName, enterNameMenu.getEditableString() + "_", 4, font, windowRenderer);
+				switch (enterNameMenu.loop())
+				{
+				case -2: { quit = true; break; }
+				case -1: { updateSceneState(sceneState::gameover); break; }
+				case 1: 
+				{
+					scorman.setPlayerName(enterNameMenu.getEditableString());
+					dati.save(scorman.saveActualScore(game.getLevel(), game.getFoundSnacks()));
+					updateSceneState(sceneState::gameover);
+					break; 
+				}
+				case 0: case 2: default: { break; }
+				}
+				break;
+			}
 			default: { break; }
 		}
 		render();
@@ -362,6 +332,7 @@ bool GameInstance::loop()
 	return true;
 }
 
+//depending of program state, render objects on window
 void GameInstance::render()
 {
 	SDL_RenderClear(windowRenderer);		//clear all previous renedered objects
@@ -384,20 +355,59 @@ void GameInstance::render()
 		}
 		case sceneState::pausemenu: { game.renderScene(); pauseMenu.render(textType::pause); break; }
 		case sceneState::gameover: { game.renderScene(); gameOverMenu.render(textType::gameover); break; }
+		case sceneState::entermenu: { game.renderScene(); enterNameMenu.render(textType::enterName); break; }
 		default: { break; }
 	}
 	SDL_RenderPresent(windowRenderer);		//window updating
 }
 
+//update actual scene state, but notice the last one too
 void GameInstance::updateSceneState(sceneState newState)
 {
 	lastScene = actualScene;
 	actualScene = newState;
 }
 
+//change sound volume depending on newest audio options
 void GameInstance::appendOptions()
 {
-	//change sound volume depending on newest audio options
 	am.setMusicVolume(om.getOptionValue(0));
 	am.setEffectVolume(om.getOptionValue(1));
+}
+
+//initialize and append objects to selected menu
+void GameInstance::initMenu(GameMenu& menu, textType tt)
+{
+	menu.loadRenderer(windowRenderer);
+	menu.loadFont(font);
+	menu.loadSteering(&sterman);
+	menu.loadTexting(&txtm);
+	menu.init(tt);
+}
+
+//show score depending of actual place
+bool GameInstance::showScore(bool success)
+{
+	if (success)
+	{
+		HistoryScore hiscore = scorman.getBestScore(scorman.getShownPlace());
+		txtm.update(textType::scores, "Rezultat - miejsce " + std::to_string(scorman.getShownPlace() + 1), 0, font, windowRenderer);
+		if (hiscore.getNickname() == "/NONAME/" || hiscore.getNickname() == "Stefan")
+		{
+			txtm.update(textType::scores, " ", 1, font, windowRenderer);
+			txtm.update(textType::scores, " ", 7, font, windowRenderer);
+		}
+		else
+		{
+			txtm.update(textType::scores, "Nick:", 1, font, windowRenderer);
+			txtm.update(textType::scores, hiscore.getNickname(), 7, font, windowRenderer);
+		}
+		txtm.update(textType::scores, std::to_string(hiscore.getScore()), 8, font, windowRenderer);
+		txtm.update(textType::scores, std::to_string(hiscore.getGainedLevel()), 9, font, windowRenderer);
+		txtm.update(textType::scores, std::to_string(hiscore.getCollectedTidbits()), 10, font, windowRenderer);
+		txtm.update(textType::scores, hiscore.getDate(), 11, font, windowRenderer);
+		txtm.update(textType::scores, hiscore.getVersion(), 12, font, windowRenderer);
+		return true;
+	}
+	return false;
 }

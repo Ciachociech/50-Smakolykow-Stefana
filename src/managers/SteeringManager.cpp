@@ -11,38 +11,57 @@ keyAction SteeringManager::keyboardMovement(int& x, int& y, SDL_Keycode keycode)
     checkMischievousCombo(keycode);
     checkAnotherEvilCombo(keycode);
 
-    if (keycode == SDLK_ESCAPE) { return keyAction::pause; }                                //check clicking ESC (pause activating)
+    if (keycode == SDLK_ESCAPE) { return keyAction::pauseScene; }                                               //check clicking ESC (pause activating)
 
     //character moving (up, down, left, right)
-    if (keycode == SDLK_w || keycode == SDLK_UP) { y = -2; return keyAction::moving; }
-    else if (keycode == SDLK_s || keycode == SDLK_DOWN) { y = 2; return keyAction::moving; }
+    if (keycode == SDLK_w || keycode == SDLK_UP) { y = -2; return keyAction::movingScene; }
+    else if (keycode == SDLK_s || keycode == SDLK_DOWN) { y = 2; return keyAction::movingScene; }
     if (keycode == SDLK_a || keycode == SDLK_LEFT) 
     { 
-        if (combo1 == 10) { return keyAction::mischievous; }                                //end of mischievous combo
-        else { x = -2; return keyAction::moving; }
+        if (combo1 == 10) { return keyAction::mischievousCombo; }                                               //end of mischievous combo
+        else { x = -2; return keyAction::movingScene; }
     }
-    else if (keycode == SDLK_d || keycode == SDLK_RIGHT) { x = 2; return keyAction::moving; }
+    else if (keycode == SDLK_d || keycode == SDLK_RIGHT) { x = 2; return keyAction::movingScene; }
 
     //other character actions
-    if (keycode == SDLK_l) { return keyAction::digging; }                                   //digging action
-    if (keycode == SDLK_k) { return keyAction::powerupUsing; }                              //power-up action
-    if (keycode == SDLK_p) { return keyAction::steeringHelp; }                              //invoking help window
-    if (combo2 == 6 && keycode == SDLK_n) { return keyAction::anotherEvil; }                //end of another evil combo
+    if (keycode == SDLK_l) { return keyAction::diggingScene; }                                                  //digging action
+    if (keycode == SDLK_k) { return keyAction::powerupUsingScene; }                                             //power-up action
+    if (keycode == SDLK_p) { return keyAction::steeringHelpScene; }                                             //invoking help window
+    if (combo2 == 6 && keycode == SDLK_n) { return keyAction::anotherEvilCombo; }                               //end of another evil combo
 
-    return keyAction::none;                                                                 //if none of them, return none
+    return keyAction::none;                                                                                     //if none of them, return none
 }
 
+//Returns performed action depending of pressed key
 keyAction SteeringManager::keyboardMenu(SDL_Keycode keycode)
 {
-    if (keycode == SDLK_w || keycode == SDLK_UP) { return keyAction::prev; }
-    else if (keycode == SDLK_s || keycode == SDLK_DOWN) { return keyAction::next; }
+    //moving up/down (choose menu option)
+    if (keycode == SDLK_w || keycode == SDLK_UP) { return keyAction::prevMenu; }
+    else if (keycode == SDLK_s || keycode == SDLK_DOWN) { return keyAction::nextMenu; }
 
-    if (keycode == SDLK_a || keycode == SDLK_LEFT) { return keyAction::less; }
-    else if (keycode == SDLK_d || keycode == SDLK_RIGHT) { return keyAction::more; }
+    //change value of option
+    if (keycode == SDLK_a || keycode == SDLK_LEFT) { return keyAction::lessMenu; }
+    else if (keycode == SDLK_d || keycode == SDLK_RIGHT) { return keyAction::moreMenu; }
 
-    if (keycode == SDLK_SPACE || keycode == SDLK_RETURN) { return keyAction::enter; }
-    if (keycode == SDLK_ESCAPE) { return keyAction::goBack; }
+    //enter to menu or go back
+    if (keycode == SDLK_SPACE || keycode == SDLK_RETURN) { return keyAction::enterMenu; }
+    if (keycode == SDLK_ESCAPE) { return keyAction::goBackMenu; }
 
+    return keyAction::none;
+}
+
+//Returns performed action depending of pressed key or changes value of string
+keyAction SteeringManager::keyboardString(std::string& name, SDL_Event event)
+{
+    if (event.key.keysym.sym == SDLK_RETURN) { return keyAction::acceptName; }                                               //accept name and save score
+    if (event.key.keysym.sym == SDLK_ESCAPE) { return keyAction::rejectName; }                                               //cancel saving last score
+    if (event.key.keysym.sym == SDLK_BACKSPACE && name.length() > 0) { name.pop_back(); return keyAction::backspaceName; }   //deleting last character
+
+    if (event.type == SDL_TEXTINPUT && name.length() < 16) 
+    { 
+        name += event.text.text; 
+        if (name[name.size() - 1] == ' ') { name.pop_back(); }
+    } 
     return keyAction::none;
 }
 

@@ -53,6 +53,9 @@ public:
 	void renderScene();
 	void renderPanel();
 
+	int getLevel();
+	int getFoundSnacks();
+
 	//Game mechanics functions
 	void digTile(bool isDignine = false);
 };

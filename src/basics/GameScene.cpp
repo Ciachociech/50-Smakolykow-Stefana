@@ -18,6 +18,7 @@ void GameScene::loadAudio(AudioManager* am) { this->am = am; }
 
 void GameScene::loadScores(ScoreManager* sm) { this->scorman = sm; }
 
+//loop of game
 int GameScene::loop()
 {						
 	SDL_Event event;							//sdl event variable for observing keyboard action or game exiting
@@ -63,9 +64,9 @@ int GameScene::loop()
 		//move main character
 		sm.moveStefan(tileX, tileY);
 		//if last action is set for digging (uncovering a tile)
-		if (actualAction == keyAction::digging) { digTile(); }
+		if (actualAction == keyAction::diggingScene) { digTile(); }
 		//if last action is using a powerup
-		else if (actualAction == keyAction::powerupUsing && tm.getPowerupStatus() == PowerupStatus::avaiable)
+		else if (actualAction == keyAction::powerupUsingScene && tm.getPowerupStatus() == PowerupStatus::avaiable)
 		{
 			//for specific type of powerup, perform a proper action
 			switch (tm.getPowerupType())
@@ -140,14 +141,12 @@ int GameScene::loop()
 		//if lose condition case is fulfilled
 		if (winRewardStage <= 0 && isLost)
 		{
-			//if best score was beaten in this (previous) game or size of score table is quite short
-			if (scorman->getActualScore().getScore() == scorman->getBestScore().getScore() || scorman->getSize() < 5) 
-			{ 
-				dati->save(scorman->saveActualScore(level, foundSnacks)); 
-			}
 			am->stopMusic();
+			am->stopChannel(-1);
 			am->playMusic(AudioMusType::gameover, 0);
 			SDL_Delay(2500);
+			//if best score was beaten in this (previous) game or size of score table is quite short
+			if (scorman->getActualScore().getScore() > 0 && (scorman->getSize() < 5 || scorman->getActualScore().getScore() > scorman->getLastLeaderboardScore().getScore())) { return -4; }
 			return -3;
 		}
 		//if win or lose condition sequence is completed
@@ -169,10 +168,11 @@ int GameScene::loop()
 		txtm->update(textType::scene, std::to_string(scorman->getActualScore().getScore()), 10, font, windowRenderer);
 	}
 
-	if (actualAction != keyAction::pause) { return 0; }
+	if (actualAction != keyAction::pauseScene) { return 0; }
 	else { return -1; }
 }
 
+//initialize variables and prepare for new level
 void GameScene::init()
 {
 	//layer manager reseting and generating again whole scene (UI and map elements)
@@ -207,6 +207,7 @@ void GameScene::init()
 	winRewardStage = 0;
 }
 
+//reset values and prepare for new game
 void GameScene::reset()
 {
 	level = 1;											//reset a level counter to 1
@@ -215,6 +216,7 @@ void GameScene::reset()
 	init();
 }
 
+//dereference all objects
 void GameScene::close()
 {
 	font = NULL;
@@ -225,16 +227,17 @@ void GameScene::close()
 	scorman = NULL;
 }
 
+//render object of game
 void GameScene::render()
 {
 	renderPanel();
 	renderScene();
 	//if one of special action is performed last tile
-	if (actualAction == keyAction::mischievous || actualAction == keyAction::anotherEvil || actualAction == keyAction::steeringHelp)
+	if (actualAction == keyAction::mischievousCombo || actualAction == keyAction::anotherEvilCombo || actualAction == keyAction::steeringHelpScene)
 	{
 		bool loop = true;												//flag for showing a life of loop, can be set to false when the app is closed
 		SDL_Event event;												//sdl event variable for observing keyboard action or game exiting
-		if (actualAction == keyAction::anotherEvil) { am->stopMusic(); am->playMusic(AudioMusType::menuPreTheme, 0); }
+		if (actualAction == keyAction::anotherEvilCombo) { am->stopMusic(); am->playMusic(AudioMusType::menuPreTheme, 0); }
 
 		//do unless loop is true
 		while (loop)
@@ -251,9 +254,9 @@ void GameScene::render()
 			//render some object depending of special action type
 			switch (actualAction)
 			{
-			case keyAction::mischievous: { lm.render(-1, windowRenderer); break; }
-			case keyAction::anotherEvil: { lm.render(-2, windowRenderer); break; }
-			case keyAction::steeringHelp: { lm.render(-3, windowRenderer); break; }
+			case keyAction::mischievousCombo: { lm.render(-1, windowRenderer); break; }
+			case keyAction::anotherEvilCombo: { lm.render(-2, windowRenderer); break; }
+			case keyAction::steeringHelpScene: { lm.render(-3, windowRenderer); break; }
 			default: { break; }
 			}
 			SDL_RenderPresent(windowRenderer);							//window updating
@@ -262,6 +265,7 @@ void GameScene::render()
 	}
 }
 
+//render object of scene part
 void GameScene::renderScene()
 {
 	lm.render(0, 0, -4, windowRenderer);								//render logo graph
@@ -272,6 +276,8 @@ void GameScene::renderScene()
 	tm.renderIndicator(windowRenderer);									//render nosescan indicator
 }
 
+
+//render object of panel part
 void GameScene::renderPanel()
 {
 	lm.render(0, 0, -5, windowRenderer);								//render mood tile graph
@@ -279,6 +285,11 @@ void GameScene::renderPanel()
 	tm.renderPanel(windowRenderer);										//render all treasure graphs
 }
 
+int GameScene::getLevel() {	return level; }
+
+int GameScene::getFoundSnacks() { return foundSnacks; }
+
+//ability of dignine
 void GameScene::digTile(bool isDignine)
 {
 	int initW = 0, initH = 0, endW = 1, endH = 1;						//default values for ordinary digging (only one tile)

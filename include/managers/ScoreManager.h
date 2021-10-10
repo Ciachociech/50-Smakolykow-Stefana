@@ -14,6 +14,7 @@ class ScoreManager
 private:
 	VecHiScore allScores = VecHiScore();
 	Score actualScore;
+	std::string nickname = "Stefan";
 
 	int shownPlace = 0;
 
@@ -33,15 +34,22 @@ public:
 
 	Score& getActualScore();
 	HistoryScore getBestScore(int index = 0);
+	HistoryScore getLastLeaderboardScore();
 	int getSize();
 	int getShownPlace();
+	std::string getPlayerName();
 
+	void setPlayerName(std::string playerName);
+
+	//manage shown place (number of hiscore)
 	bool incrementPlace();
 	bool decrementPlace();
 	void resetPlace();
 
+	//manage score
 	bool addHistoryScore(HistoryScore& score);
 	HistoryScore saveActualScore(int level, int foundSnacks);
+
 	void exterminate();
 };
 
