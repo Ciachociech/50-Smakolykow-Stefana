@@ -17,6 +17,12 @@ private:
 	OverworldRandomizer overand;
 	keyAction actualAction;									//shows information about last chosen action (by keyboard)
 	int actualOption = 0, maxOptions;
+	bool isEntering;
+	std::string editableString;
+
+	//menu/enter loops
+	int menuLoop();
+	int enterLoop();
 public:
 	GameMenu();
 	GameMenu(int optionsCount);
@@ -36,6 +42,9 @@ public:
 
 	int getActualOption();
 	int getMaxOptions();
+	std::string getEditableString();
+
+	void setEditableString(std::string setEditableString);
 
 	Graph logo, cursor;
 };

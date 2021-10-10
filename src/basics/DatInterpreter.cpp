@@ -28,6 +28,7 @@ void DatInterpreter::load(ScoreManager& sm)
 	{
 		//build each of HistoryScore object and fill with values
 		HistoryScore hiscore(std::stoi(line[2]));
+		hiscore.setNickname(line[0]);
 		hiscore.setGainedLevel(std::stoi(line[1]));
 		hiscore.setCollectedTidbits(std::stoi(line[3]));
 		hiscore.setDate(line[4]);
@@ -85,7 +86,8 @@ void DatInterpreter::save(HistoryScore hiscore)
 	localtime_s(&fTime, &actualTime);
 
 	//gathering and saving data from previous game as a line of data
-	tempLine.push_back("/NONAME/");
+	if (hiscore.getNickname().empty() || hiscore.getNickname() == "Stefan") { tempLine.push_back("/NONAME/"); }
+	else { tempLine.push_back(hiscore.getNickname()); }
 	tempLine.push_back(std::to_string(hiscore.getGainedLevel()));
 	tempLine.push_back(std::to_string(hiscore.getScore()));
 	tempLine.push_back(std::to_string(hiscore.getCollectedTidbits()));
@@ -229,6 +231,7 @@ void DatInterpreter::dumpData(char controlChar, VecString oldData, Vec2String da
 	file.close();
 }
 
+//check the latest version of .dat file and compare to newest standard, if existing file is obsolete, it will be updated
 void DatInterpreter::forceUpdate()
 {
 	//get whole content of file

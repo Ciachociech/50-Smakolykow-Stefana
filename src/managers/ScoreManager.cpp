@@ -50,11 +50,21 @@ Score& ScoreManager::getActualScore() { return actualScore; }
 
 HistoryScore ScoreManager::getBestScore(int index) { return selectBestScore(index); }
 
+HistoryScore ScoreManager::getLastLeaderboardScore()
+{
+	if(getSize() >= 5) { return getBestScore(4); }
+	else { return getBestScore(getSize() - 1); }
+}
+
 //get size of HistoryIndex vector (number of saved scores)
 int ScoreManager::getSize() { return allScores.size(); }
 
 //get an index to shown place on scoreboard
 int ScoreManager::getShownPlace() { return shownPlace; }
+
+std::string ScoreManager::getPlayerName() {	return nickname; }
+
+void ScoreManager::setPlayerName(std::string playerName) { nickname = playerName; }
 
 bool ScoreManager::incrementPlace() 
 {
@@ -75,13 +85,14 @@ void ScoreManager::resetPlace() { shownPlace = 0; }
 bool ScoreManager::addHistoryScore(HistoryScore& score) 
 { 
 	allScores.push_back(std::make_unique<HistoryScore>(score));
-	return true; 
+	return true;
 }
 
 //convert actual score to history score (used before saving to .dat file) - be sure to reset actual score after calling this method
 HistoryScore ScoreManager::saveActualScore(int level, int foundSnacks)
 {
 	HistoryScore hiscore(actualScore.getScore());
+	hiscore.setNickname(nickname);
 	hiscore.setGainedLevel(level);
 	hiscore.setCollectedTidbits(foundSnacks);
 	return hiscore;
