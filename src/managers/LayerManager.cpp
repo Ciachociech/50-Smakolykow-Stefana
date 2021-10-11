@@ -83,6 +83,7 @@ void LayerManager::exterminate()
 		layers[i]->exterminate();
 	}
 	layers.clear();
+	actualMood = mood::none;
 }
 
 //fills layers or objects depending of chosen mode

@@ -149,7 +149,7 @@ int GameScene::loop()
 			if (scorman->getActualScore().getScore() > 0 && (scorman->getSize() < 5 || scorman->getActualScore().getScore() > scorman->getLastLeaderboardScore().getScore())) { return -4; }
 			return -3;
 		}
-		//if win or lose condition sequence is completed
+		//if win condition sequence is completed
 		if (goToNextLevel)
 		{
 			SDL_Delay(2000);									//take a break
@@ -157,7 +157,6 @@ int GameScene::loop()
 		}
 
 	}
-
 	//if the win (level completed) condition is not fulfilled, change the mood portrait (preventing changing it after winning)
 	if (winRewardStage == 0) { lm.refreshMood(sm.getMotivationPercent(), windowRenderer); }
 	//update text for left motivation and actual score
@@ -167,7 +166,6 @@ int GameScene::loop()
 	{
 		txtm->update(textType::scene, std::to_string(scorman->getActualScore().getScore()), 10, font, windowRenderer);
 	}
-
 	if (actualAction != keyAction::pauseScene) { return 0; }
 	else { return -1; }
 }
@@ -261,7 +259,6 @@ void GameScene::render()
 			}
 			SDL_RenderPresent(windowRenderer);							//window updating
 		}
-
 	}
 }
 

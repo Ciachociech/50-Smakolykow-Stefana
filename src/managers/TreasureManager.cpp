@@ -277,7 +277,7 @@ void TreasureManager::exterminate()
 //returns type of objects and writes information about tile dimensions
 treasureType TreasureManager::randomizeType(int& tileW, int& tileH)
 {
-	switch (overand.randomNumber(1, 29))
+	switch (overand.randomNumber(1, 30))
 	{
 	case 1:		{ tileW = 2;	tileH = 2;	return treasureType::carrot;		break; }
 	case 2:		{ tileW = 2;	tileH = 2;	return treasureType::mniszek;		break; }
@@ -313,6 +313,7 @@ treasureType TreasureManager::randomizeType(int& tileW, int& tileH)
 	case 27:	{ tileW = 2;	tileH = 2;	return treasureType::rose;			break; }
 	case 28:	{ tileW = 2;	tileH = 2;	return treasureType::silverweed;	break; }
 	case 29:	{ tileW = 2;	tileH = 2;	return treasureType::basil;			break; }
+	case 30:	{ tileW = 4;	tileH = 1;	return treasureType::pepper;		break; }
 	default:	{							return treasureType::none;			break; }
 	}
 }

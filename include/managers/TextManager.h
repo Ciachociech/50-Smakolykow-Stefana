@@ -47,6 +47,7 @@ private:
 	void updateTextMenu(TTF_Font* font, SDL_Renderer* renderer, bool isGraying = true);
 	void updateTextOptions(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer);
 	void updateTextHiscores(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer);
+	void updateTextGameOver(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer);
 	void updateTextEnterName(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer);
 
 	//make text more or less visible/bright
