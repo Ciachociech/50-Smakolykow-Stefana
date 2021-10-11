@@ -121,10 +121,15 @@ void GameMenu::init(textType tt)
 			break;
 		}
 		case textType::pause: 
-		case textType::gameover:
 		case textType::options:
 		{
 			cursor = Graph(48, 308);
+			cursor.loadFromFile(1.f, 1.f, "Assets/menu/secretHandL.png", windowRenderer);
+			break;
+		}
+		case textType::gameover:
+		{
+			cursor = Graph(48, 416);
 			cursor.loadFromFile(1.f, 1.f, "Assets/menu/secretHandL.png", windowRenderer);
 			break;
 		}

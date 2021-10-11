@@ -168,40 +168,38 @@ void TextManager::initalizeTextHiscores(TTF_Font* font, SDL_Renderer* renderer)
 //initializes all Text objects for game over
 void TextManager::initalizeTextGameOver(TTF_Font* font, SDL_Renderer* renderer)
 {
-	gameoverTexts.push_back(std::make_unique<Text>(112, 304));				//0 - new game text
-	gameoverTexts.back()->loadFromText(u8"Spróbuj ponownie", overand.randomColor(), renderer, font);
-	gameoverTexts.push_back(std::make_unique<Text>(112, 360));				//1 - hi-scores text
-	gameoverTexts.back()->loadFromText(u8"WyjdŸ do menu", overand.randomColor(), renderer, font);
-	gameoverTexts.push_back(std::make_unique<Text>(48, 248));				//2 - game over text
+	gameoverTexts.push_back(std::make_unique<Text>(48, 248));				//0 - score text
+	gameoverTexts.back()->loadFromText(u8"Wynik: 0", overand.randomColor(), renderer, font);
+	gameoverTexts.push_back(std::make_unique<Text>(48, 304));				//1 - level text
+	gameoverTexts.back()->loadFromText(u8"Poziom: 0", overand.randomColor(), renderer, font);
+	gameoverTexts.push_back(std::make_unique<Text>(48, 360));				//2 - tidbits text
+	gameoverTexts.back()->loadFromText(u8"Smako³yki: 0", overand.randomColor(), renderer, font);
+	gameoverTexts.push_back(std::make_unique<Text>(48, 192));				//3 - game over text
 	gameoverTexts.back()->loadFromText("Koniec gry", overand.randomColor(), renderer, font);
+	gameoverTexts.push_back(std::make_unique<Text>(112, 416));				//4 - new game text
+	gameoverTexts.back()->loadFromText(u8"Spróbuj ponownie", overand.randomColor(), renderer, font);
+	gameoverTexts.push_back(std::make_unique<Text>(112, 472));				//5 - hi-scores text
+	gameoverTexts.back()->loadFromText(u8"WyjdŸ do menu", overand.randomColor(), renderer, font);
 
-	gameoverTexts.push_back(std::make_unique<Text>(48, 584));				//3 - const help1 text
+	gameoverTexts.push_back(std::make_unique<Text>(48, 584));				//6 - const help1 text
 	gameoverTexts.back()->loadFromText(u8"[W/S] - wybór opcji", overand.randomColor(), renderer, font);
-	gameoverTexts.push_back(std::make_unique<Text>(48, 640));				//4 - const help2 text
+	gameoverTexts.push_back(std::make_unique<Text>(48, 640));				//7 - const help2 text
 	gameoverTexts.back()->loadFromText(u8"[ENTER] - zatwierdzenie opcji", overand.randomColor(), renderer, font);
 }
 
 //initializes all Text objects for entering name
 void TextManager::initalizeTextEnterName(TTF_Font* font, SDL_Renderer* renderer)
 {
-	enterNameTexts.push_back(std::make_unique<Text>(48, 248));				//0 - score text
-	enterNameTexts.back()->loadFromText(u8"Wynik: 0", overand.randomColor(), renderer, font);
-	enterNameTexts.push_back(std::make_unique<Text>(48, 304));				//1 - level text
-	enterNameTexts.back()->loadFromText(u8"Poziom: 0", overand.randomColor(), renderer, font);
-	enterNameTexts.push_back(std::make_unique<Text>(48, 360));				//2 - tidbits text
-	enterNameTexts.back()->loadFromText(u8"Smako³yki: 0", overand.randomColor(), renderer, font);
-	enterNameTexts.push_back(std::make_unique<Text>(48, 416));				//3 - beat score text
+	enterNameTexts.push_back(std::make_unique<Text>(48, 416));				//0 - beat score text
 	enterNameTexts.back()->loadFromText(u8"Wpisz siê na listê rekordów", overand.randomColor(), renderer, font);
-	enterNameTexts.push_back(std::make_unique<Text>(48, 472));				//4 - name score text
+	enterNameTexts.push_back(std::make_unique<Text>(48, 472));				//1 - name score text
 	enterNameTexts.back()->loadFromText(u8"...", overand.randomColor(), renderer, font);
-	enterNameTexts.push_back(std::make_unique<Text>(48, 192));				//5 - game over text
-	enterNameTexts.back()->loadFromText("Koniec gry", overand.randomColor(), renderer, font);
 
-	enterNameTexts.push_back(std::make_unique<Text>(48, 528));				//6 - const help1 text
+	enterNameTexts.push_back(std::make_unique<Text>(48, 528));				//2 - const help1 text
 	enterNameTexts.back()->loadFromText(u8"[BACKSPACE] - usuwanie znaków", overand.randomColor(), renderer, font);
-	enterNameTexts.push_back(std::make_unique<Text>(48, 584));				//7 - const help2 text
+	enterNameTexts.push_back(std::make_unique<Text>(48, 584));				//3 - const help2 text
 	enterNameTexts.back()->loadFromText(u8"[ESC] - odrzucanie rekordu", overand.randomColor(), renderer, font);
-	enterNameTexts.push_back(std::make_unique<Text>(48, 640));				//8 - const help3 text
+	enterNameTexts.push_back(std::make_unique<Text>(48, 640));				//4 - const help3 text
 	enterNameTexts.back()->loadFromText(u8"[ENTER] - wpisanie rekordu", overand.randomColor(), renderer, font);
 }
 
@@ -254,11 +252,21 @@ void TextManager::updateTextHiscores(std::string newValue, int index, TTF_Font* 
 	}
 }
 
+//update selected Text objects for game over
+void TextManager::updateTextGameOver(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer)
+{
+	//if index is valid
+	if (index < 3)																		//since version 0.10.3
+	{
+		gameoverTexts[index]->loadFromText(newValue, gameoverTexts[index]->getColor(), renderer, font);
+	}
+}
+
 //update selected Text objects for entering name
 void TextManager::updateTextEnterName(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer)
 {
 	//if index is valid
-	if (index == 4 || index < 3)														//since version 0.10.2
+	if (index == 1)														//since version 0.10.2
 	{
 		enterNameTexts[index]->loadFromText(newValue, enterNameTexts[index]->getColor(), renderer, font);
 	}
@@ -314,9 +322,9 @@ void TextManager::update(textType tt, std::string newValue, int index, TTF_Font*
 	}
 	case textType::scores: { updateTextHiscores(newValue, index, font, renderer); break; }
 	case textType::options: { updateTextOptions(newValue, index + 3, font, renderer); break; }
-	case textType::pause: case textType::gameover: { break; }
+	case textType::gameover: { updateTextGameOver(newValue, index, font, renderer); break; }
 	case textType::enterName: { updateTextEnterName(newValue, index, font, renderer); break; }
-	default: { break; }
+	case textType::pause: default: { break; }
 	}
 }
 
@@ -331,7 +339,12 @@ void TextManager::render(textType tt, SDL_Renderer* renderer)
 	case textType::options: { for (int i = 0; i < optTexts.size(); i++) { optTexts[i]->render(renderer); } break; }
 	case textType::pause: { for (int i = 0; i < pauseTexts.size(); i++) { pauseTexts[i]->render(renderer); } break; }
 	case textType::gameover: { for (int i = 0; i < gameoverTexts.size(); i++) { gameoverTexts[i]->render(renderer); } break; }
-	case textType::enterName: { for (int i = 0; i < enterNameTexts.size(); i++) { enterNameTexts[i]->render(renderer); } break; }
+	case textType::enterName: 
+	{ 
+		for (int i = 0; i < enterNameTexts.size(); i++) { enterNameTexts[i]->render(renderer); } 
+		for (int i = 0; i < 4; i++) { gameoverTexts[i]->render(renderer); }
+		break; 
+	}
 	default: { break; }
 	}
 }

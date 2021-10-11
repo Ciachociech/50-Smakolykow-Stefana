@@ -202,10 +202,16 @@ bool GameInstance::loop()
 						break; 
 					}
 					case -3: {
+						txtm.update(textType::gameover, "Wynik: " + std::to_string(scorman.getActualScore().getScore()), 0, font, windowRenderer);
+						txtm.update(textType::gameover, "Poziom: " + std::to_string(game.getLevel()), 1, font, windowRenderer);
+						txtm.update(textType::gameover, u8"Smako造ki: " + std::to_string(game.getFoundSnacks()), 2, font, windowRenderer);
 						updateSceneState(sceneState::gameover);
 						break;
 					}
 					case -4: {
+						txtm.update(textType::gameover, "Wynik: " + std::to_string(scorman.getActualScore().getScore()), 0, font, windowRenderer);
+						txtm.update(textType::gameover, "Poziom: " + std::to_string(game.getLevel()), 1, font, windowRenderer);
+						txtm.update(textType::gameover, u8"Smako造ki: " + std::to_string(game.getFoundSnacks()), 2, font, windowRenderer);
 						enterNameMenu.setEditableString(scorman.getPlayerName());
 						updateSceneState(sceneState::entermenu);
 						break;
@@ -300,14 +306,18 @@ bool GameInstance::loop()
 			}
 			case sceneState::entermenu:
 			{
-				txtm.update(textType::enterName, "Wynik: " + std::to_string(scorman.getActualScore().getScore()), 0, font, windowRenderer);
-				txtm.update(textType::enterName, "Poziom: " + std::to_string(game.getLevel()), 1, font, windowRenderer);
-				txtm.update(textType::enterName, u8"Smako造ki: " + std::to_string(game.getFoundSnacks()), 2, font, windowRenderer);
-				txtm.update(textType::enterName, enterNameMenu.getEditableString() + "_", 4, font, windowRenderer);
+				txtm.update(textType::enterName, enterNameMenu.getEditableString() + "_", 1, font, windowRenderer);
 				switch (enterNameMenu.loop())
 				{
 				case -2: { quit = true; break; }
-				case -1: { updateSceneState(sceneState::gameover); break; }
+				case -1: 
+				{ 
+					txtm.update(textType::gameover, "Wynik: " + std::to_string(scorman.getActualScore().getScore()), 0, font, windowRenderer);
+					txtm.update(textType::gameover, "Poziom: " + std::to_string(game.getLevel()), 1, font, windowRenderer);
+					txtm.update(textType::gameover, u8"Smako造ki: " + std::to_string(game.getFoundSnacks()), 2, font, windowRenderer);
+					updateSceneState(sceneState::gameover); 
+					break; 
+				}
 				case 1: 
 				{
 					scorman.setPlayerName(enterNameMenu.getEditableString());
