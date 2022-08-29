@@ -8,6 +8,9 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 
+//Other libraries
+#include <rapidjson/rapidjson.h>
+
 //Standard C++ libraries
 #include <string>
 #include <vector>

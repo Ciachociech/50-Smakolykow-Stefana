@@ -22,7 +22,7 @@ private:
 	//Other constants
 	const int FPS = 60;
 	const std::string logoPath = "Assets/other/appLogo.png";
-	const std::string gameVersion = "0.10.3";
+	const std::string gameVersion = "0.11";
 	const std::string windowNamePL = u8"50 Smako³yków Stefana (£aciata edycja " + gameVersion + ")";
 	const std::string windowNameEN = u8"50 Tidbits of Stefan (Piebald Edition " + gameVersion + ")";
 	

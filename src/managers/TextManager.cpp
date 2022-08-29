@@ -74,7 +74,7 @@ void TextManager::initalizeTextMenu(TTF_Font* font, SDL_Renderer* renderer)
 	menuTexts.back()->loadFromText(u8"Wersja " + version + u8" - by Ciachociech", overand.randomColor(), renderer, font);
 	menuTexts.push_back(std::make_unique<Text>(48, 584));					//5 - const help1 text
 	menuTexts.back()->loadFromText(u8"[W/S] - wybór opcji", overand.randomColor(), renderer, font);
-	menuTexts.push_back(std::make_unique<Text>(48, 640));					//6 - const help1 text
+	menuTexts.push_back(std::make_unique<Text>(48, 640));					//6 - const help2 text
 	menuTexts.back()->loadFromText(u8"[ENTER] - zatwierdzenie opcji", overand.randomColor(), renderer, font);
 }
 
@@ -107,14 +107,14 @@ void TextManager::initalizeTextOptions(TTF_Font* font, SDL_Renderer* renderer)
 	optTexts.back()->loadFromText(u8"G³oœnoœæ muzyki", color1, renderer, font);
 	optTexts.push_back(std::make_unique<Text>(112, 360));				//2 - effect volume text
 	optTexts.back()->loadFromText(u8"G³oœnoœæ efektów", color2, renderer, font);
-	//optTexts.push_back(std::make_unique<Text>(112, 416));				//3 - future option text
+	//optTexts.push_back(std::make_unique<Text>(112, 416));				//3 - language text
 	//optTexts.back()->loadFromText("Opcje", color3, renderer, font);
 
 	optTexts.push_back(std::make_unique<Text>(512, 304, false));		//3 - music volume value text
 	optTexts.back()->loadFromText("100%", color1, renderer, font);
 	optTexts.push_back(std::make_unique<Text>(512, 360, false));		//4 - effect volume value text
 	optTexts.back()->loadFromText("100%", color2, renderer, font);
-	//optTexts.push_back(std::make_unique<Text>(600, 416, false));		//5 - hi-scores text
+	//optTexts.push_back(std::make_unique<Text>(600, 416, false));		//5 - language value text
 	//optTexts.back()->loadFromText("Opcje", color3, renderer, font);
 
 	optTexts.push_back(std::make_unique<Text>(48, 528));				//5 - const help1 text
@@ -168,22 +168,32 @@ void TextManager::initalizeTextHiscores(TTF_Font* font, SDL_Renderer* renderer)
 //initializes all Text objects for game over
 void TextManager::initalizeTextGameOver(TTF_Font* font, SDL_Renderer* renderer)
 {
+	SDL_Color	color1 = overand.randomColor(), color2 = overand.randomColor(), color3 = overand.randomColor();
+	
 	gameoverTexts.push_back(std::make_unique<Text>(48, 248));				//0 - score text
-	gameoverTexts.back()->loadFromText(u8"Wynik: 0", overand.randomColor(), renderer, font);
+	gameoverTexts.back()->loadFromText(u8"Wynik: ", color1, renderer, font);
 	gameoverTexts.push_back(std::make_unique<Text>(48, 304));				//1 - level text
-	gameoverTexts.back()->loadFromText(u8"Poziom: 0", overand.randomColor(), renderer, font);
+	gameoverTexts.back()->loadFromText(u8"Poziom: ", color2, renderer, font);
 	gameoverTexts.push_back(std::make_unique<Text>(48, 360));				//2 - tidbits text
-	gameoverTexts.back()->loadFromText(u8"Smako³yki: 0", overand.randomColor(), renderer, font);
-	gameoverTexts.push_back(std::make_unique<Text>(48, 192));				//3 - game over text
+	gameoverTexts.back()->loadFromText(u8"Smako³yki: ", color3, renderer, font);
+
+	gameoverTexts.push_back(std::make_unique<Text>(512, 248, false));		//3 - non-const score text
+	gameoverTexts.back()->loadFromText("0", color1, renderer, font);
+	gameoverTexts.push_back(std::make_unique<Text>(512, 304, false));		//4 - non-const score text
+	gameoverTexts.back()->loadFromText("0", color2, renderer, font);
+	gameoverTexts.push_back(std::make_unique<Text>(512, 360, false));		//5 - non-const score text
+	gameoverTexts.back()->loadFromText("0", color3, renderer, font);
+
+	gameoverTexts.push_back(std::make_unique<Text>(48, 192));				//6 - game over text
 	gameoverTexts.back()->loadFromText("Koniec gry", overand.randomColor(), renderer, font);
-	gameoverTexts.push_back(std::make_unique<Text>(112, 416));				//4 - new game text
+	gameoverTexts.push_back(std::make_unique<Text>(112, 416));				//7 - new game text
 	gameoverTexts.back()->loadFromText(u8"Spróbuj ponownie", overand.randomColor(), renderer, font);
-	gameoverTexts.push_back(std::make_unique<Text>(112, 472));				//5 - hi-scores text
+	gameoverTexts.push_back(std::make_unique<Text>(112, 472));				//8 - hi-scores text
 	gameoverTexts.back()->loadFromText(u8"WyjdŸ do menu", overand.randomColor(), renderer, font);
 
-	gameoverTexts.push_back(std::make_unique<Text>(48, 584));				//6 - const help1 text
+	gameoverTexts.push_back(std::make_unique<Text>(48, 584));				//9 - const help1 text
 	gameoverTexts.back()->loadFromText(u8"[W/S] - wybór opcji", overand.randomColor(), renderer, font);
-	gameoverTexts.push_back(std::make_unique<Text>(48, 640));				//7 - const help2 text
+	gameoverTexts.push_back(std::make_unique<Text>(48, 640));				//10 - const help2 text
 	gameoverTexts.back()->loadFromText(u8"[ENTER] - zatwierdzenie opcji", overand.randomColor(), renderer, font);
 }
 
@@ -256,7 +266,7 @@ void TextManager::updateTextHiscores(std::string newValue, int index, TTF_Font* 
 void TextManager::updateTextGameOver(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer)
 {
 	//if index is valid
-	if (index < 3)																		//since version 0.10.3
+	if (index > 2 && index < 6)															//since version 0.10.3
 	{
 		gameoverTexts[index]->loadFromText(newValue, gameoverTexts[index]->getColor(), renderer, font);
 	}
@@ -266,7 +276,7 @@ void TextManager::updateTextGameOver(std::string newValue, int index, TTF_Font* 
 void TextManager::updateTextEnterName(std::string newValue, int index, TTF_Font* font, SDL_Renderer* renderer)
 {
 	//if index is valid
-	if (index == 1)														//since version 0.10.2
+	if (index == 1)																		//since version 0.10.2
 	{
 		enterNameTexts[index]->loadFromText(newValue, enterNameTexts[index]->getColor(), renderer, font);
 	}
@@ -342,7 +352,7 @@ void TextManager::render(textType tt, SDL_Renderer* renderer)
 	case textType::enterName: 
 	{ 
 		for (int i = 0; i < enterNameTexts.size(); i++) { enterNameTexts[i]->render(renderer); } 
-		for (int i = 0; i < 4; i++) { gameoverTexts[i]->render(renderer); }
+		for (int i = 0; i < 7; i++) { gameoverTexts[i]->render(renderer); }
 		break; 
 	}
 	default: { break; }

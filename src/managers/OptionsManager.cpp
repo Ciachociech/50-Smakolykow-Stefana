@@ -4,7 +4,7 @@ OptionsManager::OptionsManager() : options() {}
 
 OptionsManager::~OptionsManager() { exterminate(); }
 
-bool OptionsManager::decreaseOptionValue(int index)
+bool OptionsManager::decreaseOptionValue(int index)	//WTF?
 {
 	if (index >= 0 && index < options.size())
 	{

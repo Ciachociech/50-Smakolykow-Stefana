@@ -138,6 +138,9 @@
     <ClCompile Include="src\basics\HistoryScore.cpp">
       <Filter>Pliki źródłowe\Basics</Filter>
     </ClCompile>
+    <ClCompile Include="src\menu\EnumOption.cpp">
+      <Filter>Pliki źródłowe\Menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\external_dependencies.h">
@@ -154,9 +157,6 @@
     </ClInclude>
     <ClInclude Include="include\entities\Graph.h">
       <Filter>Pliki nagłówkowe\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="include\basics\Score.h">
-      <Filter>Pliki nagłówkowe\Basics</Filter>
     </ClInclude>
     <ClInclude Include="include\basics\OverworldRandomizer.h">
       <Filter>Pliki nagłówkowe\Basics</Filter>
@@ -214,6 +214,12 @@
     </ClInclude>
     <ClInclude Include="include\managers\ScoreManager.h">
       <Filter>Pliki nagłówkowe\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\basics\Score.h">
+      <Filter>Pliki nagłówkowe\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\menu\EnumOption.h">
+      <Filter>Pliki nagłówkowe\Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

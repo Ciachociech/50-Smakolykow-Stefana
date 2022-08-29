@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\menu\EnumOption.cpp" />
     <ClCompile Include="src\basics\HistoryScore.cpp" />
     <ClCompile Include="src\managers\OptionsManager.cpp" />
     <ClCompile Include="src\managers\ScoreManager.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="src\menu\RangeOption.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\menu\EnumOption.h" />
     <ClInclude Include="include\basics\HistoryScore.h" />
     <ClInclude Include="include\managers\ScoreManager.h" />
     <ClInclude Include="include\menu\BasicOption.h" />
@@ -294,6 +296,7 @@
     <Import Project="packages\sdl2_ttf.nuget.2.0.15\build\native\sdl2_ttf.nuget.targets" Condition="Exists('packages\sdl2_ttf.nuget.2.0.15\build\native\sdl2_ttf.nuget.targets')" />
     <Import Project="packages\sdl2_mixer.nuget.redist.2.0.4\build\native\sdl2_mixer.nuget.redist.targets" Condition="Exists('packages\sdl2_mixer.nuget.redist.2.0.4\build\native\sdl2_mixer.nuget.redist.targets')" />
     <Import Project="packages\sdl2_mixer.nuget.2.0.4\build\native\sdl2_mixer.nuget.targets" Condition="Exists('packages\sdl2_mixer.nuget.2.0.4\build\native\sdl2_mixer.nuget.targets')" />
+    <Import Project="packages\tencent.rapidjson.1.1.1\build\tencent.rapidjson.targets" Condition="Exists('packages\tencent.rapidjson.1.1.1\build\tencent.rapidjson.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -307,5 +310,6 @@
     <Error Condition="!Exists('packages\sdl2_ttf.nuget.2.0.15\build\native\sdl2_ttf.nuget.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\sdl2_ttf.nuget.2.0.15\build\native\sdl2_ttf.nuget.targets'))" />
     <Error Condition="!Exists('packages\sdl2_mixer.nuget.redist.2.0.4\build\native\sdl2_mixer.nuget.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\sdl2_mixer.nuget.redist.2.0.4\build\native\sdl2_mixer.nuget.redist.targets'))" />
     <Error Condition="!Exists('packages\sdl2_mixer.nuget.2.0.4\build\native\sdl2_mixer.nuget.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\sdl2_mixer.nuget.2.0.4\build\native\sdl2_mixer.nuget.targets'))" />
+    <Error Condition="!Exists('packages\tencent.rapidjson.1.1.1\build\tencent.rapidjson.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\tencent.rapidjson.1.1.1\build\tencent.rapidjson.targets'))" />
   </Target>
 </Project>

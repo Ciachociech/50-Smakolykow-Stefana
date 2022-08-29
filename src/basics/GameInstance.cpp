@@ -202,16 +202,16 @@ bool GameInstance::loop()
 						break; 
 					}
 					case -3: {
-						txtm.update(textType::gameover, "Wynik: " + std::to_string(scorman.getActualScore().getScore()), 0, font, windowRenderer);
-						txtm.update(textType::gameover, "Poziom: " + std::to_string(game.getLevel()), 1, font, windowRenderer);
-						txtm.update(textType::gameover, u8"Smako³yki: " + std::to_string(game.getFoundSnacks()), 2, font, windowRenderer);
+						txtm.update(textType::gameover, std::to_string(scorman.getActualScore().getScore()), 3, font, windowRenderer);
+						txtm.update(textType::gameover, std::to_string(game.getLevel()), 4, font, windowRenderer);
+						txtm.update(textType::gameover, std::to_string(game.getFoundSnacks()), 5, font, windowRenderer);
 						updateSceneState(sceneState::gameover);
 						break;
 					}
 					case -4: {
-						txtm.update(textType::gameover, "Wynik: " + std::to_string(scorman.getActualScore().getScore()), 0, font, windowRenderer);
-						txtm.update(textType::gameover, "Poziom: " + std::to_string(game.getLevel()), 1, font, windowRenderer);
-						txtm.update(textType::gameover, u8"Smako³yki: " + std::to_string(game.getFoundSnacks()), 2, font, windowRenderer);
+						txtm.update(textType::gameover, std::to_string(scorman.getActualScore().getScore()), 3, font, windowRenderer);
+						txtm.update(textType::gameover, std::to_string(game.getLevel()), 4, font, windowRenderer);
+						txtm.update(textType::gameover, std::to_string(game.getFoundSnacks()), 5, font, windowRenderer);
 						enterNameMenu.setEditableString(scorman.getPlayerName());
 						updateSceneState(sceneState::entermenu);
 						break;
